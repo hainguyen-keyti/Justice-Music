@@ -1,9 +1,14 @@
+const config = require('../../config')
 var mongoose = require('mongoose');
 
 const connect = () => {
     return new Promise((resolve, reject) => {
-        const uri = "mongodb+srv://keyti:Haiktvn1.@chat-realtime-qpdid.mongodb.net/test?retryWrites=true"
-        mongoose.connect(uri, {useNewUrlParser: true, dbName: 'chatOnline'});
+        var uri = "mongodb://" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.database; // local
+        if(config.mongo.user){
+            uri = "mongodb+srv://" + config.mongo.user + ":" + config.mongo.password + "@" + config.mongo.host; // online
+            console.log(uri)
+        }
+        mongoose.connect(uri, {useNewUrlParser: true});
         mongoose.Promise = global.Promise;
         var connection = mongoose.connection;
         connection.on('error', err => reject(err));
