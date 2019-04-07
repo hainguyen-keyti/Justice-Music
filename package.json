@@ -1,0 +1,25 @@
+{
+  "name": "chat-realtime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hainguyen-keyti/chat-realtime.git"
+  },
+  "keywords": [
+    "socket"
+  ],
+  "author": "hai nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hainguyen-keyti/chat-realtime/issues"
+  },
+  "homepage": "https://github.com/hainguyen-keyti/chat-realtime#readme",
+  "dependencies": {
+    "mongoose": "^5.4.22"
+  }
+}
