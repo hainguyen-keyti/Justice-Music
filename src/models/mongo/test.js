@@ -6,16 +6,16 @@ db_mongo.connect()
 .then (() => {
     console.log("connected");
     var usertest = new user({
-        username: "keytideptrai2",
+        username: "keytideptrai3",
         fullname: "nguyen hoang hai",
-        phone: "0372598219",
+        phone: "0372598220",
         password_hash: "thisismypassword",
         avatar: "deoco",
         birthday: "1997-05-24",
     })
     usertest.save( err => {
         if(err) throw err;
-        console.log("Add sucessful");
+        console.log("Add sucessfull");ai
     })
 })
 .catch(err => console.log(err))
