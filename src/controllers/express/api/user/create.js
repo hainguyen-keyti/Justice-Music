@@ -7,7 +7,7 @@ const lib_common = require(config.library_dir+'/common');
 module.exports = (req, res) => {
     let miss=lib_common.checkMissParams(res, req.body, ["user"])
     if (miss){
-        console.log("miss param");
+        console.log("Miss param at Create");
         return;
     } 
 

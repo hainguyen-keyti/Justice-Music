@@ -1,5 +1,5 @@
 var config = require('../config');
-
+var jwt = require('jsonwebtoken');
 var response_express = require(config.library_dir+'/response').response_express;
 
 exports.findMissParams = function(obj, checkProps) {
@@ -26,4 +26,14 @@ exports.checkMissParams = function(res, obj, checkProps) {
 		return true;
 	}
 	return false;
+};
+
+exports.createToken = function(user, expire) {
+	return jwt.sign(user, config.secret, {
+		expiresIn: expire
+	});
+}
+
+exports.converterToPlainObject = function(obj){
+	return JSON.parse(JSON.stringify(obj));
 };
