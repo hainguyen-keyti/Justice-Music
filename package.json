@@ -20,6 +20,15 @@
   },
   "homepage": "https://github.com/hainguyen-keyti/chat-realtime#readme",
   "dependencies": {
-    "mongoose": "^5.4.22"
+    "bcrypt": "^3.0.5",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "http": "0.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.4.22",
+    "path": "^0.12.7",
+    "socket.io": "^2.2.0"
   }
 }
