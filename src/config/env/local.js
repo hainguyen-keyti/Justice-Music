@@ -1,5 +1,5 @@
 module.exports={
-    server_url: 'http://localhost:3000',
+    server_url: 'http://localhost:3030',
     mongo: {
         host: 'localhost',
         port: 27017,

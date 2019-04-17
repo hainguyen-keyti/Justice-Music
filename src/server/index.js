@@ -19,7 +19,6 @@ const start = () => {
             limit: '50mb',
             type: ['application/json', 'text/plain']
         }))
-        // app.use(express.static(config.web_dir + "/build"));
         app.use((err, req, res, next) => {
             reject(new Error("Something went wrong!, err: " + err))
             res.status(500).send("Something went wrong!")
@@ -31,7 +30,7 @@ const start = () => {
         })
         app.use('/', require(config.controllers_dir + '/express'));
 
-        const server = http.listen(process.env.PORT || config.port, config.host, () => resolve(server));
+        const server = http.listen(config.port, config.host, () => resolve(server));
 
     })
 }

@@ -5,9 +5,14 @@ const User = require(config.models_dir + '/mongo/user');
 const lib_common = require(config.library_dir+'/common');
 
 module.exports = (req, res) => {
-    let miss=lib_common.checkMissParams(res, req.body, ["user"])
+    let miss = lib_common.checkMissParams(res, req.body, ["user"])
     if (miss){
         console.log("Miss param at Create");
+        return;
+    }
+    let missField = lib_common.checkMissParams(res, req.body.user, ["username", "password", "phone"])
+    if (missField){
+        console.log("Miss param at Create Field");
         return;
     } 
 

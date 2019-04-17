@@ -7,4 +7,6 @@ userRoutes.post('/create', require('./create'))
 
 userRoutes.post('/login', require('./login'))
 
+userRoutes.get('/find/', require('./find'))
+
 module.exports = userRoutes;

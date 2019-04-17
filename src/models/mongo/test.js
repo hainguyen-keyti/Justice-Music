@@ -15,7 +15,7 @@ db_mongo.connect()
     })
     usertest.save( err => {
         if(err) throw err;
-        console.log("Add sucessfull");ai
+        console.log("Add sucessfull");
     })
 })
 .catch(err => console.log(err))

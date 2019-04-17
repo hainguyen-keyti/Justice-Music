@@ -34,6 +34,18 @@ exports.createToken = function(user, expire) {
 	});
 }
 
-exports.converterToPlainObject = function(obj){
+var converterToPlainObject = function(obj){
 	return JSON.parse(JSON.stringify(obj));
 };
+
+exports.deleteSensitiveInfoUser = function(user){
+	var userInfo = converterToPlainObject(user);
+	delete userInfo.phone;
+	delete userInfo.is_confirm_email;
+	delete userInfo.password_hash;
+	delete userInfo.birthday;
+	delete userInfo.date_created;
+	delete userInfo.date_updated;
+	console.log(userInfo);
+	return userInfo;
+}
