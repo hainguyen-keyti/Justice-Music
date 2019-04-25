@@ -36,11 +36,11 @@ module.exports = (req, res) => {
         if(!isMatchPassword){
             return Promise.reject("Password not match")
         }
-
+        console.log("login successful")
         response_express.success(res, {accessToken,refreshToken, id})
     })
     .catch(err=>{
         response_express.exception(res, err.message || err);
-        console.log(err);
+        console.log("login fail" + err);
     })
 } 

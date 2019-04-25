@@ -23,10 +23,12 @@ module.exports = (req, res) => {
         delete req.body.user.password;
         return User.create(req.body.user);
     })
-    .then(user => {
-        response_express.success(res, user);
+    .then(() => {
+        console.log("create successful")
+        response_express.success(res);
     })
     .catch(err => {
+        console.log("create fail")
         response_express.exception(res, err);
     })
 } 
