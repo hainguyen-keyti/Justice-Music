@@ -53,7 +53,16 @@ var userSchema = mongoose.Schema({
     date_updated: {
         type: Date,
         default : Date.now,
-    }
+    },
+    socketID: {
+        type: String,
+        trim: true,
+    },
+    refreshToken: {
+        type: String,
+        trim: true,
+    },
+    personInbox: [String],
 });
 
 userSchema.pre('save', next => {

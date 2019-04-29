@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ChatSchema = new mongoose.Schema({
-    sender: { type: Schema.Types.ObjectId, ref: 'User'},
-    receiver:  { type: Schema.Types.ObjectId, ref: 'User'},
+    senderID: { type: Schema.Types.ObjectId, ref: 'User'},
+    receiverID:  { type: Schema.Types.ObjectId, ref: 'User'},
     content: {
         type: String,
         trim: true,
@@ -18,6 +18,10 @@ var ChatSchema = new mongoose.Schema({
     date_updated: {
         type: Date,
         default: Date.now,
+    },
+    message_list_name: {
+        type: String,
+        trim: true,
     }
 });
 
@@ -28,4 +32,4 @@ ChatSchema.pre('save', next => {
     return next();
 });
 
-module.exports = mongoose.models('chat', ChatSchema);
+module.exports = mongoose.model('Chat', ChatSchema);
