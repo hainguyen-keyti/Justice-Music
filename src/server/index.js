@@ -30,13 +30,7 @@ const start = () => {
         })
         app.use('/', require(config.controllers_dir + '/express'));
 
-        //-----
-        app.get('/web', function(req, res){
-            res.sendFile(__dirname + '/index.html');
-        });
-        io.on('connection', function(socket){
-            console.log(socket.handshake + ' has connected (socket_id: ' + socket.id + ')');
-        });
+        require(config.controllers_dir + '/socketio/chat')(io)
           
 
         const server = http.listen(config.port, config.host, () => resolve(server));

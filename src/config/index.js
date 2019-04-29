@@ -7,7 +7,7 @@ const env = process.env.ENV || "local"; // u can use local or online. let change
 var main_config = {
     env: env,
             host: '0.0.0.0',
-            port: 3030,
+            port: 6969,
             root_dir: root,
             secret: 'db591d26716a5fbccf9e1068604d2a4e33e5d77e74c65949e5a70a60bcf59c06',
             models_dir: root + '/models',
