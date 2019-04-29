@@ -46,6 +46,8 @@ exports.deleteSensitiveInfoUser = function(user){
 	delete userInfo.birthday;
 	delete userInfo.date_created;
 	delete userInfo.date_updated;
-	console.log(userInfo);
+	delete userInfo.refreshToken;
+	delete userInfo.genre;
+	delete userInfo.personInBox;
 	return userInfo;
 }

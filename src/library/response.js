@@ -27,5 +27,9 @@ var response_express = {
 	},
 };
 
+var response_socketio = (socket, errormMsg) => {
+		socket.emit("error", errormMsg);
+};
 
-module.exports={successObj, exceptionObj, response_express}
+
+module.exports={successObj, exceptionObj, response_express, response_socketio}
