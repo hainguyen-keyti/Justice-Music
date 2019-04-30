@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     User.findOne({_id: req.body.userID})
     .then( user => {
         // console.log(user);
-        User.find({_id: {$in: user.personInbox}})
+        User.find({_id: {$in: user.personInbox}}).sort({date: -1}) // not sure, fix 
         .then( listFriends => {
             let result = listFriends.map( listFriend => {
                 return userInfo(listFriend);

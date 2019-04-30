@@ -11,6 +11,8 @@ module.exports = (io) => {
 
     chat.on('connection', socket => {
         let decoded_token = socket.handshake.decoded_token;
+        if(!decoded_token)
+            return;
         console.log(decoded_token.username + " has been connected to socket server with socket ID: " + socket.id)
         User.findOne({_id: decoded_token._id})
         .then( sender => {
@@ -27,6 +29,8 @@ module.exports = (io) => {
          */
 
         socket.on('chat message', data => {
+            if(!data.receiverID)
+                return response_socketio(socket, new Error("Have you choose friend to chat yet?"));
             console.log('in second message')
             // console.log(data.senderID + "--" + decoded_token._id)
             if(data.senderID !== decoded_token._id){
@@ -54,6 +58,8 @@ module.exports = (io) => {
         })
 
         socket.on('first message', data => {
+            if(!data.receiverID)
+                return response_socketio(socket, new Error("Have you choose friend to chat yet?"));
             console.log('in first message')
             // console.log(data.senderID + "--" + decoded_token._id)
             if(data.senderID !== decoded_token._id){
