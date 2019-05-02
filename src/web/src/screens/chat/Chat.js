@@ -1,0 +1,364 @@
+import React from 'react';
+import io from 'socket.io-client'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import { Button } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import SendIcon from '@material-ui/icons/Send';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import {findUser_fail_handle, findUser} from '../chat/actions/findUser';
+import PieceMessage from '../../components/pieceMessage';
+import ListUser from './ListUser'
+import ShowListFriend from '../../components/showListFriend'
+import { connect} from 'react-redux'
+import config from '../../config'
+import { getNewFriend, getListFriend, getListMessage, push_message} from '../chat/actions/chat'
+import { log_out } from '../../actions/index';
+
+
+const styles = theme => ({
+  messageBar: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+  },
+  divider: {
+    width: 1,
+    height: 40,
+    margin: 4,
+  },
+  divTop: {
+    padding: theme.spacing.unit,
+    display: 'flex',
+    flexDirection: 'row',
+    borderBottom: '1px solid #e0e0e0'
+  },
+  divBottom: {
+    height: "calc(100vh - " + theme.spacing.unit * 15 + "px)",
+    padding: theme.spacing.unit * 2,
+
+  },
+  searchDiv: {
+    background: '#e0e0e0',
+    borderRadius: 6,
+    color: '#212121',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  iconButton: {
+    background: '#bdbdbd',
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  inputSearchRoot: {
+    width: '100%',
+  },
+  inputSearch: {
+    paddingLeft: theme.spacing.unit,
+  },
+  cardMessage:{
+    borderRadius: '6px',
+    height: "calc(100vh - " + theme.spacing.unit * 13 + "px)",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  cardListFriend:{
+    marginTop: theme.spacing.unit * 2,
+    borderRadius: '6px',
+    height: "calc(100vh - " + theme.spacing.unit * 21 + "px)",
+    overflow: 'auto',
+  },
+  findUser:{
+    overflow: 'auto',
+    height: "calc(100vh - " + theme.spacing.unit * 21 + "px)",
+  },
+});
+
+class Chat extends React.Component {
+
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      open: false,
+      searchText: "",
+      content: "",
+    }
+    this.socket = null;
+    this.handleKeyPressSearch = this.handleKeyPressSearch.bind(this)
+    this.handleKeyPressMessage= this.handleKeyPressMessage.bind(this)
+  }
+
+  handleClickSearch = () => {
+    this.setState({open: true})
+    this.props.findUser(this.state.searchText);
+  }
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  onClickLogOut = (e) => {
+    this.props.log_out();
+    localStorage.clear();
+    this.props.history.push('/')
+    // window.location.reload()
+
+  }
+
+  handleKeyPressSearch(e) {
+    if (e.key === 'Enter') {
+      this.handleClickSearch();
+    }
+  }
+
+  handleKeyPressMessage(e) {
+    if (e.key === 'Enter') {
+      this.handleClickSend(e);
+    }
+  }
+
+  onFocusMessage = () => {
+    var arr = this.props.chatReducer.listMessage;
+    var lastMessage = arr[arr.length - 1];
+    if(lastMessage){
+      var data = {
+        senderID: lastMessage.senderID,
+        receiverID: lastMessage.receiverID
+      }
+  
+      if(localStorage.getItem('userID') !== lastMessage.senderID){
+        this.socket.emit('is seen', data)
+      }
+    }
+  }
+
+  handleClickSend = (e) => {
+    if(this.state.content){
+      let data = {
+        senderID: localStorage.getItem('userID'),
+        receiverID: this.props.chatReducer.receiverID,
+        content: this.state.content,
+      }
+      let input = {
+        senderID: localStorage.getItem('userID'),
+        content: this.state.content,
+        date: Date(Date.now()),
+      }
+
+      var user = this.props.chatReducer.listFriend.find(u=>u._id === this.props.chatReducer.receiverID)
+
+        if(user){
+          this.socket.emit('chat message', data)
+        }
+        else{
+          this.socket.emit('first message', data)
+          this.socket.on('return friend', () => {
+            this.props.getNewFriend()
+          })
+        }
+
+      // this.setState(({ currentMessage }) => ({ currentMessage: [...currentMessage, input] }));
+      this.props.push_message(input)
+      this.setState({content: ''})
+      var x = document.getElementById("inputMessage")
+      x.scrollTop = x.scrollHeight;
+    }
+  }
+  componentWillMount = () => {
+    if(localStorage.getItem('accessToken') === null){
+      this.props.history.push('/')
+    }
+
+    this.props.getListFriend();
+
+    let token = localStorage.getItem('accessToken')
+    this.socket = io(config.url, {'query':{'token':token}});
+
+    this.socket.on('error', data => {
+      alert('socket error' + data);
+    })
+
+    this.socket.on('chat message', data => {
+      let input = {
+        senderID: data.senderID,
+        receiverID: data.receiverID,
+        content: data.content,
+        date: Date(Date.now()),
+      }
+      if(data.senderID === this.props.chatReducer.receiverID)
+        this.props.push_message(input)
+    })
+
+    this.socket.on('first message', data => {
+      let input = {
+        senderID: data.senderID,
+        receiverID: data.receiverID,
+        content: data.content,
+        date: Date(Date.now()),
+      }
+      this.props.getListFriend()
+      if(data.senderID === this.props.chatReducer.receiverID)
+        this.props.push_message(input)
+    }) 
+
+    this.socket.on('is seen', () => {
+      this.props.getListMessage(this.props.chatReducer.receiverID)
+    })
+  }
+
+  componentDidMount(){
+    var lastScrollHeight = 0
+    var x = document.getElementById("inputMessage")
+    setInterval(function() {
+      if (x.scrollHeight !==lastScrollHeight) {
+        lastScrollHeight = x.scrollHeight
+        x.scrollTop = x.scrollHeight;
+      }
+    }, 100)
+    
+  }
+
+  render(){
+    const { classes } = this.props;
+    if(this.props.findUserReducer.error){
+        alert("Find user fail: " + this.props.findUserReducer.error)
+        this.props.signin_fail_handle();
+    }
+
+    return (
+      <Grid container spacing={0}>
+        <Grid item xs={12} sm={3}>
+          <div className={classes.divTop} style={{borderRight: '1px solid #e0e0e0', justifyContent: 'center',}}>
+            <Button >
+              Chat realtime
+            </Button>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={9}>
+          <div className={classes.divTop} style={{justifyContent: 'space-between',}}>
+          <IconButton style={{padding: 5}}>
+            <AccountCircle/>
+          </IconButton>
+            <Typography variant="h6">
+              {this.props.chatReducer.titleName}
+            </Typography>
+            <Button onClick={this.onClickLogOut}>
+              Log out
+            </Button>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <div className={classes.divBottom} style={{borderRight: '1px solid #e0e0e0'}}>
+            <div className={classes.searchDiv}>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputSearchRoot,
+                  input: classes.inputSearch,
+                }}
+                value={this.state.searchText}
+                onChange={e=>this.setState({searchText: e.target.value})}
+                onKeyPress={this.handleKeyPressSearch}
+              />
+              <Divider className={classes.divider} />
+              <IconButton 
+                type="submit"
+                variant="outlined"
+                className={classes.iconButton}
+                onClick={this.handleClickSearch}
+                disabled={this.props.findUserReducer.isFindUser}
+              >
+                <SearchIcon />
+              </IconButton>
+              <ListUser className={classes.findUser}
+                open={this.state.open}
+                onClose={this.handleClose}
+              />
+            </div>
+            <div>
+              <Card className={classes.cardListFriend}>
+                <ShowListFriend />
+              </Card>
+            </div>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={9}>
+          <div className={classes.divBottom}>
+            <Card className={classes.cardMessage}>
+              <div id="inputMessage" style={{overflow: 'auto',}}>
+                <ul>
+                  {
+                    this.props.chatReducer.listMessage.map( msg => {
+                      if(msg.senderID === localStorage.getItem('userID')){
+                        var arr = this.props.chatReducer.listMessage;
+                        var lastMessage = arr[arr.length - 1];
+                        if(msg === lastMessage && lastMessage.isSeen === true)
+                          return <PieceMessage content={msg.content} key={msg._id} sender={true}  seen={true} />
+                        return <PieceMessage content={msg.content} key={msg._id} sender={true} /> // input date and time here
+                      }
+            
+                      return <PieceMessage content={msg.content} key={msg._id} sender={false} /> 
+                    })
+                  }
+                </ul>
+              </div>
+              <div>
+              <Paper className={classes.messageBar} elevation={4}>
+                <InputBase
+                  className={classes.input}
+                  onFocus={this.onFocusMessage}
+                  placeholder="Message..."
+                  value={this.state.content}
+                  onChange={ e => this.setState({content: e.target.value})}
+                  onKeyPress={this.handleKeyPressMessage}
+                  />
+                <Divider className={classes.divider} />
+                <Button color="secondary" onClick={e => {this.handleClickSend(e)}}>
+                  Send
+                  <SendIcon />
+                </Button>
+              </Paper>
+              </div>
+            </Card>
+          </div>
+        </Grid>
+      </Grid>
+  );
+  }
+  
+}
+
+Chat.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  findUserReducer: state.findUserReducer,
+  chatReducer: state.chatReducer,
+  signinReducer: state.signinReducer
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  findUser: (username)=>dispatch(findUser(username)),
+  findUser_fail_handle: ()=>dispatch(findUser_fail_handle()),
+  getListFriend: ()=>dispatch(getListFriend()),
+  getListMessage: (receiverID)=>dispatch(getListMessage(receiverID)),
+  push_message: (arr)=>dispatch(push_message(arr)),
+  getNewFriend: ()=>dispatch(getNewFriend()),
+  log_out: ()=>dispatch(log_out())
+
+})
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(Chat));
