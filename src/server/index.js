@@ -19,6 +19,7 @@ const start = () => {
             limit: '50mb',
             type: ['application/json', 'text/plain']
         }))
+        app.use(express.static(config.web_dir+"/build"));
         app.use((err, req, res, next) => {
             reject(new Error("Something went wrong!, err: " + err))
             res.status(500).send("Something went wrong!")
@@ -29,6 +30,10 @@ const start = () => {
             next();
         })
         app.use('/', require(config.controllers_dir + '/express'));
+        app.get('*', (req, res) => {
+			res.sendFile(path.join(config.web_dir+"/build/index.html"));
+		})
+		
 
         require(config.controllers_dir + '/socketio/chat')(io)
           
