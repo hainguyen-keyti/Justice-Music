@@ -31,16 +31,12 @@ module.exports = (io) => {
         socket.on('chat message', data => {
             if(!data.receiverID)
                 return response_socketio(socket, new Error("Have you choose friend to chat yet?"));
-            console.log('in second message')
-            // console.log(data.senderID + "--" + decoded_token._id)
             if(data.senderID !== decoded_token._id){
-                console.log("err: user at token and user of client are different")
                 response_socketio(socket, "Token and userID are different");
                 return;
             }
 
             let message_list_name = data.senderID + data.receiverID;
-            console.log(data)
             Chat.create(data)
             .then((chat)=>{
                 chat.message_list_name = message_list_name;
@@ -62,16 +58,12 @@ module.exports = (io) => {
         socket.on('first message', data => {
             if(!data.receiverID)
                 return response_socketio(socket, new Error("Have you choose friend to chat yet?"));
-            console.log('in first message')
-            // console.log(data.senderID + "--" + decoded_token._id)
             if(data.senderID !== decoded_token._id){
-                console.log("err: user at token and user of client are different")
                 response_socketio(socket, "Token and userID are different");
                 return;
             }
 
             let message_list_name = data.senderID + data.receiverID;
-            console.log(data)
             Chat.create(data)
             .then((chat)=>{
                 chat.message_list_name = message_list_name;

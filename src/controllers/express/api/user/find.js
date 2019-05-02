@@ -12,7 +12,6 @@ module.exports = (req, res) => {
         let result = users.map( user => {
                 return userInfo(user);
             })
-        // console.log(result);
         response_express.success(res, result)
     })
     .catch(err => response_express.exception(res, err));

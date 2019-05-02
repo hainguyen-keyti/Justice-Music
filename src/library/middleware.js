@@ -18,7 +18,6 @@ exports.expressMiddleware = (req, res, next) => {
 
 exports.socketMiddleware = (socket, next) => {
     let token = socket.handshake.query.token;
-    console.log('this id first token: ' + token)
     if(token === undefined || token === null){
         next(new Error('No token provided.'));
     }else{
@@ -27,7 +26,6 @@ exports.socketMiddleware = (socket, next) => {
                 return(err);
             }
             socket.handshake.decoded_token = decoded;
-            console.log('this id token decode: ' + decoded)
         });
         next();
     }

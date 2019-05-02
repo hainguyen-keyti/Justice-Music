@@ -7,7 +7,6 @@ module.exports = (req, res) => {
     var message_list_name_receiveID = req.body.receiverID +req.body.senderID;
     Chat.find({$or: [{message_list_name: message_list_name_senderID}, {message_list_name: message_list_name_receiveID}]})
     .then( chat => {
-        // console.log(chat);
         response_express.success(res, chat)
     })
     .catch(err=>response_express.exception(res, err.message))
