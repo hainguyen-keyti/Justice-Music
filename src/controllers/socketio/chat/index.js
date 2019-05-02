@@ -36,6 +36,7 @@ module.exports = (io) => {
             if(data.senderID !== decoded_token._id){
                 console.log("err: user at token and user of client are different")
                 response_socketio(socket, "Token and userID are different");
+                return;
             }
 
             let message_list_name = data.senderID + data.receiverID;
@@ -50,6 +51,7 @@ module.exports = (io) => {
                 if(receiver.socketID){
                     var input = {
                         senderID: data.senderID,
+                        receiverID: data.receiverID,
                         content: data.content
                     }
                     socket.to(receiver.socketID).emit('chat message', input);
@@ -65,6 +67,7 @@ module.exports = (io) => {
             if(data.senderID !== decoded_token._id){
                 console.log("err: user at token and user of client are different")
                 response_socketio(socket, "Token and userID are different");
+                return;
             }
 
             let message_list_name = data.senderID + data.receiverID;
@@ -81,6 +84,7 @@ module.exports = (io) => {
                 if(receiver.socketID){
                     var input = {
                         senderID: data.senderID,
+                        receiverID: data.receiverID,
                         content: data.content
                     }
                     socket.to(receiver.socketID).emit('first message', input);
@@ -100,19 +104,15 @@ module.exports = (io) => {
          *  receiverID
          */
         socket.on('is seen', data => {
-            let messageID = data.messageID
-
-            Chat.findById(messageID)
-            .then(chat => {
-                chat.isSeen = true
-                chat.save();
-            })
+            var message_list_name_senderID = data.senderID + data.receiverID;
+            var message_list_name_receiveID = data.receiverID + data.senderID;
+            Chat.updateMany({ $or: [{message_list_name: message_list_name_senderID}, {message_list_name: message_list_name_receiveID}]}, { $set: { isSeen: true}})
             .catch(err => response_socketio(socket, err))
-            User.findOne({_id: data.receiverID})
-            .then( receiver => {
-                let seenMsg = "true"
-                if(receiver.socketID){
-                    socket.to(receiver.socketID).emit('is seen', seenMsg);
+
+            User.findOne({_id: data.senderID})
+            .then( sender => {
+                if(sender.socketID){
+                    socket.to(sender.socketID).emit('is seen');
                 }
             })
             .catch(err => response_socketio(socket, err))

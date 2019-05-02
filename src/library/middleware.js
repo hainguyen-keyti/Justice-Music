@@ -18,14 +18,17 @@ exports.expressMiddleware = (req, res, next) => {
 
 exports.socketMiddleware = (socket, next) => {
     let token = socket.handshake.query.token;
-    if(token){
+    console.log('this id first token: ' + token)
+    if(token === undefined || token === null){
+        next(new Error('No token provided.'));
+    }else{
         jwt.verify(token, config.secret, (err, decoded) => {
-            if(err)
-                next(new Error('Failed to authenticate token.'));
+            if(err){
+                return(err);
+            }
             socket.handshake.decoded_token = decoded;
+            console.log('this id token decode: ' + decoded)
         });
         next();
-    }else{
-        next(new Error('No token provided.'));
     }
 }
