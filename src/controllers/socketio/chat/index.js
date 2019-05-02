@@ -62,7 +62,6 @@ module.exports = (io) => {
                 response_socketio(socket, "Token and userID are different");
                 return;
             }
-
             let message_list_name = data.senderID + data.receiverID;
             Chat.create(data)
             .then((chat)=>{
@@ -81,6 +80,7 @@ module.exports = (io) => {
                     }
                     socket.to(receiver.socketID).emit('first message', input);
                 }
+                socket.emit('return friend')
             }).catch(err => response_socketio(socket, err))
 
             User.findOne({_id: data.senderID})

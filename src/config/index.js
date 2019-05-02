@@ -2,7 +2,7 @@ var path = require('path');
 
 const root = path.normalize(__dirname + '/..');
 
-const env = process.env.ENV || "local"; // u can use local or online. let change it "local or staging"
+const env = process.env.ENV || "staging"; // u can use local or online. let change it "local or staging"
 
 var main_config = {
     env: env,
