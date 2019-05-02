@@ -38,7 +38,7 @@ const start = () => {
         require(config.controllers_dir + '/socketio/chat')(io)
           
 
-        const server = http.listen(config.port, config.host, () => resolve(server));
+        const server = http.listen(process.env.PORT || config.port, config.host, () => resolve(server));
 
     })
 }
