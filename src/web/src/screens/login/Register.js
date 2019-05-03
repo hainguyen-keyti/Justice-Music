@@ -48,7 +48,7 @@ class Register extends React.Component{
         }
         if(this.props.signupReducer.signupSuccessful){
             this.props.clear_state();
-            this.setState = ({
+            this.setState({
                 full_name: "",
                 username: "",
                 password: "",
