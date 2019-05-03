@@ -20,6 +20,13 @@ export function signup_start(){
     }
 }
 
+export function clear_state(){
+    return {
+        type: 'CLEAR_STATE'
+    }
+}
+
+
 export function signup_successful(){
     return {
         type: 'SIGNUP_SUCCESSFUL'

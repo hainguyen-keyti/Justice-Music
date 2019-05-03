@@ -6,6 +6,12 @@ const initialState = {
 
 export const signupReducer = ( state = initialState, action) => {
     switch(action.type){
+    case 'CLEAR_STATE':
+        return {
+            isSignup: false,
+            signupSuccessful: false,
+            error: null
+        }
     case 'SIGNUP_START':
         return {
             ...state,
@@ -13,20 +19,20 @@ export const signupReducer = ( state = initialState, action) => {
         }
     case 'SIGNUP_SUCCESSFUL':
         return {
-        ...state,
-        isSignup: false,
-        signupSuccessful: true
+            ...state,
+            isSignup: false,
+            signupSuccessful: true
     }
     case 'SIGNUP_FAIL':
         return {
-        ...state,
-        isSignup: false,
-        error: action.err
+            ...state,
+            isSignup: false,
+            error: action.err
     }
     case 'SIGNUP_FAIL_HANDLE':
     return {
-    ...state,
-    error: null
+        ...state,
+        error: null
 }
     default:
         return state

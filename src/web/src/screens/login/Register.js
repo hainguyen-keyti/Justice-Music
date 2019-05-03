@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import PropTypes from 'prop-types';
-import { createUser, signup_fail, signup_fail_handle} from './actions/signup'
+import { createUser, signup_fail, signup_fail_handle, clear_state} from './actions/signup'
 import {connect} from 'react-redux';
 
 const styles = theme => ({
@@ -43,11 +43,20 @@ class Register extends React.Component{
     render(){
         const { classes } = this.props;
         if(this.props.signupReducer.error){
-            alert("sign up fail: " + this.props.signupReducer.error)
+            alert("Register fail: you must input correct email and mobie phone format,  " + this.props.signupReducer.error)
             this.props.signup_fail_handle();
         }
-        if(this.props.signupReducer.signupSuccessful)
-            alert("register true")
+        if(this.props.signupReducer.signupSuccessful){
+            this.props.clear_state();
+            this.setState = ({
+                full_name: "",
+                username: "",
+                password: "",
+                phone: "",
+                genre: ""
+            })
+            alert("Register successfully")
+        }
         return (
             <React.Fragment>
               <Typography variant="h6" gutterBottom>
@@ -63,6 +72,7 @@ class Register extends React.Component{
                         label="Full name"
                         fullWidth
                         autoComplete="billing full name"
+                        value={this.state.full_name}
                         onChange={e=>this.setState({full_name: e.target.value})} 
                     />
                     </Grid>
@@ -74,6 +84,7 @@ class Register extends React.Component{
                         label="Email"
                         fullWidth
                         autoComplete="billing email"
+                        value={this.state.username}
                         onChange={e=>this.setState({username: e.target.value})} 
                     />
                     </Grid>
@@ -86,6 +97,7 @@ class Register extends React.Component{
                         label="Password"
                         fullWidth
                         autoComplete="billing password"
+                        value={this.state.password}
                         onChange={e=>this.setState({password: e.target.value})} 
                     />
                     </Grid>
@@ -97,6 +109,7 @@ class Register extends React.Component{
                         label="Phone"
                         fullWidth
                         autoComplete="billing phone"
+                        value={this.state.phone}
                         onChange={e=>this.setState({phone: e.target.value})} 
                     />
                     </Grid>
@@ -174,7 +187,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>({
     createUser: (username, password, full_name, phone, genre) => dispatch(createUser(username, password, full_name, phone, genre)),
     signup_fail: () => dispatch(signup_fail()),
-    signup_fail_handle: () => dispatch(signup_fail_handle())
+    signup_fail_handle: () => dispatch(signup_fail_handle()),
+    clear_state: () => dispatch(clear_state())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(Register));
