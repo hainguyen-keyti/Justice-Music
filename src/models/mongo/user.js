@@ -1,14 +1,19 @@
 var mongoose = require('mongoose');
+var validator = require('validator');
 
 var userSchema = mongoose.Schema({
     username: {
         type: String,
         trim: true,
-        lowercase: true,
         index: {
             unique: true,
             partialFilterExpression: { username: {$type: 'string'}}
-        }
+        },
+        validate:{
+            validator: validator.isEmail,
+            message: '{VALUE} is not a valid email',
+            isAsync: false
+          }
     },
     full_name: {
         type: String,
@@ -20,7 +25,12 @@ var userSchema = mongoose.Schema({
         index: {
             unique: true,
             partialFilterExpression: {phone: {$type: 'string'}}
-        }
+        },
+        validate:{
+            validator: validator.isMobilePhone,
+            message: '{VALUE} is not a valid mobile phone',
+            isAsync: false
+          }
     },
     is_confirm_email: {
         type: Boolean,
@@ -45,6 +55,9 @@ var userSchema = mongoose.Schema({
     genre: {
         type: Number,
         default: 1, // 1 nam, 2 nu
+        index: {
+            unique: true,
+        },
     },
     date_created: {
         type: Date,
