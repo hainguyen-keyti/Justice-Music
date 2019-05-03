@@ -43,7 +43,7 @@ class Register extends React.Component{
     render(){
         const { classes } = this.props;
         if(this.props.signupReducer.error){
-            alert("Register fail: you must input correct email and mobie phone format,  " + this.props.signupReducer.error)
+            alert("Register fail: you must input correct email and mobie phone format,   " + this.props.signupReducer.error)
             this.props.signup_fail_handle();
         }
         if(this.props.signupReducer.signupSuccessful){
