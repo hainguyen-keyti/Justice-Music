@@ -10,7 +10,7 @@ module.exports = (req, res) => {
         console.log("Miss param at Create");
         return;
     }
-    let missField = lib_common.checkMissParams(res, req.body.user, ["username", "password", "phone"])
+    let missField = lib_common.checkMissParams(res, req.body.user, ["username", "password", "phone", "full_name", "genre"])
     if (missField){
         console.log("Miss param at Create Field");
         return;
@@ -28,7 +28,7 @@ module.exports = (req, res) => {
         response_express.success(res);
     })
     .catch(err => {
-        console.log("create fail")
+        console.log("create fail" + err)
         response_express.exception(res, err);
     })
 } 

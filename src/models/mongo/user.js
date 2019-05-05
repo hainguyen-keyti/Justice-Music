@@ -54,18 +54,15 @@ var userSchema = mongoose.Schema({
     },
     genre: {
         type: Number,
-        default: 1, // 1 nam, 2 nu
-        index: {
-            unique: true,
-        },
+        default: 1,
     },
     date_created: {
         type: Date,
-        default: Date.now,
+        default: Date(Date.now()),
     },
     date_updated: {
         type: Date,
-        default : Date.now,
+        default : Date(Date.now()),
     },
     socketID: {
         type: String,
@@ -80,7 +77,7 @@ var userSchema = mongoose.Schema({
 
 userSchema.pre('save', next => {
     if(this.isNew || this.isModified) {
-        this.date_updated = Date.now();
+        this.date_updated = Date(Date.now());
     }
     return next();
 });

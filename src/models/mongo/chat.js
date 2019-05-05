@@ -11,13 +11,13 @@ var ChatSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    _created: {
+    date_created: {
         type: Date,
-        default: Date.now,
+        default: Date(Date.now()),
     },
     date_updated: {
         type: Date,
-        default: Date.now,
+        default: Date(Date.now()),
     },
     message_list_name: {
         type: String,
@@ -27,7 +27,7 @@ var ChatSchema = new mongoose.Schema({
 
 ChatSchema.pre('save', next => {
     if(this.isNew || this.isModified) {
-        this.date_updated = Data.now();
+        this.date_updated = Date(Date.now());
     }
     return next();
 });

@@ -111,6 +111,20 @@ module.exports = (io) => {
             
         })
 
+        socket.on('typing', data => {
+            User.findOne({_id: data.receiverID})
+            .then( sender => {
+                if(sender.socketID){
+                    if(data.isTyping === true)
+                        socket.to(sender.socketID).emit('typing', {senderID: data.senderID ,isTyping: true});
+                    else
+                        socket.to(sender.socketID).emit('typing', {senderID: data.senderID ,isTyping: false});
+                    }
+            })
+            .catch(err => response_socketio(socket, err))
+
+        })
+
         socket.on('disconnect', () => {
             User.findOne({socketID: socket.id})
             .then( user => {

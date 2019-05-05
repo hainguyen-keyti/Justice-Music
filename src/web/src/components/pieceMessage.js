@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
   card: {
-    margin: '10px'
+    margin: '10px',
   },
   title: {
     fontSize: 14,
@@ -38,7 +38,7 @@ function PieceMessage(props) {
       <li className={senderStyle} style={{listStyleType: 'none'}} >
         <div className={classes.div}>
             <Card className={classes.card}>
-                <CardContent>
+                <CardContent style={{paddingBottom: '16px'}}>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                     {props.content}
                     </Typography>

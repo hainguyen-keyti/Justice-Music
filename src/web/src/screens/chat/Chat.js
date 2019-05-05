@@ -83,6 +83,9 @@ const styles = theme => ({
     overflow: 'auto',
     height: "calc(100vh - " + theme.spacing.unit * 21 + "px)",
   },
+  typing: {
+    display: 'none'
+  }
 });
 
 class Chat extends React.Component {
@@ -95,6 +98,7 @@ class Chat extends React.Component {
       open: false,
       searchText: "",
       content: "",
+      typing: false
     }
     this.socket = null;
     this.handleKeyPressSearch = this.handleKeyPressSearch.bind(this)
@@ -111,6 +115,7 @@ class Chat extends React.Component {
   };
 
   onClickLogOut = (e) => {
+    this.socket.disconnect()
     this.props.log_out();
     localStorage.clear();
     this.props.history.push('/')
@@ -125,8 +130,14 @@ class Chat extends React.Component {
   }
 
   handleKeyPressMessage(e) {
+    var data = {
+      receiverID: this.props.chatReducer.receiverID,
+    }
     if (e.key === 'Enter') {
       this.handleClickSend(e);
+    }
+    else if(e.key === 'Backspace' && this.state.content === ''){
+      this.socket.emit('typing', {...data, isTyping: false})
     }
   }
 
@@ -144,8 +155,20 @@ class Chat extends React.Component {
       }
     }
   }
+  
+  onTyping(e){
+    this.setState({content: e.target.value})
+    var data = {
+      receiverID: this.props.chatReducer.receiverID,
+      senderID: localStorage.getItem('userID')
+    }
+    if(this.state.content.length === 0){
+      this.onFocusMessage();
+      this.socket.emit('typing', {...data, isTyping: true})
+    }
+  }
 
-  handleClickSend = (e) => {
+  handleClickSend = () => {
     if(this.state.content){
       let data = {
         senderID: localStorage.getItem('userID'),
@@ -155,7 +178,7 @@ class Chat extends React.Component {
       let input = {
         senderID: localStorage.getItem('userID'),
         content: this.state.content,
-        date: Date(Date.now()),
+        date_created: Date(Date.now()),
       }
 
       var user = this.props.chatReducer.listFriend.find(u=>u._id === this.props.chatReducer.receiverID)
@@ -170,11 +193,14 @@ class Chat extends React.Component {
           })
         }
 
-      // this.setState(({ currentMessage }) => ({ currentMessage: [...currentMessage, input] }));
       this.props.push_message(input)
+      
       this.setState({content: ''})
+      
       var x = document.getElementById("inputMessage")
       x.scrollTop = x.scrollHeight;
+
+      this.socket.emit('typing', {...data, isTyping: false})
     }
   }
   componentWillMount = () => {
@@ -196,7 +222,7 @@ class Chat extends React.Component {
         senderID: data.senderID,
         receiverID: data.receiverID,
         content: data.content,
-        date: Date(Date.now()),
+        date_created: Date(Date.now()),
       }
       if(data.senderID === this.props.chatReducer.receiverID)
         this.props.push_message(input)
@@ -207,7 +233,7 @@ class Chat extends React.Component {
         senderID: data.senderID,
         receiverID: data.receiverID,
         content: data.content,
-        date: Date(Date.now()),
+        date_created: Date(Date.now()),
       }
       this.props.getListFriend()
       if(data.senderID === this.props.chatReducer.receiverID)
@@ -217,18 +243,21 @@ class Chat extends React.Component {
     this.socket.on('is seen', () => {
       this.props.getListMessage(this.props.chatReducer.receiverID)
     })
+
+    this.socket.on('typing', data => {
+      if(data.senderID === this.props.chatReducer.receiverID){
+        if(data.isTyping === true){
+          this.setState({typing: true})
+        }else{
+          this.setState({typing: false})
+        }
+      }
+    })
   }
 
-  componentDidMount(){
-    var lastScrollHeight = 0
-    var x = document.getElementById("inputMessage")
-    setInterval(function() {
-      if (x.scrollHeight !==lastScrollHeight) {
-        lastScrollHeight = x.scrollHeight
-        x.scrollTop = x.scrollHeight;
-      }
-    }, 100)
-    
+  componentDidUpdate(){
+    var x = document.getElementById("inputMessage");
+    x.scrollTop = x.scrollHeight;
   }
 
   render(){
@@ -249,9 +278,12 @@ class Chat extends React.Component {
         </Grid>
         <Grid item xs={12} sm={9}>
           <div className={classes.divTop} style={{justifyContent: 'space-between',}}>
-          <IconButton style={{padding: 5}}>
-            <AccountCircle/>
-          </IconButton>
+          <div>
+            <IconButton style={{padding: 5}}>
+              <AccountCircle/>
+            </IconButton>
+            {localStorage.getItem('username')}
+          </div>
             <Typography variant="h6">
               {this.props.chatReducer.titleName}
             </Typography>
@@ -309,9 +341,13 @@ class Chat extends React.Component {
                           return <PieceMessage content={msg.content} key={msg._id} sender={true}  seen={true} />
                         return <PieceMessage content={msg.content} key={msg._id} sender={true} /> // input date and time here
                       }
-            
                       return <PieceMessage content={msg.content} key={msg._id} sender={false} /> 
                     })
+                  }
+                  {
+                    <Typography style={{color: '#bdbdbd'}}>
+                      {this.state.typing ? 'Typing.......' : ''}
+                    </Typography>
                   }
                 </ul>
               </div>
@@ -322,8 +358,8 @@ class Chat extends React.Component {
                   onFocus={this.onFocusMessage}
                   placeholder="Message..."
                   value={this.state.content}
-                  onChange={ e => this.setState({content: e.target.value})}
-                  onKeyPress={this.handleKeyPressMessage}
+                  onChange={e => {this.onTyping(e)}}
+                  onKeyUp={this.handleKeyPressMessage}
                   />
                 <Divider className={classes.divider} />
                 <Button color="secondary" onClick={e => {this.handleClickSend(e)}}>

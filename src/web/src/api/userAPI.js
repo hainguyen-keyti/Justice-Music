@@ -15,6 +15,7 @@ export function login(username, password){
             localStorage.setItem('userID', res.data.result.id);
             localStorage.setItem('accessToken', res.data.result.accessToken);
             localStorage.setItem('refreshToken', res.data.result.refreshToken);
+            localStorage.setItem('username', res.data.result.username);
             resolve();
           })
           .catch(err => {
@@ -41,7 +42,7 @@ export function createUser(username, password, full_name, phone, genre){
           return resolve();
       }
       if(res.data.error.message.errmsg)
-        reject("email or phone number has been registed")
+        reject(res.data.error.message.errmsg)
       reject(res.data.error.message)
     })
     .catch(err => {

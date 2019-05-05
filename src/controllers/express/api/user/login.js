@@ -7,6 +7,7 @@ const lib_common = require(config.library_dir+'/common');
 module.exports = (req, res) => {
     let miss=lib_common.checkMissParams(res, req.body, ["username", "password"])
     let id;
+    let username;
     let refreshToken;
     if (miss){
         console.log("Miss param at Login");
@@ -19,9 +20,10 @@ module.exports = (req, res) => {
             return Promise.reject("User not exist")
         }
         id = user._id;
+        username = user.username
         let tokenPayload = {
             _id: user._id,
-            username: user.username,
+            username: username,
         }
 
         refreshToken = lib_common.createToken(tokenPayload, "30 days");
@@ -40,7 +42,7 @@ module.exports = (req, res) => {
             return Promise.reject("Password not match")
         }
         console.log("login successful")
-        response_express.success(res, {accessToken,refreshToken, id})
+        response_express.success(res, {accessToken,refreshToken, id, username})
     })
     .catch(err=>{
         response_express.exception(res, err.message || err);
