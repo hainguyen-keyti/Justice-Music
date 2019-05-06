@@ -132,11 +132,12 @@ class Chat extends React.Component {
   handleKeyPressMessage(e) {
     var data = {
       receiverID: this.props.chatReducer.receiverID,
+      senderID: localStorage.getItem('userID')
     }
     if (e.key === 'Enter') {
       this.handleClickSend(e);
     }
-    else if(e.key === 'Backspace' && this.state.content === ''){
+    else if(e.key === 'Backspace' && this.state.content === ""){
       this.socket.emit('typing', {...data, isTyping: false})
     }
   }
@@ -245,10 +246,12 @@ class Chat extends React.Component {
     })
 
     this.socket.on('typing', data => {
+
       if(data.senderID === this.props.chatReducer.receiverID){
         if(data.isTyping === true){
           this.setState({typing: true})
-        }else{
+        }
+        if(data.isTyping === false){
           this.setState({typing: false})
         }
       }

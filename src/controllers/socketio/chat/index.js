@@ -115,11 +115,13 @@ module.exports = (io) => {
             User.findOne({_id: data.receiverID})
             .then( sender => {
                 if(sender.socketID){
-                    if(data.isTyping === true)
+                    if(data.isTyping === true){
                         socket.to(sender.socketID).emit('typing', {senderID: data.senderID ,isTyping: true});
-                    else
+                    }
+                    else{
                         socket.to(sender.socketID).emit('typing', {senderID: data.senderID ,isTyping: false});
                     }
+                }
             })
             .catch(err => response_socketio(socket, err))
 
