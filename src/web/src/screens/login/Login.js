@@ -2,29 +2,30 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { login, signin_fail_handle} from '../../screens/login/actions/signin'
 import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import BugReport from '@material-ui/icons/BugReport';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Grid from '@material-ui/core/Grid';
 import Register from './Register';
 
 const styles = theme => ({
+  background: {
+    backgroundImage: 'url(' + 'http://www.zingasong.com/static/index/images/load_in_bg.png' + ')',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    height: '100vh'
+  },
   main: {
     width: 'auto',
-    display: 'block',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+    display: 'flex',
+    justifyContent: 'center',
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 900,
+      width: '50%',
       marginLeft: 'auto',
       marginRight: 'auto',
     },
@@ -35,29 +36,31 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: 'transparent',
+    width: '50%'
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing.unit,  
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
+    opacity: '0.6',
   },
-  type: {
-    marginTop: theme.spacing.unit * 3,
-    color: 'rgba(0, 0, 0, 0.54)',
+  typeColor: {
+    color: '#e0e0e0',
     textAlign: 'center',
   },
+  hide: {
+    display: 'none'
+  }
 });
 
 class Login extends React.Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    openRegister: false,
   }
 
   constructor(props){
@@ -68,98 +71,94 @@ class Login extends React.Component {
 
 componentWillMount(){
     if(localStorage.getItem('accessToken')){
-      this.props.history.push('/app')
+      this.props.history.push('/login')
       // window.location.reload()
     }
 }
 
-  onClickSignin(){
+  onClickSignin = () => {
     let {username, password} = this.state
 
     this.props.login(username, password)
   }
 
+  onClickRegister = () => {
+    this.setState({openRegister: !this.state.openRegister})
+  }
+
   render(){ 
     const { classes } = this.props;
+    var temp = classes.hide
+    if(this.state.openRegister)
+      temp = ""
+    else
+      temp = classes.hide
     if(this.props.signinReducer.error){
       alert("sign fail: " + this.props.signinReducer.error)
       this.props.signin_fail_handle();
     }
     if(this.props.signinReducer.signinSuccessful)
-      this.props.history.push('/app')
+      this.props.history.push('/home')
       
     return (
-      <main className={classes.main}>
-          <React.Fragment>
-            <Typography className={classes.type} component="h4" variant="h6">
-              <span role="img" aria-label="Love"> ❤️ </span>
-              Chat Realtime
-              <span role="img" aria-label="Love"> ❤️ </span>
-            </Typography>
-            <Grid container spacing={40}>
-              <Grid item xs={12} sm={6}>
-                <Paper className={classes.paper}>
-                  <Register />
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <React.Fragment>
-                  <CssBaseline />
-                  <Paper className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                      <BugReport />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                      Sign in
-                    </Typography>
-                    <form className={classes.form}>
-                      <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">Email Address</InputLabel>
-                        <Input 
-                        id="email" 
-                        name="email" 
-                        autoComplete="email" 
-                        autoFocus
-                        onChange={e=>this.setState({username: e.target.value})}
-                        />
-                      </FormControl>
-                      <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Password</InputLabel>
-                        <Input 
-                        name="password" 
-                        type="password" 
-                        id="password" 
-                        autoComplete="current-password"
-                        onChange={e=>this.setState({password: e.target.value})} 
-                        />
-                      </FormControl>
-                      <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                      />
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        disabled={this.props.signinReducer.isSignin && !this.props.signinReducer.signinSuccessful}
-                        onClick={this.onClickSignin}
-                      >
-                        Sign in
-                      </Button>
-                    </form>
-                  </Paper>
-                  <Typography className={classes.type} component="h4" variant="h6">
-                    Develop with 
-                    <span role="img" aria-label="Love"> ❤️ </span>
-                    by Keyti
-                  </Typography>
-                </React.Fragment>
-              </Grid>
-            </Grid>
-            </React.Fragment>
-      </main>
+      <div className={classes.background}>
+        <CssBaseline />      
+        <Typography className={classes.typeColor} style={{paddingTop: '5vh'}} component="h1" variant="h4">
+          Justice Music
+        </Typography>
+        <main className={classes.main}>
+              <Paper className={classes.paper}>
+                <img src="https://cdn.freebiesupply.com/logos/large/2x/strange-music-logo-logo-png-transparent.png" alt="Smiley face" style={{height: '45px', width: '45px'}}/>
+                <Typography className={classes.typeColor} component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                <form className={classes.form}>
+                  <FormControl required fullWidth>
+                    <InputLabel>Email Address</InputLabel>
+                    <Input 
+                    id="email" 
+                    name="email" 
+                    autoComplete="email" 
+
+                    onChange={e=>this.setState({username: e.target.value})}
+                    />
+                  </FormControl>
+                  <FormControl margin="normal" required fullWidth>
+                    <InputLabel>Password</InputLabel>
+                    <Input 
+                    name="password" 
+                    type="password" 
+                    id="password" 
+                    autoComplete="current-password"
+                    onChange={e=>this.setState({password: e.target.value})} 
+                    />
+                  </FormControl>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="inherit"
+                    className={classes.submit}
+                    disabled={this.props.signinReducer.isSignin && !this.props.signinReducer.signinSuccessful}
+                    onClick={this.onClickSignin}
+                  >
+                    Sign in
+                  </Button>
+                  <Button onClick={this.onClickRegister} style={{backgroundColor: '#e0e0e0' , marginTop: '30px', opacity: '0.5'}}>
+                    Register here
+                  </Button>
+                </form>
+              </Paper>
+              <Paper className={[classes.paper, temp]}>
+                <Register />
+              </Paper>
+        </main>
+        <Typography className={classes.typeColor} component="h4" variant="h6">
+          Develop with 
+          <span role="img" aria-label="Love"> ❤️ </span>
+          by Keyti
+        </Typography>
+      </div>
     );
   }
 }

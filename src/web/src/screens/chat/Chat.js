@@ -118,7 +118,7 @@ class Chat extends React.Component {
     this.socket.disconnect()
     this.props.log_out();
     localStorage.clear();
-    this.props.history.push('/')
+    this.props.history.push('/login')
     // window.location.reload()
 
   }
@@ -206,7 +206,7 @@ class Chat extends React.Component {
   }
   componentWillMount = () => {
     if(localStorage.getItem('accessToken') === null){
-      this.props.history.push('/')
+      this.props.history.push('/login')
     }
 
     this.props.getListFriend();

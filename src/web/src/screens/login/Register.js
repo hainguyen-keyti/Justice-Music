@@ -13,8 +13,13 @@ import {connect} from 'react-redux';
 
 const styles = theme => ({
     submit: {
-      marginTop: theme.spacing.unit * 3,
-    }
+        marginTop: theme.spacing.unit * 3,
+        opacity: '0.6',
+      },
+      typeColor: {
+        color: '#e0e0e0',
+        textAlign: 'center',
+      },
 });
 
 class Register extends React.Component{
@@ -58,17 +63,15 @@ class Register extends React.Component{
             alert("Register successfully")
         }
         return (
-            <React.Fragment>
-              <Typography variant="h6" gutterBottom>
+            <div>
+              <Typography variant="h6" gutterBottom className={classes.typeColor}>
                 Register Form
               </Typography>
-              <form>
+              <form >
                 <Grid container spacing={24}>
                     <Grid item xs={12}>
                     <TextField
                         required
-                        id="full_name"
-                        name="full_name"
                         label="Full name"
                         fullWidth
                         autoComplete="billing full name"
@@ -95,6 +98,7 @@ class Register extends React.Component{
                         name="password"
                         type="password"
                         label="Password"
+                        color= '#e0e0e0'
                         fullWidth
                         autoComplete="billing password"
                         value={this.state.password}
@@ -162,7 +166,7 @@ class Register extends React.Component{
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
+                        color="inherit"
                         className={classes.submit}
                         disabled={this.props.signupReducer.isSignup && !this.props.signupReducer.signupSuccessful}
                         onClick={this.onClickSignUp}
@@ -171,7 +175,7 @@ class Register extends React.Component{
                     </Button>
                 </Grid>
               </form>
-            </React.Fragment>
+            </div>
         );
     }
 }
