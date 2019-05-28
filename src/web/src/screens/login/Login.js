@@ -14,7 +14,7 @@ import Register from './Register';
 
 const styles = theme => ({
   background: {
-    backgroundImage: 'url(' + 'http://www.zingasong.com/static/index/images/load_in_bg.png' + ')',
+    backgroundImage: `url(${require(`${ ('../../images/login-background.png')}`)})`,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',

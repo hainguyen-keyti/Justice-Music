@@ -4,7 +4,7 @@ export default class FileManager extends Component {
   render() {
     return (
       <div>
-        aa
+        lalalaa
       </div>
     )
   }
