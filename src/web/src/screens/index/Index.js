@@ -13,17 +13,17 @@ export default class Index extends Component {
         return (
             <div id="background">
                 <CssBaseline />
-                <Typography variant="h4" style={{color: '#eeeeee'}}>
+                <div id="wrapper">
+                <Typography variant="h2" style={{color: 'black'}}>
                     Justice Music
                 </Typography>
-                <div id="wrapper">
-                    <img src="https://cdn.freebiesupply.com/logos/large/2x/strange-music-logo-logo-png-transparent.png" alt="Justice Music" style={{height: '100px', width: '100px', marginBottom: '50px'}}/>
+                    <img src="https://cdn.freebiesupply.com/logos/large/2x/strange-music-logo-logo-png-transparent.png" alt="Justice Music" style={{height: '100px', width: '100px', margin: '50px'}}/>
                     <Typography variant="h4" style={{ marginBottom: '50px', color: '#e0e0e0'}}>
                         A safe place for all your Intellectual
                     </Typography>
-                    <Button variant="contained" color="secondary" style={{opacity: '0.7'}} onClick={this.onClickGoTo}>
+                    <Button variant="contained" color="secondary" style={{padding: "15px", opacity: '0.8'}} onClick={this.onClickGoTo}>
                         <Typography style={{color: 'white'}}>
-                            Go to Justice Music
+                            Getting started
                         </Typography>
                     </Button>
                 </div>
