@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Register from './Register';
+import logo from '../../images/logo.png'
 
 const styles = theme => ({
   background: {
@@ -108,7 +109,7 @@ componentWillMount(){
         </Typography>
         <main className={classes.main}>
               <Paper className={classes.paper}>
-                <img src="https://cdn.freebiesupply.com/logos/large/2x/strange-music-logo-logo-png-transparent.png" alt="Smiley face" style={{height: '45px', width: '45px'}}/>
+                <img src={logo} alt="Smiley face" style={{height: '45px', width: '45px'}}/>
                 <Typography className={classes.typeColor} component="h1" variant="h5">
                   Sign in
                 </Typography>

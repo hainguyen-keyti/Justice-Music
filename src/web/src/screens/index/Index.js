@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core//Button'
+import Button from '@material-ui/core/Button'
 import './Index.css'
+import logo from '../../images/logo.png'
 
 export default class Index extends Component {
     onClickGoTo = () => {
@@ -17,7 +18,7 @@ export default class Index extends Component {
                 <Typography variant="h2" style={{color: 'black'}}>
                     Justice Music
                 </Typography>
-                    <img src="https://cdn.freebiesupply.com/logos/large/2x/strange-music-logo-logo-png-transparent.png" alt="Justice Music" style={{height: '100px', width: '100px', margin: '50px'}}/>
+                    <img src={logo} alt="Justice Music" style={{height: '100px', width: '100px', margin: '50px'}}/>
                     <Typography variant="h4" style={{ marginBottom: '50px', color: '#e0e0e0'}}>
                         A safe place for all your Intellectual
                     </Typography>

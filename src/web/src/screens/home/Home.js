@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Divider from '@material-ui/core/Divider'
+import logo from '../../images/logo.png'
 
 
 
@@ -78,7 +79,7 @@ class Home extends React.Component {
             <Grid item xs={2} className={classes.appBar}>
               <IconButton style={{padding: '0px'}}>
                 <a href="/home">
-                  <img src="https://cdn.freebiesupply.com/logos/large/2x/strange-music-logo-logo-png-transparent.png" alt="Smiley face" className={classes.logo} />
+                  <img src={logo} alt="Smiley face" className={classes.logo} />
                 </a>
               </IconButton>
               <Typography variant="h5">
