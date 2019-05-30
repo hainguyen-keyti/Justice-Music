@@ -1,10 +1,11 @@
 version: "3.7"
 services:
-  hieubede:
-    build:
-      context: .
-      dockerfile: Dockerfile
-  
+  justice-music:
+    image: keytikontum/jm-docker
+    restart: always
+    ports:
+    - 9999:6969
+
   mongo:
     image: mongo:4.1.12-bionic
     restart: always

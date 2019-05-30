@@ -1,10 +1,9 @@
 module.exports={
-    server_url: 'http://localhost:3030',
     mongo: {
-        host: 'localhost',
+        host: 'mongo',
         port: 27017,
-        user: "",
-        password: "",
+        user: "root",
+        password: "Haiktvn1.",
         database: "chat_realtime",
     }
 };
