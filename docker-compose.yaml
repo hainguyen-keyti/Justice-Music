@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  hieubede:
+    build:
+      context: .
+      dockerfile: Dockerfile
+  
+  mongo:
+    image: mongo:4.1.12-bionic
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Haiktvn1.
