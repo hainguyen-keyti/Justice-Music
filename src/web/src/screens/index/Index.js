@@ -20,7 +20,7 @@ export default class Index extends Component {
                 </Typography>
                     <img src={logo} alt="Justice Music" style={{height: '100px', width: '100px', margin: '50px'}}/>
                     <Typography variant="h4" style={{ marginBottom: '50px', color: '#e0e0e0'}}>
-                        A safe place for all your Intellectual
+                        A safe place for all your music Intellectual
                     </Typography>
                     <Button variant="contained" color="secondary" style={{padding: "15px", opacity: '0.8'}} onClick={this.onClickGoTo}>
                         <Typography style={{color: 'white'}}>
