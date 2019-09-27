@@ -3,7 +3,6 @@ const lib_password = require(config.library_dir + '/password');
 const response_express = require(config.library_dir + '/response').response_express;
 const User = require(config.models_dir + '/mongo/user');
 const lib_common = require(config.library_dir+'/common');
-
 module.exports = (req, res) => {
     let miss=lib_common.checkMissParams(res, req.body, ["username", "password"])
     let id;
@@ -25,7 +24,6 @@ module.exports = (req, res) => {
             _id: user._id,
             username: username,
         }
-
         refreshToken = lib_common.createToken(tokenPayload, "30 days");
         user.refreshToken = refreshToken;
         user.save();
@@ -33,7 +31,6 @@ module.exports = (req, res) => {
             lib_password.comparePassword(req.body.password, user.password_hash),
             lib_common.createToken(tokenPayload, "3 days"),
         ])
-
     })
     .then(result => {
         let isMatchPassword = result[0];

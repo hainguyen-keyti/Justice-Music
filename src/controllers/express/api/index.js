@@ -9,4 +9,6 @@ apiRoutes.use(require(config.library_dir + '/middleware').expressMiddleware)
 
 apiRoutes.use('/chats', require('./chat'))
 
+apiRoutes.use('/ethereums', require('./ethereum'))
+
 module.exports = apiRoutes;

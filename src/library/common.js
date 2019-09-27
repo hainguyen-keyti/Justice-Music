@@ -1,7 +1,6 @@
 var config = require('../config');
 var jwt = require('jsonwebtoken');
 var response_express = require(config.library_dir+'/response').response_express;
-
 exports.findMissParams = function(obj, checkProps) {
 	if(!Array.isArray(checkProps)){
 		checkProps = [checkProps];
@@ -18,7 +17,6 @@ exports.findMissParams = function(obj, checkProps) {
 	}
 	return missProps;
 };
-
 exports.checkMissParams = function(res, obj, checkProps) {
 	var missProps=this.findMissParams(obj, checkProps);
 	if(missProps.length>0){
@@ -27,17 +25,14 @@ exports.checkMissParams = function(res, obj, checkProps) {
 	}
 	return false;
 };
-
 exports.createToken = function(user, expire) {
 	return jwt.sign(user, config.secret, {
 		expiresIn: expire
 	});
 }
-
 var converterToPlainObject = function(obj){
 	return JSON.parse(JSON.stringify(obj));
 };
-
 exports.deleteSensitiveInfoUser = function(user){
 	var userInfo = converterToPlainObject(user);
 	delete userInfo.phone;
