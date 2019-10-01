@@ -132,7 +132,7 @@ class Home extends React.Component {
                   </Badge>
               </IconButton>
               <IconButton color="inherit">
-                <AccountCircle />
+                <AccountCircle /> 
               </IconButton>
             </Grid>
           </Grid>
