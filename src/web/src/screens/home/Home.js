@@ -15,6 +15,7 @@ import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Divider from '@material-ui/core/Divider'
 import logo from '../../images/logo.png'
+import UploadModal from '../../components/uploadModal'
 
 
 
@@ -75,7 +76,7 @@ class Home extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         <div>
-          <Grid container spacing={3} >
+          <Grid container spacing={8} >
             <Grid item xs={2} className={classes.appBar}>
               <IconButton style={{padding: '0px'}}>
                 <a href="/home">
@@ -137,6 +138,7 @@ class Home extends React.Component {
             </Grid>
           </Grid>
         </div>
+        <UploadModal/>
       </div>
     )
   }
