@@ -6,8 +6,9 @@ const express = require('express');
 var ethereumRoutes = express.Router();
 
 ethereumRoutes.post('/upload', require('./upload'))
-
-
+ethereumRoutes.post('/download/', require('./download'))
+ethereumRoutes.get('/getUserUpload', require('./getUserUpload'))
+ethereumRoutes.get('/getUserDownload', require('./getUserDownload'))
 module.exports = ethereumRoutes;
 
 // let provider = ethers.getDefaultProvider(config.testNet);
