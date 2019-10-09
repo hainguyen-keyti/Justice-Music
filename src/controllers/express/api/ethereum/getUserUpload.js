@@ -1,6 +1,7 @@
 const ethers = require('ethers');
 const config = require('../../../../config');
 const response_express = require(config.library_dir + '/response').response_express;
+const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => {
     let privateKey = config.ownerSecretKey;
@@ -8,21 +9,13 @@ module.exports = async (req, res) => {
     let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
     contractWithSigner.getUserUpload()
     .then(tx => {
-        let pageCount = Math.ceil(tx.length/10);
-        let page = req.query.p;
-        if (!page){ page = 1;}
-        if (page > pageCount){
-            page = pageCount;
+        if(!tx){
+            return response_express.exception(res, "Transaction failed, please try again!")
         }
-        console.log(`Page: ${page}, PageCount: ${pageCount}`);
-        if(!tx)
-            return Promise.reject("Fail to excute transaction");
-        let jsonRes = {
-            page: page,
-            pageCount: pageCount,
-            file: tx.slice(page * 10 - 10, page * 10)
-        }
-        response_express.success(res, jsonRes)
+        lib_common.ModifyFile(tx, req.query.page)
+        .then(result => {
+            return response_express.success(res, result)  
+        })
     })
     .catch(err => response_express.exception(res, err));
 }

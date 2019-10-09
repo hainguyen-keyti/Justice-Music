@@ -46,3 +46,38 @@ exports.deleteSensitiveInfoUser = function(user){
 	delete userInfo.personInBox;
 	return userInfo;
 }
+
+exports.ModifyFile = (tx, page) => {
+    return new Promise((resolve, reject) => {
+		try {
+			var result = [];
+			let pageTotal = Math.ceil(tx.length/10);
+			if (!page || page < 1){ page = 1;}
+			if (page > pageTotal){page = pageTotal}
+			for(let i = (tx.length-1-(page-1)*10); i >= ((tx.length-page*10 > 0)?tx.length-page*10:0); i--){
+				let {idFile, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
+				let data = {
+					idFile: Number(idFile),
+					fileHash,
+					owner,
+					price: Number(price),
+					totalDownloader: Number(totalDownloader),
+					weekDownloader: Number(weekDownloader),
+					blockTime: Number(blockTime),
+					valid,
+					kind,
+					IsISO,
+				}
+				result.push(data);
+			}
+			let jsonRes = {
+				page: page,
+				pageTotal: pageTotal,
+				file: result
+			}
+			return resolve(jsonRes)	
+		} catch (error) {
+			return reject(error)
+		}
+    })
+}
