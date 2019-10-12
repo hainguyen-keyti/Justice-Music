@@ -22,7 +22,6 @@ import UploadModal from '../../components/uploadModal'
 const styles = {
   root: {
     flexGrow: 1,
-    
   },
   grow: {
     flexGrow: 1,

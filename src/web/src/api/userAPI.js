@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import  {getHeaders} from '../utils/common'
 
 export function login(username, password){
     return new Promise((resolve, reject)=>{
@@ -57,6 +58,20 @@ export function findUser(username){
       params: {
         keyword: username
       }
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
+export function getUserUpload(pageNumber){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/ethereums/getUserUpload?page=' + pageNumber, {
+      headers: getHeaders()
     })
     .then( res => {
       if (res.data.status === 0)

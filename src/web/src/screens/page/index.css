@@ -1,0 +1,14 @@
+.img-background {
+  width: 100%;
+  height: 250px;
+  background-image: url('https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.logo-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

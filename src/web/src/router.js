@@ -5,6 +5,7 @@ import Chat from './screens/chat/Chat'
 import Home from './screens/home/Home'
 import FileManager from './screens/fileManager/FileManager'
 import Index from './screens/index/Index'
+import Page from './screens/page'
 
 const Root = () => (
     <Router>
@@ -14,6 +15,7 @@ const Root = () => (
             <Route path="/login" component={Login} />
             <Route path="/message" component={Chat} />
             <Route path="/fileManager" component={FileManager} />
+            <Route path="/page" component={Page} />
         </div>
     </Router>
 )

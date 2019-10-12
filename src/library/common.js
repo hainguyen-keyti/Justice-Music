@@ -51,9 +51,7 @@ exports.ModifyFile = (tx, page) => {
     return new Promise((resolve, reject) => {
 		try {
 			var result = [];
-			let pageTotal = Math.ceil(tx.length/10);
 			if (!page || page < 1){ page = 1;}
-			if (page > pageTotal){page = pageTotal}
 			for(let i = (tx.length-1-(page-1)*10); i >= ((tx.length-page*10 > 0)?tx.length-page*10:0); i--){
 				let {idFile, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
 				let data = {
@@ -67,12 +65,19 @@ exports.ModifyFile = (tx, page) => {
 					valid,
 					kind,
 					IsISO,
+
+					image: 'https://ipfs.io/ipfs/QmdMn4gF9yEzxdUHQW2bLLgEkdNr7krqVwxR7YWcDgPQJR',
+					name: {
+						songName: 'Mãi mãi là bao lâu',
+						artistName: 'Keyti'
+					},
+					view: 12523362,
 				}
 				result.push(data);
 			}
 			let jsonRes = {
 				page: page,
-				pageTotal: pageTotal,
+				total: tx.length,
 				file: result
 			}
 			return resolve(jsonRes)	
