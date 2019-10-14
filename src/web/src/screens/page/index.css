@@ -11,4 +11,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+}
+
+.info-icon {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.icon-style {
+  padding-right: 10px;
+  font-size: 20px;
+  color: #1da1f2
+}
+.line-space {
+  padding: 6px;
+  font-size: 15px;
 }

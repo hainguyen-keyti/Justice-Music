@@ -47,7 +47,7 @@ const columns = [
     dataIndex: 'view',
     render: view => (
         <Text type="secondary">
-            <span role="img" aria-label="headphone">🎧</span>
+            <Icon type="customer-service" style={{marginRight: '10px'}} theme="twoTone" />
             {view}
         </Text>
     )

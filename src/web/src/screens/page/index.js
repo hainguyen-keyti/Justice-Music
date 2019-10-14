@@ -6,6 +6,7 @@ import {
   Typography,
   Tabs,
   Button,
+  Icon,
  } from 'antd';
 import 'antd/dist/antd.css';
 import Home from '../home/Home'
@@ -37,14 +38,37 @@ export default class Page extends Component {
               <Row style={{paddingTop: '15px'}}>
                 <Col span={7}>
                   <div className="logo-name">
-                    <div style={{paddingRight: '15px'}}>
-                      <Avatar size={150} src="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" alt="Avatar photo"/>
+                    <div style={{padding: '15px'}}>
+                      <Avatar size={160} src="https://ipfs.io/ipfs/QmXwrePcDqV2YR1xyJU4mpxadaQgHHMLsitBgWtZS2c9Zn" alt="Avatar photo"/>
                     </div>
                     <div>
-                      <Title level={4}>Trịnh Ngọc Trinh</Title>
+                      <Title level={4}>Nguyễn Hoàng Hải</Title>
                       <Text type="secondary">2.469.827 Theo dõi</Text>
                     </div>
                   </div>
+                  <div className="info-icon">
+                    <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                      <Icon className="icon-style" type="twitter"  />
+                      <Text type="secondary">ngoctrinhfashion89</Text>
+                    </a>
+                    <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                      <Icon className="icon-style" type="facebook"  />
+                      <Text type="secondary">fb.com/hainguyen.keyti</Text>
+                    </a>
+                    <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                      <Icon className="icon-style" type="phone"  />
+                      <Text type="secondary">037 259 8218</Text>
+                    </a>
+                    <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                      <Icon className="icon-style" type="home"  />
+                      <Text type="secondary">Thành phố Hồ Chí Minh</Text>
+                    </a>
+                    
+                  </div>
+                  {/* <Text type="secondary"><Icon type="twitter" />Ant Design</Text><br />
+                  <Text strong>Ant Design</Text><br />
+
+                  <Text type="secondary">Ant Design</Text><br /> */}
                 </Col>
                   <Col span={17}>
                     <Tabs tabBarExtraContent={operations}>

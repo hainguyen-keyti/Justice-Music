@@ -5,7 +5,7 @@ const config = {
     api_url: "http://localhost:6969/api",
     url:"http://localhost:6969/chat",
 
-    provider: ethers.getDefaultProvider('ropsten'),
+    provider: ethers.getDefaultProvider('kovan'),
 }
 
 module.exports = config

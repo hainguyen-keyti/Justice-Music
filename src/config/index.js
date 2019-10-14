@@ -12,16 +12,19 @@ var main_config = {
 
             secret: 'db591d26716a5fbccf9e1068604d2a4e33e5d77e74c65949e5a70a60bcf59c06', //JWT
             ownerSecretKey: '2C4104E79EA8936FA6C0D0E7B796B391DE814890066B8B8640E13A554DECE084',
-            provider: ethers.getDefaultProvider('ropsten'),
+            provider: ethers.getDefaultProvider('kovan'),
 
-            userBehaviorAddress: '0x80701720ffB9DF0faA6CDf5aCdD66E3e37aC1bF5',
+            userBehaviorAddress: '0x2f88d1E95ADF27c78aeB1d617DD57eD3714ccc73',
             userBehaviorABI: abi.userBehaviorABI,
 
-            tokenAddress: '0x161EEF5159D1BaE46092cB3674eDa13AB0DD5Cb1',
+            tokenAddress: '0xf93B5dD8Bd46216Bfd2C5E42324FFe2efC8733d9',
             tokenABI: abi.tokenABI,
 
-            fileStorageAddress: '0x6dC14057fB774B6a5a09cd2110472f8D91413DE9',
+            fileStorageAddress: '0x6333d09AE939813F7d4d2A9cfF8165C336c6A2aE',
             fileStorageABI: abi.fileStorageABI,
+
+            rankingAddress: '0xEaBB2d7eeAF13d8A9710055AD27f738410915d3d',
+            rankingABI: abi.rankingABI,
             
             root_dir: root,
             models_dir: root + '/models',

@@ -1463,3 +1463,194 @@ exports.fileStorageABI = [
 		"type": "event"
 	}
 ]
+
+exports.rankingABI = [
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "RankPerWeek",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "constructor"
+	},
+	{
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "fallback"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_now",
+				"type": "uint256"
+			}
+		],
+		"name": "Log_RankPerWeek",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_TimeRanking",
+				"type": "uint256"
+			},
+			{
+				"name": "_kind",
+				"type": "uint8"
+			}
+		],
+		"name": "getRanking",
+		"outputs": [
+			{
+				"components": [
+					{
+						"name": "idFile",
+						"type": "uint256"
+					},
+					{
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"name": "totalDownloader",
+						"type": "uint256"
+					},
+					{
+						"name": "weekDownloader",
+						"type": "int256"
+					},
+					{
+						"name": "blockTime",
+						"type": "uint256"
+					},
+					{
+						"name": "valid",
+						"type": "bool"
+					},
+					{
+						"name": "kind",
+						"type": "uint8"
+					},
+					{
+						"name": "IsISO",
+						"type": "bool"
+					}
+				],
+				"name": "",
+				"type": "tuple[]"
+			},
+			{
+				"name": "",
+				"type": "int256[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getTimeRanking",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "isOwner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
