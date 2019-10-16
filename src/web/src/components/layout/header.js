@@ -15,7 +15,7 @@ import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Divider from '@material-ui/core/Divider'
 import logo from '../../images/logo.png'
-import UploadModal from '../../components/uploadModal'
+import UploadModal from '../uploadModal'
 
 
 
@@ -59,7 +59,7 @@ const styles = {
   },
 };
 
-class Home extends React.Component {
+class Header extends React.Component {
 
   handleClickFileManager = () => {
     this.props.history.push('/fileManager')
@@ -78,7 +78,7 @@ class Home extends React.Component {
           <Grid container spacing={8} >
             <Grid item xs={2} className={classes.appBar}>
               <IconButton style={{padding: '0px'}}>
-                <a href="/home">
+                <a href="/">
                   <img src={logo} alt="Smiley face" className={classes.logo} />
                 </a>
               </IconButton>
@@ -137,17 +137,17 @@ class Home extends React.Component {
             </Grid>
           </Grid>
         </div>
-        <UploadModal/>
+        {/* <UploadModal/> */}
       </div>
     )
   }
 }
 
-Home.propTypes = {
+Header.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(Header);
 
 
