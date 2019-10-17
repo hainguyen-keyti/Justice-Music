@@ -5,7 +5,7 @@ import PageContent from './PageContent'
 export default class Page extends Component {
   render () {
     return (
-        <Layout main={PageContent}/>
+        <Layout main={<PageContent/>}/>
     )
   }
 }

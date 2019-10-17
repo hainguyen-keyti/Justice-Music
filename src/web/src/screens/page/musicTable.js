@@ -1,6 +1,5 @@
 import React from 'react'
 import { Table, Avatar, Typography, Divider, Icon, Tag } from 'antd';
-// import reqwest from 'reqwest';
 import { getUserUpload } from '../../api/userAPI'
 
 const { Text, Title } = Typography;

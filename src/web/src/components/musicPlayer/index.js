@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import { Card, Button, Slider } from 'antd';
 import './index.css'
-import Duration from '../../components/duration'
+import Duration from './duration'
 import Typography from 'antd/lib/typography/Typography';
 
-export default class PageMusicPlayer extends Component {
+export default class MusicPlayer extends Component {
   state = {
     totalSeconds: 0,
     playing: true,
@@ -43,7 +43,11 @@ export default class PageMusicPlayer extends Component {
     const { totalSeconds, playing, playingIcon, loadingInfo } = this.state;
     return (
       <div>
-          <Card style={{ width: '100vw', backgroundColor: '#32323d' }}>
+          <Card
+          hoverable
+          bordered={false}
+          bodyStyle={{backgroundColor: '#32323d', padding: 10, position: 'fixed', bottom: 0, width: '100vw'}}
+          >
             <div className="player">
               <Button type="danger" shape="circle" size="large" icon="step-backward" className="icon-formart"/>
               <Button onClick={()=>{this.onHandleClickPlaying()}} type="danger" shape="circle" size="large" icon={playingIcon} className="icon-formart"/>

@@ -231,8 +231,8 @@ export default class UploadModal extends React.Component {
   render() {
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
-          New Collection
+        <Button onClick={this.showModal}>
+          Upload
         </Button>
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}

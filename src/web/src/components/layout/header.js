@@ -15,7 +15,6 @@ import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Divider from '@material-ui/core/Divider'
 import logo from '../../images/logo.png'
-import UploadModal from '../uploadModal'
 
 
 
@@ -137,7 +136,6 @@ class Header extends React.Component {
             </Grid>
           </Grid>
         </div>
-        {/* <UploadModal/> */}
       </div>
     )
   }

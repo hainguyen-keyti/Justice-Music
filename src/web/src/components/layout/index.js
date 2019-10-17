@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Header from './header'
+import MusicPlayer from '../musicPlayer'
 
 export default class Layout extends Component {
   render () {
@@ -7,11 +8,12 @@ export default class Layout extends Component {
       <div style={{display: 'block'}}>
         <Header/>
         <div style={{display: 'flex', justifyContent: 'center', padding: 10, marginTop: 10}}>
-          <div style={{width: 1100, height: 4000, backgroundColor: 'red'}}>
+          <div style={{width: 1100}}>
             {this.props.main}
           </div>
         </div>
-        <Header/>
+        <MusicPlayer/>
+        {/* <Footer/> */}
       </div>
     )
   }
