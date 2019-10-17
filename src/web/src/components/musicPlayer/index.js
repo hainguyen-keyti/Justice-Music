@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
-import { Card, Button, Slider } from 'antd';
+import { Card, Button, Slider, Avatar } from 'antd';
 import './index.css'
 import Duration from './duration'
 import Typography from 'antd/lib/typography/Typography';
@@ -46,12 +46,23 @@ export default class MusicPlayer extends Component {
           <Card
           hoverable
           bordered={false}
-          bodyStyle={{backgroundColor: '#32323d', padding: 10, position: 'fixed', bottom: 0, width: '100vw'}}
+          bodyStyle={{backgroundColor: '#D6DBDF', padding: 10, position: 'fixed', bottom: 0, width: '100vw'}}
           >
             <div className="player">
-              <Button type="danger" shape="circle" size="large" icon="step-backward" className="icon-formart"/>
-              <Button onClick={()=>{this.onHandleClickPlaying()}} type="danger" shape="circle" size="large" icon={playingIcon} className="icon-formart"/>
-              <Button type="danger" shape="circle" size="large" icon="step-forward" className="icon-formart"/>
+              <ReactPlayer
+                ref={this.ref}
+                url='https://ipfs.io/ipfs/Qmd6GcyBLsYwCSMANcnFBAnWc8nuqxwSvJSYU7rPDkCRJ3'
+                playing={playing}
+                width='0'
+                height='0'
+                onProgress={(data)=>{this.setState({loadingInfo: data})}}
+                onDuration={(data)=>{this.setState({totalSeconds: data})}}
+              />
+              <Button shape="circle" size="large" icon="step-backward" className="icon-formart"/>
+              <Button shape="circle" size="large" icon={playingIcon} className="icon-formart" onClick={()=>{this.onHandleClickPlaying()}} />
+              <Button shape="circle" size="large" icon="step-forward" className="icon-formart"/>
+              <Button shape="circle" size="large" icon="retweet" className="icon-formart"/>
+              <Avatar size={45} style={{marginLeft: 20}} src="https://ipfs.io/ipfs/QmXwrePcDqV2YR1xyJU4mpxadaQgHHMLsitBgWtZS2c9Zn" alt="Avatar photo"/>
               <Slider
                 tipFormatter={this.Tooltip}
                 min={0}
@@ -59,22 +70,13 @@ export default class MusicPlayer extends Component {
                 onChange={this.onChangeSeek}
                 value={typeof loadingInfo.playedSeconds === 'number' ? loadingInfo.playedSeconds : 0}
                 style={{width: '300px'}}
-                step={0.000001}
+                step={0.000001} 
               />
                 <Duration seconds={loadingInfo.playedSeconds ? loadingInfo.playedSeconds : 0}/>
                 <Typography>/</Typography>
                 <Duration seconds={totalSeconds}/>
             </div>
           </Card>
-         <ReactPlayer
-            ref={this.ref}
-            url='https://ipfs.io/ipfs/Qmd6GcyBLsYwCSMANcnFBAnWc8nuqxwSvJSYU7rPDkCRJ3'
-            playing={playing}
-            width='0'
-            height='0'
-            onProgress={(data)=>{this.setState({loadingInfo: data})}}
-            onDuration={(data)=>{this.setState({totalSeconds: data})}}
-            />
       </div>
     )
   }
