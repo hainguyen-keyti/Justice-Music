@@ -27,7 +27,7 @@
     "cors": "^2.8.5",
     "ethers": "^4.0.37",
     "express": "^4.15.2",
-    "helmet": "^3.16.0",
+    "helmet": "^3.21.1",
     "http": "0.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.22",

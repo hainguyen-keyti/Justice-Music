@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Header from './header'
+import Footer from './footer'
 import MusicPlayer from '../musicPlayer'
 
 export default class Layout extends Component {
@@ -13,7 +14,7 @@ export default class Layout extends Component {
           </div>
         </div>
         <MusicPlayer/>
-        {/* <Footer/> */}
+        <Footer/>
       </div>
     )
   }
