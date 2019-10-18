@@ -4,8 +4,9 @@ import { Card, Button, Slider, Avatar } from 'antd';
 import './index.css'
 import Duration from './duration'
 import Typography from 'antd/lib/typography/Typography';
+import { connect} from 'react-redux'
 
-export default class MusicPlayer extends Component {
+class MusicPlayer extends Component {
   state = {
     totalSeconds: 0,
     playing: true,
@@ -42,7 +43,7 @@ export default class MusicPlayer extends Component {
   render () {
     const { totalSeconds, playing, playingIcon, loadingInfo } = this.state;
     return (
-      <div>
+      <div style={{visibility: this.props.pageReducer.musicSelected ? '' : 'hidden'}}>
           <Card
           hoverable
           bordered={false}
@@ -51,7 +52,7 @@ export default class MusicPlayer extends Component {
             <div className="player">
               <ReactPlayer
                 ref={this.ref}
-                url='https://ipfs.io/ipfs/Qmd6GcyBLsYwCSMANcnFBAnWc8nuqxwSvJSYU7rPDkCRJ3'
+                url={this.props.pageReducer.musicSelected}
                 playing={playing}
                 width='0'
                 height='0'
@@ -81,3 +82,8 @@ export default class MusicPlayer extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  pageReducer: state.pageReducer,
+})
+export default connect(mapStateToProps)(MusicPlayer);

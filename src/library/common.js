@@ -56,7 +56,6 @@ exports.ModifyFile = (tx, page) => {
 				let {idFile, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
 				let data = {
 					idFile: Number(idFile),
-					fileHash,
 					owner,
 					price: Number(price),
 					totalDownloader: Number(totalDownloader),
@@ -69,7 +68,8 @@ exports.ModifyFile = (tx, page) => {
 					image: 'https://ipfs.io/ipfs/QmdMn4gF9yEzxdUHQW2bLLgEkdNr7krqVwxR7YWcDgPQJR',
 					name: {
 						songName: 'Mãi mãi là bao lâu',
-						artistName: 'Keyti'
+						artistName: 'Keyti',
+						fileHash
 					},
 					view: 12523362,
 				}

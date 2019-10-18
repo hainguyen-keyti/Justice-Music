@@ -3,4 +3,3 @@ export function log_out(){
         type: 'LOG_OUT'
     }
 }
-
