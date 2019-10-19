@@ -1,151 +1,73 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import MailIcon from '@material-ui/icons/Mail';
-import Badge from '@material-ui/core/Badge';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import ReceiptIcon from '@material-ui/icons/Receipt';
-import Grid from '@material-ui/core/Grid'
-import InputBase from '@material-ui/core/InputBase'
-import SearchIcon from '@material-ui/icons/Search'
-import Divider from '@material-ui/core/Divider'
+import React, { Component } from 'react'
+import { AutoComplete, Button, Icon, Input, Badge, Tooltip } from 'antd';
 import logo from '../../images/logo.png'
 
+const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
 
-
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  logo: {
-    width: "37px",
-    height: "30px"
-  },
-  appBar: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottom: '1px solid #e0e0e0',
-  },
-  searchDiv: {
-    borderRadius: 3,
-    color: '#212121',
-    display: 'flex',
-    flexDirection: 'row',
-    border:'1px solid #e0e0e0',
-  },
-  inputSearchRoot: {
-  },
-  inputSearch: {
-    paddingLeft: '8px',
-  },
-  divider: {
-    width: 1,
-    height: 25,
-    margin: 4,
-  },
-  iconButton: {
-    padding: "5px",
-    background: '#eeeeee',
-  },
-};
-
-class Header extends React.Component {
-
-  handleClickFileManager = () => {
-    this.props.history.push('/fileManager')
-  }
-  handleClickMessage = () => {
-    this.props.history.push('/message')
-  }
-
-
-  render() {
-    const{ classes } = this.props
+// const { Text } = Typography;
+export default class Header extends Component {
+    onClickLogOut = () => {
+        this.props.logOut();
+        localStorage.clear();
+        this.props.history.push('/login')
+      }
+  render () {
     return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <div>
-          <Grid container spacing={8} >
-            <Grid item xs={2} className={classes.appBar}>
-              <IconButton style={{padding: '0px'}}>
-                <a href="/">
-                  <img src={logo} alt="Smiley face" className={classes.logo} />
-                </a>
-              </IconButton>
-              <Typography variant="h5">
-                  Justice Music
-              </Typography>
-
-            </Grid>
-            <Grid item xs={8} style={styles.appBar}>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Songs</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Videos</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Artists</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Ranking</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Top 100</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Theme</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Events</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>Music news</Button>
-              <Button color="inherit" onClick={this.handleClickFileManager}>ISO</Button>
-              <div className={classes.searchDiv}>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputSearchRoot,
-                    input: classes.inputSearch,
-                  }}
-                />
-                <Divider className={classes.divider} />
-                <IconButton 
-                  type="submit"
-                  variant="outlined"
-                  className={classes.iconButton}
+      <div style={{borderBottom: '1px solid #D6DBDF', height: 60, width: '100vw', display: 'flex' ,justifyContent: 'center' }}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center' , width: 1100}}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <Tooltip placement="topLeft" title="Justice music" arrowPointAtCenter>
+                    <img src={logo} onClick={()=> this.props.history.push('/home')} alt="Justice music" style={{ width: "35px", height: "30px"}} />
+                    {/* <Text strong style={{fontSize: 20}}>Justice Music</Text> */}
+                </Tooltip>
+            </div>
+            <div>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} >SONGS</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} >ARTISTS</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} >ISO</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} >RANKING</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} >EVENTS</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} >CONTRACTS</Button>
+                <AutoComplete
+                    style={{ width: 200 }}
+                    dataSource={dataSource}
+                    placeholder="Tìm bài hát hoặc ca sĩ ..."
+                    filterOption={(inputValue, option) =>
+                        option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                    }
                 >
-                  <SearchIcon />
-                </IconButton>
-              </div>
-            </Grid>
-            <Grid item xs={2} className={classes.appBar}>
-              <IconButton color="inherit">
-                  <Badge badgeContent={17} color="secondary">
-                    <ReceiptIcon />
-                  </Badge>
-              </IconButton>
-              <IconButton color="inherit" onClick={this.handleClickMessage}>
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                  <Badge badgeContent={17} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <AccountCircle /> 
-              </IconButton>
-            </Grid>
-          </Grid>
+                    <Input suffix={<Icon type="search"  className="certain-category-icon" />} />
+                </AutoComplete>
+            </div>
+            <div>
+                <Tooltip placement="topLeft" title="Notification" arrowPointAtCenter>
+                    <Badge count={1234}>
+                        <Icon type="bell" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
+                    </Badge>
+                </Tooltip>
+                <Tooltip placement="topLeft" title="Message" arrowPointAtCenter>
+                    <Badge count={20}>
+                        <Icon type="message" onClick={()=> this.props.history.push('/message')} style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
+                    </Badge>
+                </Tooltip>
+                <Tooltip placement="topLeft" title="Contract" arrowPointAtCenter>
+                    <Badge count={5}>
+                        <Icon type="profile" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
+                    </Badge>
+                </Tooltip>
+                <Tooltip placement="topLeft" title="Page" arrowPointAtCenter>
+                    <Badge count={0}>
+                        <Icon type="user" onClick={()=> this.props.history.push('/page')} style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
+                    </Badge>     
+                </Tooltip>
+                <Tooltip placement="topLeft" title="Log out" arrowPointAtCenter>
+                    <Badge count={0}>
+                        <Icon type="logout" onClick={()=> this.onClickLogOut()} style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
+                    </Badge>
+                </Tooltip>
+            </div>
         </div>
       </div>
     )
   }
 }
-
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-
-export default withStyles(styles)(Header);
-
-
