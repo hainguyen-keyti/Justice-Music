@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import MusicPlayer from '../musicPlayer'
 import Header from './header'
+import Footer from './footer'
+import MusicPlayer from '../musicPlayer'
 import { log_out } from '../../actions'
 import { connect} from 'react-redux'
 import { BackTop } from 'antd';
@@ -16,7 +17,7 @@ class Layout extends Component {
           </div>
         </div>
         <MusicPlayer/>
-        {/* <Footer/> */}
+        <Footer/>
         <BackTop visibilityHeight='100' />
       </div>
     )
