@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import Header from './header'
 import Footer from './footer'
 import MusicPlayer from '../musicPlayer'
+import { log_out } from '../../actions'
+import { connect} from 'react-redux'
+import { BackTop } from 'antd';
 
-export default class Layout extends Component {
+class Layout extends Component {
   render () {
     return (
       <div style={{display: 'block'}}>
-        <Header/>
+        <Header history={this.props.history} logOut={this.props.log_out}/>
         <div style={{display: 'flex', justifyContent: 'center', padding: 10, marginTop: 10}}>
           <div style={{width: 1100}}>
             {this.props.main}
@@ -15,7 +18,13 @@ export default class Layout extends Component {
         </div>
         <MusicPlayer/>
         <Footer/>
+        <BackTop visibilityHeight='100' />
       </div>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  log_out: ()=> dispatch(log_out())
+})
+export default connect(null, mapDispatchToProps)(Layout);

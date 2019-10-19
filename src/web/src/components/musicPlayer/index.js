@@ -47,7 +47,7 @@ class MusicPlayer extends Component {
           <Card
           hoverable
           bordered={false}
-          bodyStyle={{backgroundColor: '#D6DBDF', padding: 10, position: 'fixed', bottom: 0, width: '100vw'}}
+          bodyStyle={{backgroundColor: '#D6DBDF', position: 'fixed', bottom: 0, width: '100vw', padding: 10 }}
           >
             <div className="player">
               <ReactPlayer
