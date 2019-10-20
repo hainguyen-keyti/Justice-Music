@@ -25,9 +25,9 @@ class ListUser extends React.Component {
     this.props.onClose(this.props.selectedValue);
   };
 
-  handleListItemClick = (receiveID, username) => {
+  handleListItemClick = (receiveID, email) => {
     this.props.onClose();
-    this.props.set_title_name(username)
+    this.props.set_title_name(email)
     this.props.getListMessage(receiveID);
     this.props.select_user_to_chat(receiveID);
   };
@@ -40,13 +40,13 @@ class ListUser extends React.Component {
         <div>
           <List>
             {this.props.findUserReducer.data.map(user => (
-              <ListItem button onClick={()=>this.handleListItemClick(user._id, user.username)} key={user._id}>
+              <ListItem button onClick={()=>this.handleListItemClick(user._id, user.email)} key={user._id}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={user.username} />
+                <ListItemText primary={user.email} />
               </ListItem>
             ))}
           </List>

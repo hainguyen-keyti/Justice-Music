@@ -23,10 +23,10 @@ const styles = {
 
 class ShowListFriend extends React.Component {
 
-  handleListItemClick = (receiveID, username) => {
+  handleListItemClick = (receiveID, email) => {
     this.props.getListMessage(receiveID);
     this.props.select_user_to_chat(receiveID);
-    this.props.set_title_name(username);
+    this.props.set_title_name(email);
   };
 
     render() {
@@ -37,25 +37,25 @@ class ShowListFriend extends React.Component {
                 {this.props.chatReducer.listFriend.map(user => {
                   if(user.socketID){
                     return (
-                      <ListItem button onClick={()=>this.handleListItemClick(user._id, user.username)} key={user._id}>
+                      <ListItem button onClick={()=>this.handleListItemClick(user._id, user.email)} key={user._id}>
                         <ListItemAvatar>
                           <Avatar className={classes.avatar}>
                             <PersonIcon />
                           </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={user.username} />
+                        <ListItemText primary={user.email} />
                         <ListItemText primary="online" className={classes.onlineBar}/>
                       </ListItem>
                       )
                   }
                     return (
-                      <ListItem button onClick={()=>this.handleListItemClick(user._id, user.username)} key={user._id}>
+                      <ListItem button onClick={()=>this.handleListItemClick(user._id, user.email)} key={user._id}>
                         <ListItemAvatar>
                           <Avatar className={classes.avatar}>
                             <PersonIcon />
                           </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={user.username} />
+                        <ListItemText primary={user.email} />
                       </ListItem>
                     )
                 })}

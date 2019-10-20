@@ -13,7 +13,7 @@ module.exports = (io) => {
         let decoded_token = socket.handshake.decoded_token;
         if(!decoded_token)
             return;
-        console.log(decoded_token.username + " has been connected to socket server with socket ID: " + socket.id)
+        console.log(decoded_token.email + " has been connected to socket server with socket ID: " + socket.id)
         User.findOne({_id: decoded_token._id})
         .then( sender => {
             sender.socketID = socket.id;
@@ -134,7 +134,7 @@ module.exports = (io) => {
                 user.save();
             })
             .catch(err => response_socketio(socket, err))
-            console.log(decoded_token.username + " has been disconnected ")
+            console.log(decoded_token.email + " has been disconnected ")
         });
     })
 }

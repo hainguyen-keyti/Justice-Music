@@ -2,10 +2,10 @@ import axios from 'axios';
 import config from '../config';
 import  {getHeaders} from '../utils/common'
 
-export function login(username, password){
+export function login(email, password){
     return new Promise((resolve, reject)=>{
         const user = {
-            username: username,
+          email: email,
             password: password
         }
         return axios.post(config.api_url+ '/users/login', user)
@@ -13,10 +13,13 @@ export function login(username, password){
             if (res.data.status === 0) {
                 return reject(res.data.error.message)
             }
+            console.log(res.data.result)
             localStorage.setItem('userID', res.data.result.id);
             localStorage.setItem('accessToken', res.data.result.accessToken);
             localStorage.setItem('refreshToken', res.data.result.refreshToken);
-            localStorage.setItem('username', res.data.result.username);
+            localStorage.setItem('email', res.data.result.email);
+            localStorage.setItem('addressEthereum', res.data.result.addressEthereum);
+            localStorage.setItem('balance', res.data.result.balance)
             resolve();
           })
           .catch(err => {
@@ -25,14 +28,14 @@ export function login(username, password){
     })
 }
 
-export function createUser(username, password, full_name, phone, genre){
+export function createUser(email, password, name, phone, genre){
   return new Promise((resolve, reject) => {
     const register = {
-      username: username,
-      password: password,
-      full_name: full_name,
-      phone: phone,
-      genre: genre
+      email,
+      password,
+      name,
+      phone,
+      genre
     }
     const user = {
       user: register
@@ -52,11 +55,11 @@ export function createUser(username, password, full_name, phone, genre){
   })
 }
 
-export function findUser(username){
+export function findUser(email){
   return new Promise((resolve, reject) => {
     return axios.get(config.api_url+ '/users/find', {
       params: {
-        keyword: username
+        keyword: email
       }
     })
     .then( res => {
@@ -79,5 +82,37 @@ export function getUserUpload(pageNumber){
       resolve(res.data.result)
     })
     .catch(err => reject(err))
+  })
+}
+
+export function upload(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/ethereums/upload', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+              return reject(res.data.error.message)
+          }
+          console.log("this is result " + res.data.result)
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
+export function getFaucet(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/ethereums/faucet', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+              return reject(res.data.error.message)
+          }
+          console.log("this is result " + res.data.result)
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
   })
 }

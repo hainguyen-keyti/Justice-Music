@@ -4,28 +4,25 @@ const response_express = require(config.library_dir + '/response').response_expr
 const User = require(config.models_dir + '/mongo/user');
 const lib_common = require(config.library_dir+'/common');
 module.exports = (req, res) => {
-    let miss=lib_common.checkMissParams(res, req.body, ["username", "password"])
-    let id;
-    let username;
-    let refreshToken;
+    let miss=lib_common.checkMissParams(res, req.body, ["email", "password"])
+    let userData;
     if (miss){
         console.log("Miss param at Login");
         return;
     }
 
-    User.findOne({username: req.body.username})
+    User.findOne({email: req.body.email})
     .then(user => {
         if(!user){
             return Promise.reject("User not exist")
         }
-        id = user._id;
-        username = user.username
         let tokenPayload = {
             _id: user._id,
-            username: username,
+            email: user.email,
         }
         refreshToken = lib_common.createToken(tokenPayload, "30 days");
         user.refreshToken = refreshToken;
+        userData = user
         user.save();
         return Promise.all([
             lib_password.comparePassword(req.body.password, user.password_hash),
@@ -35,11 +32,15 @@ module.exports = (req, res) => {
     .then(result => {
         let isMatchPassword = result[0];
         let accessToken = result[1];
+        console.log(userData)
+        let {refreshToken, id, email, addressEthereum} = userData;
         if(!isMatchPassword){
             return Promise.reject("Password not match")
         }
-        console.log("login successful")
-        response_express.success(res, {accessToken,refreshToken, id, username})
+        lib_common.getBlance(addressEthereum).then( balance => {
+            response_express.success(res, {accessToken, refreshToken, id, email, addressEthereum, balance})
+            console.log("login successfull")
+        })
     })
     .catch(err=>{
         response_express.exception(res, err.message || err);

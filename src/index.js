@@ -1,6 +1,6 @@
 const config = require('./config');
 const server = require('./server');
-const db_mongo = require(config.models_dir + '/mongo/db');
+const db_mongo = require(config.models_dir + '/mongo');
 
 db_mongo.connect()
 .then(()=>{

@@ -37,7 +37,7 @@ export default class PageContent extends Component {
               </div>
               <div className="info-icon">
                 <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
-                  <Icon className="icon-style" type="twitter"  />
+                  <Icon className="icon-style" type="youtube"  />
                   <Text type="secondary">ngoctrinhfashion89</Text>
                 </a>
                 <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">

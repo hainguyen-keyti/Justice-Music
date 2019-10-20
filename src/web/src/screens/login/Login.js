@@ -59,7 +59,7 @@ const styles = theme => ({
 
 class Login extends React.Component {
   state = {
-    username: "",
+    email: "",
     password: "",
     openRegister: false,
   }
@@ -78,9 +78,9 @@ componentWillMount(){
 }
 
   onClickSignin = () => {
-    let {username, password} = this.state
+    let {email, password} = this.state
 
-    this.props.login(username, password)
+    this.props.login(email, password)
   }
 
   onClickRegister = () => {
@@ -121,7 +121,7 @@ componentWillMount(){
                     name="email" 
                     autoComplete="email" 
 
-                    onChange={e=>this.setState({username: e.target.value})}
+                    onChange={e=>this.setState({email: e.target.value})}
                     />
                   </FormControl>
                   <FormControl margin="normal" required fullWidth>
@@ -173,7 +173,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (username, password)=>dispatch(login(username, password)),
+  login: (email, password)=>dispatch(login(email, password)),
   signin_fail_handle: ()=>dispatch(signin_fail_handle()),
 })
 

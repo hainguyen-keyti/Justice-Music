@@ -5,7 +5,7 @@ const response_express = require(config.library_dir + '/response').response_expr
 
 module.exports = (req, res) => {
     
-    User.find({username: { $regex: req.query.keyword }, status_id: 1})
+    User.find({email: { $regex: req.query.keyword }, status_id: 1})
     .then (users => {
         if(!users)
             return Promise.reject("User not found");

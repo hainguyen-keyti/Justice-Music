@@ -1,10 +1,10 @@
 import { createUser as createUserAPI } from '../../../api/userAPI'
 
-export function createUser(username, password, full_name, phone, genre){
+export function createUser(email, password, name, phone, genre){
     return (dispatch) => {
         dispatch(signup_start())
 
-        createUserAPI(username, password, full_name, phone, genre)
+        createUserAPI(email, password, name, phone, genre)
         .then(() => {
             dispatch(signup_successful())
         })

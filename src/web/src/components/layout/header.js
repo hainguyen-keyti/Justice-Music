@@ -1,17 +1,100 @@
 import React, { Component } from 'react'
-import { AutoComplete, Button, Icon, Input, Badge, Tooltip } from 'antd';
+import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal } from 'antd';
 import logo from '../../images/logo.png'
+import {getFaucet} from '../../api/userAPI'
+import {showNotificationTransaction} from '../../utils/common'
 
-const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
 
-// const { Text } = Typography;
+const { Text } = Typography;
 export default class Header extends Component {
+    state = { 
+        visible: false,
+        amountFaucet: 25000,
+        balance: localStorage.getItem('balance')
+     };
     onClickLogOut = () => {
         this.props.logOut();
         localStorage.clear();
         this.props.history.push('/login')
       }
+    handleOk = () => {
+    this.setState({visible: false});
+    let data = {
+        address: localStorage.getItem('addressEthereum'),
+        amount: this.state.amountFaucet
+    }
+    console.log(data)
+    getFaucet(data)
+    .then((txHash) => {
+        showNotificationTransaction(txHash);
+    })
+    .then(()=>{
+        this.setState({ balance: this.state.amountFaucet, amountFaucet: 25000})
+    })
+    };
+
+    showModal = () => {
+        this.setState({
+          visible: true,
+        });
+      };
+    
+    
+      handleCancel = e => {
+        console.log(e);
+        this.setState({
+          visible: false,
+        });
+        console.log(this.state)
+      };
+    
   render () {
+    const { visible, amountFaucet, balance } = this.state
+    const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
+    const menu = (
+        <Menu>
+            <Menu.Item onClick={()=> this.props.history.push('/page')}>
+                <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15}} />
+                <Text>{balance} HAK</Text>
+            </Menu.Item>
+            <Menu.Divider />
+          <Menu.Item onClick={()=> this.props.history.push('/page')}>
+            <Icon type="user" style={{ color: '#1da1f2', fontSize: 15}} />
+            <Text>Home Page</Text>
+          </Menu.Item>
+          <Menu.Item onClick={()=> this.props.history.push('/setting')}>
+            <Icon type="setting" style={{ color: '#1da1f2', fontSize: 15}}/>
+            <Text>Setting</Text>
+          </Menu.Item>
+          <Menu.Item onClick={this.showModal}>
+            <Icon type="transaction" style={{ color: '#1da1f2', fontSize: 15}}/>
+            <Text>Faucet</Text>
+            <Modal
+                title="Faucet HAK"
+                visible={visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+                >
+                <InputNumber
+                    defaultValue={amountFaucet}
+                    min={1000}
+                    max={1000000}
+                    style={{width: 150}}
+                    formatter={value =>
+                    `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }
+                    parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                    onChange={e => {this.setState({ amountFaucet: e })}}
+                />
+            </Modal>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item onClick={()=> this.onClickLogOut()}>
+            <Icon type="logout" style={{ color: '#1da1f2', fontSize: 15}}/>
+            <Text>Log Out</Text>
+          </Menu.Item>
+        </Menu>
+      );
     return (
       <div style={{borderBottom: '1px solid #D6DBDF', height: 60, width: '100vw', display: 'flex' ,justifyContent: 'center' }}>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center' , width: 1100}}>
@@ -55,16 +138,9 @@ export default class Header extends Component {
                         <Icon type="profile" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
                     </Badge>
                 </Tooltip>
-                <Tooltip placement="topLeft" title="Page" arrowPointAtCenter>
-                    <Badge count={0}>
-                        <Icon type="user" onClick={()=> this.props.history.push('/page')} style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
-                    </Badge>     
-                </Tooltip>
-                <Tooltip placement="topLeft" title="Log out" arrowPointAtCenter>
-                    <Badge count={0}>
-                        <Icon type="logout" onClick={()=> this.onClickLogOut()} style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
-                    </Badge>
-                </Tooltip>
+                <Dropdown overlay={menu} trigger={['click']}>
+                    <Icon type="caret-down" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
+                </Dropdown>
             </div>
         </div>
       </div>

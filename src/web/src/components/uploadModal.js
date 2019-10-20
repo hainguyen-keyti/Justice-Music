@@ -10,18 +10,16 @@ import {
     Icon,
     Input,
     Button,
-    notification,
-    Spin
+    message
   } from 'antd';
 import 'antd/dist/antd.css';
-import {upload} from '../api/ethereumAPI'
+import {upload} from '../api/userAPI'
 import getHashIPFS from '../utils/IPFShash';
-import config from '../config';
+import {showNotificationTransaction, showNotificationLoading} from '../utils/common'
 
-const key = "updatable";
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
-  class extends React.Component {
+class extends React.Component {
     state = {
         USD: 0,
         costUSD: 23000,
@@ -147,8 +145,10 @@ export default class UploadModal extends React.Component {
   handleCreate = () => {
     const { form } = this.formRef.props;
     form.validateFields((err, values) => {
-        this.openUploadNotification(err, values)
-      console.log('Received values of form: ', values);
+      if(err){
+        return message.error('please fill out all fields');
+      }
+      this.openUploadNotification(values)
       form.resetFields();
       this.child.resetUSD()
       this.setState({ visible: false });
@@ -159,20 +159,8 @@ export default class UploadModal extends React.Component {
     this.formRef = formRef;
   };
 
-  openUploadNotification = (err, values) => {
-    if(!err){
-      notification.open({
-        key,
-        message: "Uploading",
-        description: (
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <Spin />
-            <p style={{ marginLeft: '15px' }}>System is uploading this media</p>
-          </div>
-        ),
-        duration: 0,
-        placement: "bottomLeft"
-      });
+  openUploadNotification = (values) => {
+      showNotificationLoading("IPFS Uploading ...")
       getHashIPFS(values.file[0].originFileObj).then(hash=>{
         let data = {
           fileHash: hash,
@@ -182,52 +170,14 @@ export default class UploadModal extends React.Component {
         console.log(data)
         upload(data)  
         .then((txHash) => {
-            notification.open({
-                key,
-                message: "Pending Transaction",
-                description: (
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Spin />
-                    <p style={{ marginLeft: '15px' }}>This Transaction is pending</p>
-                  </div>
-                ),
-                duration: 0,
-                placement: "bottomLeft"
-              });
-        
-            config.provider.waitForTransaction(txHash).then((tx) => {
-            notification.success({
-                key,
-                message: "Sucess Transaction",
-                description: "Transaction has been successful",
-                duration: 0,
-                placement: "bottomLeft"
-            });
-            console.log(tx)
-            });
+          
+          showNotificationTransaction(txHash);
         })
-        .catch((err) => {
-          notification.error({
-            key,
-            message: "Error",
-            description: "This is error message: " + err,
-            duration: 0,
-            placement: "bottomLeft"
-          });
+        .catch((error) => {
+          message.error('Error message: ' + error);
         });
       })
-    }
-    else {
-      notification.error({
-        key,
-        message: "Error",
-        description: "This is error message: " + err,
-        duration: 0,
-        placement: "bottomLeft"
-      });
-    }
-  };
-
+  }
   render() {
     return (
       <div>

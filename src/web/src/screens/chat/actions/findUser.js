@@ -1,10 +1,10 @@
 import { findUser as findUserAPI } from '../../../api/userAPI'
 
-export function findUser(username){
+export function findUser(email){
     return (dispatch) => {
         dispatch(findUser_start())
 
-        findUserAPI(username)
+        findUserAPI(email)
         .then( result => {
             dispatch(findUser_successful(result))
         })

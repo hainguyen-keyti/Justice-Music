@@ -11,7 +11,7 @@ export function getListFriend(){
                 var friendID = listFriend[0]._id
                 dispatch(getListMessage(friendID))
                 dispatch(select_user_to_chat(friendID))
-                dispatch(set_title_name(listFriend[0].username))
+                dispatch(set_title_name(listFriend[0].email))
             }
         })
         .catch((err) => {

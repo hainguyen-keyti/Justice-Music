@@ -285,7 +285,7 @@ class Chat extends React.Component {
             <IconButton style={{padding: 5}}>
               <AccountCircle/>
             </IconButton>
-            {localStorage.getItem('username')}
+            {localStorage.getItem('email')}
           </div>
             <Typography variant="h6">
               {this.props.chatReducer.titleName}
@@ -391,7 +391,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  findUser: (username)=>dispatch(findUser(username)),
+  findUser: (email)=>dispatch(findUser(email)),
   findUser_fail_handle: ()=>dispatch(findUser_fail_handle()),
   getListFriend: ()=>dispatch(getListFriend()),
   getListMessage: (receiverID)=>dispatch(getListMessage(receiverID)),

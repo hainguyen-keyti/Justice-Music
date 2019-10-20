@@ -1,10 +1,10 @@
 import { login as loginAPI } from '../../../api/userAPI'
 
-export function login(username, password){
+export function login(email, password){
     return (dispatch) => {
         dispatch(signin_start())
 
-        loginAPI(username, password)
+        loginAPI(email, password)
         .then(() => {
             dispatch(signin_successful())
         })

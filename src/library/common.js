@@ -1,6 +1,12 @@
 var config = require('../config');
 var jwt = require('jsonwebtoken');
 var response_express = require(config.library_dir+'/response').response_express;
+const ethers = require('ethers');
+
+let privateKey = config.ownerSecretKey;
+let wallet = new ethers.Wallet(privateKey, config.provider);
+let contractWithSigner = new ethers.Contract(config.tokenAddress, config.tokenABI, wallet)
+
 exports.findMissParams = function(obj, checkProps) {
 	if(!Array.isArray(checkProps)){
 		checkProps = [checkProps];
@@ -86,3 +92,16 @@ exports.ModifyFile = (tx, page) => {
 		}
     })
 }
+
+exports.getBlance = (address) => {
+	return new Promise((resolve, reject) => {
+		contractWithSigner.balanceOf(address)
+		.then(result => {
+			return resolve(Number(result))
+		})	
+		.catch (err => {
+			return reject(err)
+		})
+	})
+}
+

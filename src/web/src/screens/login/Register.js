@@ -24,8 +24,8 @@ const styles = theme => ({
 
 class Register extends React.Component{
     state = {
-        full_name: "",
-        username: "",
+        name: "",
+        email: "",
         password: "",
         phone: "",
         genre: ""
@@ -42,8 +42,8 @@ class Register extends React.Component{
     }
 
     onClickSignUp() {
-        let {full_name, username, password, phone, genre} = this.state;
-        this.props.createUser(username, password, full_name, phone, genre)
+        let {name, email, password, phone, genre} = this.state;
+        this.props.createUser(email, password, name, phone, genre)
     }
     render(){
         const { classes } = this.props;
@@ -54,8 +54,8 @@ class Register extends React.Component{
         if(this.props.signupReducer.signupSuccessful){
             this.props.clear_state();
             this.setState({
-                full_name: "",
-                username: "",
+                name: "",
+                email: "",
                 password: "",
                 phone: "",
                 genre: ""
@@ -72,11 +72,11 @@ class Register extends React.Component{
                     <Grid item xs={12}>
                     <TextField
                         required
-                        label="Full name"
+                        label="name"
                         fullWidth
                         autoComplete="billing full name"
-                        value={this.state.full_name}
-                        onChange={e=>this.setState({full_name: e.target.value})} 
+                        value={this.state.name}
+                        onChange={e=>this.setState({name: e.target.value})} 
                     />
                     </Grid>
                     <Grid item xs={12}>
@@ -87,8 +87,8 @@ class Register extends React.Component{
                         label="Email"
                         fullWidth
                         autoComplete="billing email"
-                        value={this.state.username}
-                        onChange={e=>this.setState({username: e.target.value})} 
+                        value={this.state.email}
+                        onChange={e=>this.setState({email: e.target.value})} 
                     />
                     </Grid>
                     <Grid item xs={12}>
@@ -189,7 +189,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) =>({
-    createUser: (username, password, full_name, phone, genre) => dispatch(createUser(username, password, full_name, phone, genre)),
+    createUser: (email, password, name, phone, genre) => dispatch(createUser(email, password, name, phone, genre)),
     signup_fail: () => dispatch(signup_fail()),
     signup_fail_handle: () => dispatch(signup_fail_handle()),
     clear_state: () => dispatch(clear_state())

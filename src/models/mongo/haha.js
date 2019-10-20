@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var validator = require('validator');
 
-var userSchema = mongoose.Schema({
+var HahaSchema = mongoose.Schema({
     email: {
         type: String,
         trim: true,
@@ -13,7 +13,7 @@ var userSchema = mongoose.Schema({
             validator: validator.isEmail,
             message: '{VALUE} is not a valid email',
             isAsync: false
-          }
+        }
     },
     name: {
         type: String,
@@ -73,28 +73,13 @@ var userSchema = mongoose.Schema({
         trim: true,
     },
     personInbox: [String],
-    privateKey: {
-        type: String,
-        trim: true,
-    },
-    addressEthereum: {
-        type: String,
-        trim: true,
-    },
-    folow: {
-        type: Number,
-        default: 0,
-    },
-    otherInfomaion: {
-        type: Object
-    }
 });
 
-userSchema.pre('save', next => {
+HahaSchema.pre('save', next => {
     if(this.isNew || this.isModified) {
         this.date_updated = Date(Date.now());
     }
     return next();
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Haha', HahaSchema);
