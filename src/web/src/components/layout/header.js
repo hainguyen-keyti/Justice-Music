@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal } from 'antd';
 import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
-import {showNotificationTransaction} from '../../utils/common'
+import {showNotificationTransaction, showNotificationLoading} from '../../utils/common'
 
 
 const { Text } = Typography;
@@ -10,7 +10,7 @@ export default class Header extends Component {
     state = { 
         visible: false,
         amountFaucet: 25000,
-        balance: localStorage.getItem('balance')
+        balance: Number(localStorage.getItem('balance'))
      };
     onClickLogOut = () => {
         this.props.logOut();
@@ -18,36 +18,22 @@ export default class Header extends Component {
         this.props.history.push('/login')
       }
     handleOk = () => {
-    this.setState({visible: false});
-    let data = {
-        address: localStorage.getItem('addressEthereum'),
-        amount: this.state.amountFaucet
-    }
-    console.log(data)
-    getFaucet(data)
-    .then((txHash) => {
-        showNotificationTransaction(txHash);
-    })
-    .then(()=>{
-        this.setState({ balance: this.state.amountFaucet, amountFaucet: 25000})
-    })
+      this.setState({visible: false});
+      showNotificationLoading("Faucet HAK loading ...")
+      let data = {
+          address: localStorage.getItem('addressEthereum'),
+          amount: this.state.amountFaucet
+      }
+      getFaucet(data)
+      .then((txHash) => {
+          showNotificationTransaction(txHash);
+      })
+      .then(()=>{
+          this.setState({ balance: this.state.balance + this.state.amountFaucet, amountFaucet: 25000})
+          localStorage.setItem('balance', this.state.balance);
+      })
     };
 
-    showModal = () => {
-        this.setState({
-          visible: true,
-        });
-      };
-    
-    
-      handleCancel = e => {
-        console.log(e);
-        this.setState({
-          visible: false,
-        });
-        console.log(this.state)
-      };
-    
   render () {
     const { visible, amountFaucet, balance } = this.state
     const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
@@ -66,27 +52,9 @@ export default class Header extends Component {
             <Icon type="setting" style={{ color: '#1da1f2', fontSize: 15}}/>
             <Text>Setting</Text>
           </Menu.Item>
-          <Menu.Item onClick={this.showModal}>
+          <Menu.Item onClick={() => {this.setState({visible: true})}}>
             <Icon type="transaction" style={{ color: '#1da1f2', fontSize: 15}}/>
             <Text>Faucet</Text>
-            <Modal
-                title="Faucet HAK"
-                visible={visible}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-                >
-                <InputNumber
-                    defaultValue={amountFaucet}
-                    min={1000}
-                    max={1000000}
-                    style={{width: 150}}
-                    formatter={value =>
-                    `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }
-                    parser={value => value.replace(/\$\s?|(,*)/g, "")}
-                    onChange={e => {this.setState({ amountFaucet: e })}}
-                />
-            </Modal>
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item onClick={()=> this.onClickLogOut()}>
@@ -143,6 +111,25 @@ export default class Header extends Component {
                 </Dropdown>
             </div>
         </div>
+        <Modal
+            title="Faucet HAK"
+            width={250}
+            visible={visible}
+            onOk={this.handleOk}
+            onCancel={() => {this.setState({visible: false})}}
+            >
+            <InputNumber
+                defaultValue={amountFaucet}
+                min={1000}
+                max={1000000}
+                style={{width: 150}}
+                formatter={value =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                onChange={e => {this.setState({ amountFaucet: e })}}
+            />
+        </Modal>
       </div>
     )
   }

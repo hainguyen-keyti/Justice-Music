@@ -26,7 +26,8 @@ export function showNotificationLoading(message){
           </div>
         ),
         duration: 0,
-        placement: "bottomLeft"
+        placement: "bottomLeft",
+        style: {width: 350}
       });
 }
 export function showNotificationTransaction(txHash){
@@ -37,7 +38,8 @@ export function showNotificationTransaction(txHash){
             message: "Sucess Transaction",
             description: "Transaction has been successful",
             duration: 0,
-            placement: "bottomLeft"
+            placement: "bottomLeft",
+            style: {width: 350}
         });
     })
     .catch((err) => {

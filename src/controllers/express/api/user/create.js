@@ -25,7 +25,6 @@ module.exports = (req, res) => {
         req.body.user.privateKey = sha256(config.secret + req.body.user.email)
         let wallet = new ethers.Wallet(req.body.user.privateKey)
         req.body.user.addressEthereum = wallet.address
-        console.log(req.body.user)
         return User.create(req.body.user);
     })
     .then(() => {

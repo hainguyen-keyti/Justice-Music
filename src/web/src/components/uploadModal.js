@@ -167,7 +167,6 @@ export default class UploadModal extends React.Component {
           price: values.price,
           kind: (values.genres === "Music") ? 2 : 1
         }
-        console.log(data)
         upload(data)  
         .then((txHash) => {
           

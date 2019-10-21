@@ -32,7 +32,6 @@ module.exports = (req, res) => {
     .then(result => {
         let isMatchPassword = result[0];
         let accessToken = result[1];
-        console.log(userData)
         let {refreshToken, id, email, addressEthereum} = userData;
         if(!isMatchPassword){
             return Promise.reject("Password not match")

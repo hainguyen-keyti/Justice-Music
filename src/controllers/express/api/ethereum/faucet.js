@@ -7,7 +7,6 @@ module.exports = async (req, res) => {
     let privateKey = config.ownerSecretKey;
     let wallet = new ethers.Wallet(privateKey, config.provider);
     let contractWithSigner = new ethers.Contract(config.tokenAddress, config.tokenABI, wallet)
-    console.log(req.body)
     contractWithSigner.transfer(req.body.address, req.body.amount)
     .then(tx => {
         if(!tx)
