@@ -30,6 +30,17 @@ export function showNotificationLoading(message){
         style: {width: 350}
       });
 }
+
+export function showNotificationFail(errorMessage){
+  notification.error({
+    key,
+    message: "Error message",
+    description: errorMessage,
+    duration: 0,
+    placement: "bottomLeft"
+  });
+}
+
 export function showNotificationTransaction(txHash){
     config.provider.waitForTransaction(txHash)
     .then(() => {

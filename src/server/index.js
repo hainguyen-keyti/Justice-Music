@@ -2,14 +2,21 @@ var express = require('express');
 var app = express();
 var config = require('../config');
 var helmet = require('helmet');
+const fileUpload = require('express-fileupload');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+
 const start = () => {
     return new Promise((resolve, reject) => {
+
+        app.use(fileUpload({
+            createParentPath: true
+        }));
+        
         app.use(helmet())
         app.use(cors())
         app.use(bodyParser.urlencoded({

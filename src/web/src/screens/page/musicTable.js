@@ -36,15 +36,15 @@ class MusicTable extends React.Component {
     const columns = [
       {
         title: 'Image',
-        dataIndex: 'image',
+        dataIndex: 'music.image',
         // sorter: true,
-        render: image => <Avatar shape='square' size='large' src={image} alt="Music photo"/>,
+        render: image => <Avatar shape='square' size='large' src={'https://ipfs.io/ipfs/' + image} alt="Music photo"/>,
         // width: '20%',
       },
       {
         title: 'name',
-        dataIndex: 'name',
-        render: name =>
+        dataIndex: 'music',
+        render: music =>
             <div 
                 style={{ 
                     display: 'flex',
@@ -52,8 +52,8 @@ class MusicTable extends React.Component {
                     alignContent: 'center'
                 }}
             >
-                <Button  style={{textAlign: 'left', padding: 0}}  type="link" onClick={() => {this.props.set_music_selected(name.fileHash)}}>{name.songName}</Button>
-                <Text type="secondary">{name.artistName}</Text>
+                <Button  style={{textAlign: 'left', padding: 0}}  type="link" onClick={() => {this.props.set_music_selected(music.hash)}}>{music.name}</Button>
+                <Text type="secondary">{music.artist}</Text>
             </div>,
         // filters: [{ text: 'Male', value: 'male' }, { text: 'Female', value: 'female' }],
         // width: '20%',
@@ -71,7 +71,7 @@ class MusicTable extends React.Component {
       },
       {
         title: 'view',
-        dataIndex: 'view',
+        dataIndex: 'music.view',
         render: view => (
             <Text type="secondary">
                 <Icon type="customer-service" style={{marginRight: '10px'}} theme="twoTone" />

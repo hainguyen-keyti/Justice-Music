@@ -89,6 +89,7 @@ export function upload(data){
       return axios.post(config.api_url+ '/ethereums/upload', data, {headers: getHeaders()})
         .then(res => {
           if (res.data.status === 0) {
+            console.log(res.data.error.message)
               return reject(res.data.error.message)
           }
           console.log("this is result " + res.data.result)

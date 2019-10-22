@@ -4,7 +4,6 @@ import {
     Select,
     InputNumber,
     Switch,
-    Radio,
     Modal,
     Upload,
     Icon,
@@ -14,8 +13,28 @@ import {
   } from 'antd';
 import 'antd/dist/antd.css';
 import {upload} from '../api/userAPI'
-import getHashIPFS from '../utils/IPFShash';
-import {showNotificationTransaction, showNotificationLoading} from '../utils/common'
+import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../utils/common'
+
+function beforeUpload(file, kind) {
+  if(kind === "Image"){
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  }
+  else if(kind === "Music"){
+    const isMp3 = file.type === 'audio/mp3';
+    if (!isMp3) {
+      message.error('You can only upload Mp3 file!');
+    }
+    return isMp3;
+  }
+}
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
@@ -33,17 +52,37 @@ class extends React.Component {
     resetUSD = () => {
         this.setState({ USD: 0 });
     }
-    normFile =  e => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-        return e;
+
+    normFileMusic =  e => {
+    if(!beforeUpload(e.file, "Music"))
+      return
+    else{
+      console.log('Upload event:', e);
+      if (Array.isArray(e)) {
+          return e;
+      }
+      if(e.fileList.length === 2) {
+          e.fileList = e.fileList.slice(-1);
+      }
+      return e && e.fileList;
+      };
     }
-    if(e.fileList.length === 2) {
-        console.log("hahahaha")
-        e.fileList = e.fileList.slice(-1);
+
+    normFileImage =  e => {
+    if(!beforeUpload(e.file, "Image"))
+      return
+    else{
+      console.log('Upload event:', e);
+      if (Array.isArray(e)) {
+          return e;
+      }
+      if(e.fileList.length === 2) {
+          e.fileList = e.fileList.slice(-1);
+      }
+      return e && e.fileList;
+      };
     }
-    return e && e.fileList;
-    };
+
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
       const { getFieldDecorator } = form;
@@ -56,26 +95,21 @@ class extends React.Component {
           onCancel={onCancel}
           onOk={onCreate}
         >
-          <Form layout="vertical">
+        <Form layout="vertical">
           <Form.Item label="Media's name">
-          {getFieldDecorator('name', {
+          {getFieldDecorator('SongName', {
             rules: [{ required: true, message: 'Please input the name of this song!' }],
           })(<Input placeholder="Please select song's name" />)}
         </Form.Item>
 
-        <Form.Item label="Genres">
-          {getFieldDecorator('genres', {
-            initialValue: 'Music',
-          })(
-            <Radio.Group>
-              <Radio value="Music">Music</Radio>
-              <Radio value="Image">Image</Radio>
-            </Radio.Group>,
-          )}
+        <Form.Item label="Artists's name">
+          {getFieldDecorator('ArtistsName', {
+            rules: [{ required: true, message: "Please input artists'name!" }],
+          })(<Input placeholder="Please select artists's name" />)}
         </Form.Item>
 
         <Form.Item label="Tags">
-          {getFieldDecorator('tags', {
+          {getFieldDecorator('Tags', {
             rules: [
               { message: 'Please select song\'s tag ', type: 'array' },
             ],
@@ -92,7 +126,7 @@ class extends React.Component {
         </Form.Item>
 
         <Form.Item label="Price HAK">
-          {getFieldDecorator('price', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0, onChange: (e) => {
+          {getFieldDecorator('Price', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0, onChange: (e) => {
             // e = Math.ceil(e)
             this.setState({USD: e/this.state.costUSD})
             }})(<InputNumber min={0} max={10000000000} />)}
@@ -105,20 +139,37 @@ class extends React.Component {
         </Form.Item> */}
 
         <Form.Item label="Contract permission">
-          {getFieldDecorator('contractPermission', { initialValue: true, valuePropName: 'checked' })(<Switch />)}
+          {getFieldDecorator('ContractPermission', { initialValue: true, valuePropName: 'checked' })(<Switch />)}
         </Form.Item>
 
-        <Form.Item label="Upload">
-          {getFieldDecorator('file', {
+        <Form.Item label="Upload Image">
+          {getFieldDecorator('Image', {
             valuePropName: 'fileList',
-            getValueFromEvent: this.normFile,
+            getValueFromEvent: this.normFileImage,
+          })(
+            <Upload
+            name="file"
+            action="http://localhost:6969/api/users/upload"
+            listType="picture"
+            >
+              <Button>
+                <Icon type="upload" /> Click to upload image
+              </Button>
+            </Upload>,
+          )}
+        </Form.Item>
+
+        <Form.Item label="Upload Music">
+          {getFieldDecorator('Music', {
+            valuePropName: 'fileList',
+            getValueFromEvent: this.normFileMusic,
             rules: [{ required: true}],
           })(
-            <Upload.Dragger action='https://www.mocky.io/v2/5cc8019d300000980a055e76'>
+            <Upload.Dragger action='http://localhost:6969/api/users/upload'>
               <p className="ant-upload-drag-icon" >
                 <Icon type="inbox" />
               </p>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
+              <p className="ant-upload-text">Click or drag file to this area to upload music</p>
             </Upload.Dragger>,
           )}
         </Form.Item>
@@ -160,22 +211,29 @@ export default class UploadModal extends React.Component {
   };
 
   openUploadNotification = (values) => {
-      showNotificationLoading("IPFS Uploading ...")
-      getHashIPFS(values.file[0].originFileObj).then(hash=>{
-        let data = {
-          fileHash: hash,
-          price: values.price,
-          kind: (values.genres === "Music") ? 2 : 1
-        }
-        upload(data)  
-        .then((txHash) => {
-          
-          showNotificationTransaction(txHash);
-        })
-        .catch((error) => {
-          message.error('Error message: ' + error);
-        });
-      })
+    showNotificationLoading("Uploading ...")
+    console.log(values)
+    let data = {
+      ether: {
+        hash: values.Music[0].response.result,
+        price: values.Price,
+      },
+      server: {
+        hash: values.Music[0].response.result,
+        image: values.Image[0].response.result,
+        name: values.SongName,
+        artist: values.ArtistsName,
+        tags: values.Tags,
+        contractPermission: values.ContractPermission,
+      }
+    }
+    upload(data)  
+    .then((txHash) => {
+      showNotificationTransaction(txHash);
+    })
+    .catch((error) => {
+      showNotificationFail(error)
+    })  
   }
   render() {
     return (
