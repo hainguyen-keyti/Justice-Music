@@ -24,7 +24,11 @@
 }
 
 .footerlogo {
- margin-left:30px;
+ /* margin-left:20px; */
  height: 60px;
  width: 60px;
+}
+
+.footermiddlecol {
+ text-align:left;
 }

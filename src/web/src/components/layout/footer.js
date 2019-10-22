@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import './footer.css'
-import { Row, Col } from 'antd';
+import { Row, Col,Icon } from 'antd';
 import React from 'react';
 import logo from '../../images/logo.png'
 
@@ -20,9 +20,12 @@ class Footer extends React.Component {
 							<h2>Justice Music</h2>
 						</Col>
 						<Col className="gutter-row" span={8}>
-							<p> Justice Music</p>
-							<p> Home About Contact Price</p>
+							<div className="footermiddlecol">
+							<p> <Icon type="environment" /> Silicon Valley, United States
+							</p>
+							<p> <Icon type="mobile" /> 0372598218</p>
 							<p> © 2019 Justice Music All Rights Reserverd</p>
+							</div>
 						</Col>
 						<Col className="gutter-row" span={8}>
 							<h2> About The Company</h2>
