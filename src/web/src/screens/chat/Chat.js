@@ -13,13 +13,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import SendIcon from '@material-ui/icons/Send';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import {findUser_fail_handle, findUser} from '../chat/actions/findUser';
-import PieceMessage from '../../components/pieceMessage';
+import PieceMessage from '../../components/pieceMessage/pieceMessage';
 import ListUser from './ListUser'
-import ShowListFriend from '../../components/showListFriend'
+import ShowListFriend from '../../components/showListFriend/showListFriend'
 import { connect} from 'react-redux'
 import config from '../../config'
-import { getNewFriend, getListFriend, getListMessage, push_message} from '../chat/actions/chat'
+import { getNewFriend, getListFriend, getListMessage, push_message, findUser_fail_handle, findUser} from '../../actions/chat'
 import { log_out } from '../../actions/index';
 
 
@@ -265,8 +264,8 @@ class Chat extends React.Component {
 
   render(){
     const { classes } = this.props;
-    if(this.props.findUserReducer.error){
-        alert("Find user fail: " + this.props.findUserReducer.error)
+    if(this.props.chatReducer.error){
+        alert("Find user fail: " + this.props.chatReducer.error)
         this.props.signin_fail_handle();
     }
 
@@ -314,7 +313,7 @@ class Chat extends React.Component {
                 variant="outlined"
                 className={classes.iconButton}
                 onClick={this.handleClickSearch}
-                disabled={this.props.findUserReducer.isFindUser}
+                disabled={this.props.chatReducer.isFindUser}
               >
                 <SearchIcon />
               </IconButton>
@@ -385,9 +384,8 @@ Chat.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  findUserReducer: state.findUserReducer,
   chatReducer: state.chatReducer,
-  signinReducer: state.signinReducer
+  userReducer: state.userReducer
 })
 
 const mapDispatchToProps = (dispatch) => ({

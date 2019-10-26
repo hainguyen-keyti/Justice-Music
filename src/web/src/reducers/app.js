@@ -3,7 +3,7 @@ const initialState = {
     error: null,
 }
 
-export const pageReducer = ( state = initialState, action) => {
+export const appReducer = ( state = initialState, action) => {
     switch(action.type){
     case 'SET_MUSIC_SELECTED':
         return {

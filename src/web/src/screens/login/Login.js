@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { login, signin_fail_handle} from '../../screens/login/actions/signin'
+import { login, signin_fail_handle} from '../../actions/user'
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -94,11 +94,11 @@ componentWillMount(){
       temp = ""
     else
       temp = classes.hide
-    if(this.props.signinReducer.error){
-      alert("sign fail: " + this.props.signinReducer.error)
+    if(this.props.userReducer.error){
+      alert("sign fail: " + this.props.userReducer.error)
       this.props.signin_fail_handle();
     }
-    if(this.props.signinReducer.signinSuccessful)
+    if(this.props.userReducer.signinSuccessful)
       this.props.history.push('/home')
       
     return (
@@ -140,7 +140,7 @@ componentWillMount(){
                     variant="contained"
                     color="inherit"
                     className={classes.submit}
-                    disabled={this.props.signinReducer.isSignin && !this.props.signinReducer.signinSuccessful}
+                    disabled={this.props.userReducer.isSignin && !this.props.userReducer.signinSuccessful}
                     onClick={this.onClickSignin}
                   >
                     Sign in
@@ -169,7 +169,7 @@ Login.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  signinReducer: state.signinReducer
+  userReducer: state.userReducer
 })
 
 const mapDispatchToProps = (dispatch) => ({

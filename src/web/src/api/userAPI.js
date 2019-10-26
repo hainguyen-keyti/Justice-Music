@@ -13,7 +13,12 @@ export function login(email, password){
             if (res.data.status === 0) {
                 return reject(res.data.error.message)
             }
-            localStorage.setItem('userInfo', JSON.stringify(res.data.result));
+            localStorage.setItem('userID', res.data.result.id);
+            localStorage.setItem('accessToken', res.data.result.accessToken);
+            localStorage.setItem('refreshToken', res.data.result.refreshToken);
+            localStorage.setItem('email', res.data.result.email);
+            localStorage.setItem('addressEthereum', res.data.result.addressEthereum);
+            localStorage.setItem('balance', res.data.result.balance)
             resolve();
           })
           .catch(err => {

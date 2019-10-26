@@ -4,11 +4,7 @@ import { Row, Col,Icon } from 'antd';
 import React from 'react';
 import logo from '../../images/logo.png'
 
-
-
-
-
-class Footer extends React.Component {
+export default class Footer extends React.Component {
 	render () {
 		return(
 			<div className="wrapper">
@@ -39,4 +35,3 @@ class Footer extends React.Component {
     	)
    }
 }
-export default Footer;

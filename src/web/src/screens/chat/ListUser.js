@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import blue from '@material-ui/core/colors/blue';
-import {select_user_to_chat, getListFriend, getListMessage, set_title_name} from '../../screens/chat/actions/chat';
+import {select_user_to_chat, getListFriend, getListMessage, set_title_name} from '../../actions/chat';
 import {connect} from 'react-redux';
 
 const styles = {
@@ -39,7 +39,7 @@ class ListUser extends React.Component {
         <DialogTitle id="simple-dialog-title">List users</DialogTitle>
         <div>
           <List>
-            {this.props.findUserReducer.data.map(user => (
+            {this.props.chatReducer.dataFindUser.map(user => (
               <ListItem button onClick={()=>this.handleListItemClick(user._id, user.email)} key={user._id}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
@@ -63,7 +63,6 @@ ListUser.propTypes = {
   };
 
 const mapStateToProps = (state) => ({
-    findUserReducer: state.findUserReducer,
     chatReducer: state.chatReducer
 })
 

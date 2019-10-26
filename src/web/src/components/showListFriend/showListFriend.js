@@ -8,7 +8,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import { set_title_name, select_user_to_chat, getListFriend, getListMessage} from '../screens/chat/actions/chat';
+import { set_title_name, select_user_to_chat, getListFriend, getListMessage} from '../../actions/chat';
 import {connect} from 'react-redux';
 
 const styles = {

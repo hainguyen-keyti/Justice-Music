@@ -3,7 +3,6 @@ import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typo
 import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading} from '../../utils/common'
-import { userInfo } from 'os';
 
 
 const { Text } = Typography;
@@ -11,7 +10,7 @@ export default class Header extends Component {
     state = { 
         visible: false,
         amountFaucet: 25000,
-        balance: JSON.parse(localStorage.getItem('userInfo')).balance.hak
+        balance: Number(localStorage.getItem('balance'))
      };
     onClickLogOut = () => {
         this.props.logOut();

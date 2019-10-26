@@ -3,12 +3,8 @@ import {
     Form,
     Select,
     InputNumber,
-    Switch,
     Modal,
-    Upload,
     Icon,
-    Input,
-    Button,
     message
   } from 'antd';
 import 'antd/dist/antd.css';
@@ -21,7 +17,6 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
       render() {
         const { visible, onCancel, onCreate, form } = this.props;
         const { getFieldDecorator } = form;
-        const { Option } = Select;
         return (
           <Modal
             visible={visible}
@@ -31,6 +26,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
             onOk={onCreate}
           >
             <Form layout="horizontal">
+
               <Form.Item label="Offer Percent">
                 {getFieldDecorator('offerPercent', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0})
                 (<InputNumber
@@ -41,6 +37,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                     parser={value => value.replace('%', '')}
                     />)}
               </Form.Item>
+
               <Form.Item label="Offer Amount">
                 {getFieldDecorator('offerAmount', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0})
                 (<InputNumber
@@ -50,6 +47,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                     parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     />)}
               </Form.Item>
+
               <Form.Item label="Offer Maintain">
                 {getFieldDecorator('maintain', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0})
                 (<InputNumber
@@ -60,6 +58,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                     parser={value => value.replace(/\🕗\s?|(,*)/g, '')}
                     />)}
               </Form.Item>
+              
             </Form>
           </Modal>
         );

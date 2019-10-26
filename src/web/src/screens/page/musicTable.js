@@ -2,8 +2,8 @@ import React from 'react'
 import { Table, Avatar, Typography, Divider, Icon, Tag, Button } from 'antd';
 import { getUserUpload } from '../../api/userAPI'
 import { connect} from 'react-redux'
-import {set_music_selected} from './actions'
-import UsingISO from '../../container/usingISO'
+import {set_music_selected} from '../../actions/app'
+import UsingISO from '../../components/usingISO'
 
 const { Text, Title } = Typography;
 class MusicTable extends React.Component {
@@ -113,7 +113,7 @@ class MusicTable extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  pageReducer: state.pageReducer,
+  appReducer: state.appReducer,
 })
 
 const mapDispatchToProps = (dispatch) => ({

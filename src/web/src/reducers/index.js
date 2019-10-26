@@ -1,16 +1,12 @@
 import { combineReducers } from "redux";
-import {signinReducer} from "../screens/login/reducers/signin"
-import {signupReducer} from "../screens/login/reducers/signup"
-import {findUserReducer} from "../screens/chat/reducers/findUser"
-import {chatReducer} from "../screens/chat/reducers/chat"
-import {pageReducer} from "../screens/page/reducers"
+import {userReducer} from "./user"
+import {chatReducer} from "./chat"
+import {appReducer} from "./app"
 
-const appReducer = combineReducers({
-    signinReducer,
-    signupReducer,
-    findUserReducer,
+const systemReducer = combineReducers({
+    userReducer,
     chatReducer,
-    pageReducer
+    appReducer
 });
 
 const rootReducer = (state, action) => {
@@ -18,7 +14,7 @@ const rootReducer = (state, action) => {
     state = undefined;
   }
 
-  return appReducer(state, action);
+  return systemReducer(state, action);
 };
 
 export default rootReducer;

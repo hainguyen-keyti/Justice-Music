@@ -2,9 +2,13 @@ const initialState = {
     receiverID: '',
     listFriend: [],
     listMessage: [],
-    error: null,
     callingAPI: false,
     titleName: '',
+    
+    isFindUser: false,
+    findUserSuccessful: false,
+    dataFindUser: [],
+    error: null
 }
 
 export const chatReducer = ( state = initialState, action) => {
@@ -53,6 +57,31 @@ export const chatReducer = ( state = initialState, action) => {
         ...state,
         error: null
     }
+
+    case 'FINDUSER_START':
+        return {
+            ...state,
+            isFindUser: true
+        }
+    case 'FINDUSER_SUCCESSFUL':
+        return {
+        ...state,
+        isFindUser: false,
+        findUserSuccessful: true,
+        dataFindUser: action.result,
+    }
+    case 'FINDUSER_FAIL':
+        return {
+        ...state,
+        isFindUser: false,
+        error: action.err
+    }
+    case 'FINDUSER_FAIL_HANDLE':
+        return {
+        ...state,
+        error: null
+    }
+
     default:
         return state
     }

@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import PropTypes from 'prop-types';
-import { createUser, signup_fail, signup_fail_handle, clear_state} from './actions/signup'
+import { createUser, signup_fail, signup_fail_handle, clear_state} from '../../actions/user'
 import {connect} from 'react-redux';
 
 const styles = theme => ({
@@ -47,11 +47,11 @@ class Register extends React.Component{
     }
     render(){
         const { classes } = this.props;
-        if(this.props.signupReducer.error){
-            alert("Register fail: you must input correct email and mobie phone format,   " + this.props.signupReducer.error)
+        if(this.props.userReducer.error){
+            alert("Register fail: you must input correct email and mobie phone format,   " + this.props.userReducer.error)
             this.props.signup_fail_handle();
         }
-        if(this.props.signupReducer.signupSuccessful){
+        if(this.props.userReducer.signupSuccessful){
             this.props.clear_state();
             this.setState({
                 name: "",
@@ -168,7 +168,7 @@ class Register extends React.Component{
                         variant="contained"
                         color="inherit"
                         className={classes.submit}
-                        disabled={this.props.signupReducer.isSignup && !this.props.signupReducer.signupSuccessful}
+                        disabled={this.props.userReducer.isSignup && !this.props.userReducer.signupSuccessful}
                         onClick={this.onClickSignUp}
                         >
                         Sign Up
@@ -185,7 +185,7 @@ Register.propTypes = {
   };
 
 const mapStateToProps = (state) => ({
-    signupReducer: state.signupReducer
+    userReducer: state.userReducer
 })
 
 const mapDispatchToProps = (dispatch) =>({

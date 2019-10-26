@@ -43,7 +43,7 @@ class MusicPlayer extends Component {
   render () {
     const { totalSeconds, playing, playingIcon, loadingInfo } = this.state;
     return (
-      <div style={{visibility: this.props.pageReducer.musicSelected ? '' : 'hidden'}}>
+      <div style={{visibility: this.props.appReducer.musicSelected ? '' : 'hidden'}}>
           <Card
           hoverable
           bordered={false}
@@ -52,7 +52,7 @@ class MusicPlayer extends Component {
             <div className="player">
               <ReactPlayer
                 ref={this.ref}
-                url={this.props.pageReducer.musicSelected}
+                url={this.props.appReducer.musicSelected}
                 playing={playing}
                 width='0'
                 height='0'
@@ -84,6 +84,11 @@ class MusicPlayer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  pageReducer: state.pageReducer,
+  appReducer: state.appReducer,
 })
-export default connect(mapStateToProps)(MusicPlayer);
+
+const mapDispatchToProps = (dispatch) => ({
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

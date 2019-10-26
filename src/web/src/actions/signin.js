@@ -1,4 +1,4 @@
-import { login as loginAPI } from '../../../api/userAPI'
+import { login as loginAPI } from '../api/userAPI'
 
 export function login(email, password){
     return (dispatch) => {

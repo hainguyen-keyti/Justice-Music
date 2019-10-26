@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import './iso.css'
+import './InfoISO.css'
 import { Card, Progress, Tooltip, Statistic, Avatar, Typography } from 'antd';
 
 const { Meta } = Card;
@@ -8,7 +8,7 @@ const { Countdown } = Statistic;
 const { Text } = Typography;
 const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
 
-export default class ISO extends React.Component {
+export default class InfoISO extends React.Component {
   render() {
     let { background, artistAvatar, songName, artistName, currentPercent, timeExpire}= this.props
     console.log(deadline)

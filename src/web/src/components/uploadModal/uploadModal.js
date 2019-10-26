@@ -12,8 +12,8 @@ import {
     message
   } from 'antd';
 import 'antd/dist/antd.css';
-import {upload} from '../api/userAPI'
-import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../utils/common'
+import {upload} from '../../api/userAPI'
+import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
 
 function beforeUpload(file, kind) {
   if(kind === "Image"){

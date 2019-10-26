@@ -10,8 +10,8 @@ import {
 import 'antd/dist/antd.css';
 import './index.css'
 import MusicTable from './musicTable'
-import UploadModal from '../../components/uploadModal'
-import ISO from '../../components/ISO'
+import UploadModal from '../../components/uploadModal/uploadModal'
+import InfoISO from '../../components/infoISO'
 
 const { TabPane } = Tabs;
 const { Title, Text } = Typography;
@@ -62,7 +62,7 @@ export default class PageContent extends Component {
                   </TabPane>
                   <TabPane tab="ISO" key="2">
                     <Col span={8}>
-                      <ISO 
+                      <InfoISO 
                         background="https://i.ytimg.com/vi/DZDYZ9nRHfU/maxresdefault.jpg"
                         artistAvatar="https://2sao.vietnamnetjsc.vn/images/2019/09/26/23/24/unnamed---Copy-1.jpg"
                         songName="Đức Phúc"
