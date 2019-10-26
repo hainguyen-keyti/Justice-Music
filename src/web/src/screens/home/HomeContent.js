@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import '../home/HomeContent.css'
-import { Row, Col, List, Avatar } from 'antd';
+import { Row, Col, List } from 'antd';
 import { Carousel } from 'antd';
 
 const data = [
@@ -139,7 +139,7 @@ export default class HomeContent extends Component {
           renderItem={item => (
       <List.Item>
         <List.Item.Meta
-          avatar={<img className="img-bxh" src={item.img} />}
+          avatar={<img className="img-bxh" alt="temp" src={item.img} />}
           title={<a href="https://ant.design">{item.title}</a>}
           description={item.singer}
         />

@@ -99,9 +99,17 @@ exports.ModifyFile = (tx, page) => {
 
 exports.getBlance = (address) => {
 	return new Promise((resolve, reject) => {
-		contractWithSigner.balanceOf(address)
-		.then(result => {
-			return resolve(Number(result))
+		const promises = [
+			config.provider.getBalance(address),
+			contractWithSigner.balanceOf(address)
+		]
+		Promise.all(promises)
+		.then(data => {
+			const result = {
+				eth: ethers.utils.formatEther(data[0]),
+				hak: Number(data[1]).toString()
+			}
+			return resolve(result)
 		})	
 		.catch (err => {
 			return reject(err)

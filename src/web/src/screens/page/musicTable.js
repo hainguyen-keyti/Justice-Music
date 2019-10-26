@@ -3,6 +3,7 @@ import { Table, Avatar, Typography, Divider, Icon, Tag, Button } from 'antd';
 import { getUserUpload } from '../../api/userAPI'
 import { connect} from 'react-redux'
 import {set_music_selected} from './actions'
+import UsingISO from '../../container/usingISO'
 
 const { Text, Title } = Typography;
 class MusicTable extends React.Component {
@@ -82,14 +83,16 @@ class MusicTable extends React.Component {
       {
         title: 'action',
         key: 'action',
-        render: () => (
-            <a href='https://ipfs.io/ipfs/Qmd6GcyBLsYwCSMANcnFBAnWc8nuqxwSvJSYU7rPDkCRJ3'>
-                <Icon type="solution" />
-                <Divider type="vertical" />
-                <Icon type="caret-right" />
-                <Divider type="vertical" />
-                <Icon type="ellipsis" />
-            </a>
+        render: record => (
+          <div style={{display: 'flex'}}>
+              <Icon type="solution" />
+              <Divider type="vertical" />
+              <Icon type="caret-right" />
+              <Divider type="vertical" />
+              <UsingISO idFile={record.idFile}/>
+              <Divider type="vertical" />
+              {record.IsISO ? <Icon type="check-square" style={{ color: '#1da1f2'}} /> : <Icon type="close-square" />}
+          </div>
         ),
       },
     ];    

@@ -13,12 +13,7 @@ export function login(email, password){
             if (res.data.status === 0) {
                 return reject(res.data.error.message)
             }
-            localStorage.setItem('userID', res.data.result.id);
-            localStorage.setItem('accessToken', res.data.result.accessToken);
-            localStorage.setItem('refreshToken', res.data.result.refreshToken);
-            localStorage.setItem('email', res.data.result.email);
-            localStorage.setItem('addressEthereum', res.data.result.addressEthereum);
-            localStorage.setItem('balance', res.data.result.balance)
+            localStorage.setItem('userInfo', JSON.stringify(res.data.result));
             resolve();
           })
           .catch(err => {
@@ -87,6 +82,23 @@ export function getUserUpload(pageNumber){
 export function upload(data){
   return new Promise((resolve, reject)=>{
       return axios.post(config.api_url+ '/ethereums/upload', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          console.log("this is result " + res.data.result)
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
+export function usingISO(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/ethereums/usingISO', data, {headers: getHeaders()})
         .then(res => {
           if (res.data.status === 0) {
             console.log(res.data.error.message)

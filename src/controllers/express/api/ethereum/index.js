@@ -8,8 +8,12 @@ var ethereumRoutes = express.Router();
 ethereumRoutes.post('/upload', require('./upload'))
 ethereumRoutes.post('/download', require('./download'))
 ethereumRoutes.post('/faucet', require('./faucet'))
+ethereumRoutes.post('/usingISO', require('./usingISO'))
+ethereumRoutes.post('/investISO', require('./investISO'))
+
 ethereumRoutes.get('/getUserUpload', require('./getUserUpload'))
 ethereumRoutes.get('/getUserDownload', require('./getUserDownload'))
+ethereumRoutes.get('/getISOInfo', require('./getISOInfo'))
 module.exports = ethereumRoutes;
 
 // let provider = ethers.getDefaultProvider(config.testNet);
