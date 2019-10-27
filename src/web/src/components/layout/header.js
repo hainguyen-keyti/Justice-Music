@@ -41,29 +41,29 @@ class Header extends Component {
     const menu = (
         <Menu>
             <Menu.Item onClick={()=> this.props.history.push('/page')}>
-                <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15}} />
+                <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
                 <Text>{HAK} HAK</Text>
             </Menu.Item>
             <Menu.Item onClick={()=> this.props.history.push('/page')}>
-                <Icon type="dollar" style={{ color: '#1da1f2', fontSize: 15}} />
+                <Icon type="dollar" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
                 <Text>{this.props.userReducer.user.balance.ETH} ETH</Text>
             </Menu.Item>
             <Menu.Divider />
           <Menu.Item onClick={()=> this.props.history.push('/page')}>
-            <Icon type="user" style={{ color: '#1da1f2', fontSize: 15}} />
+            <Icon type="user" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
             <Text>Home Page</Text>
           </Menu.Item>
           <Menu.Item onClick={()=> this.props.history.push('/setting')}>
-            <Icon type="setting" style={{ color: '#1da1f2', fontSize: 15}}/>
+            <Icon type="setting" style={{ color: '#1da1f2', fontSize: 15, margin: 5}}/>
             <Text>Setting</Text>
           </Menu.Item>
           <Menu.Item onClick={() => {this.setState({visible: true})}}>
-            <Icon type="transaction" style={{ color: '#1da1f2', fontSize: 15}}/>
+            <Icon type="transaction" style={{ color: '#1da1f2', fontSize: 15, margin: 5}}/>
             <Text>Faucet</Text>
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item onClick={()=> this.onClickLogOut()}>
-            <Icon type="logout" style={{ color: '#1da1f2', fontSize: 15}}/>
+            <Icon type="logout" style={{ color: '#1da1f2', fontSize: 15, margin: 5}}/>
             <Text>Log Out</Text>
           </Menu.Item>
         </Menu>

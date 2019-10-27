@@ -8,7 +8,11 @@ const connect = () => {
             uri = "mongodb+srv://" + config.mongo.user + ":" + config.mongo.password + "@" + config.mongo.host; // online
             console.log(uri)
         }
-        mongoose.connect(uri, {useNewUrlParser: true});
+        mongoose.connect(uri, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+            useUnifiedTopology: true
+        });
         mongoose.Promise = global.Promise;
         var connection = mongoose.connection;
         connection.on('error', err => reject(err));

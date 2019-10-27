@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Form,
-    Select,
     InputNumber,
     Modal,
     Icon,
@@ -28,35 +27,47 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
             <Form layout="horizontal">
 
               <Form.Item label="Offer Percent">
-                {getFieldDecorator('offerPercent', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0})
-                (<InputNumber
-                    min={0}
+                {getFieldDecorator('offerPercent', {
+                  rules: [{ required: true, message: 'Please input cost of this song!'}],
+                  initialValue: 0
+                })(
+                  <InputNumber 
+                    min={1}
                     max={100000}
+                    step={1}
                     style={{width: 150}}
-                    formatter={value => `${value}%`}
-                    parser={value => value.replace('%', '')}
-                    />)}
+                    formatter={value => `${value}%`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    parser={value => value.replace('%', '').replace(/\$\s?|(,*)/g, '')}/>
+                )}
               </Form.Item>
 
               <Form.Item label="Offer Amount">
-                {getFieldDecorator('offerAmount', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0})
-                (<InputNumber
+                {getFieldDecorator('offerAmount', {
+                  rules: [{ required: true, message: 'Please input cost of this song!'}],
+                  initialValue: 0
+                })(
+                  <InputNumber
                     min={0}
                     style={{width: 150}}
                     formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    />)}
+                  />
+                )}
               </Form.Item>
 
               <Form.Item label="Offer Maintain">
-                {getFieldDecorator('maintain', {rules: [{ required: true, message: 'Please input cost of this song!'}], initialValue: 0})
-                (<InputNumber
+                {getFieldDecorator('maintain', {
+                  rules: [{ required: true, message: 'Please input cost of this song!'}],
+                  initialValue: 0
+                })(
+                  <InputNumber
                     min={0}
-                    max={3601}
+                    max={2592000} //30 days
                     style={{width: 150}}
                     formatter={value => `🕗 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={value => value.replace(/\🕗\s?|(,*)/g, '')}
-                    />)}
+                    parser={value => value.replace(/🕗\s?|(,*)/g, '')}
+                  />
+                )}
               </Form.Item>
               
             </Form>
