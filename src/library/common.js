@@ -105,11 +105,11 @@ exports.getBlance = (address) => {
 		]
 		Promise.all(promises)
 		.then(data => {
-			// const result = {
-			// 	eth: ethers.utils.formatEther(data[0]),
-			// 	hak: Number(data[1]).toString()
-			// }
-			return resolve(Number(data[1]))
+			const result = {
+				ETH: ethers.utils.formatEther(data[0]),
+				HAK: Number(data[1]).toString()
+			}
+			return resolve(result)
 		})	
 		.catch (err => {
 			return reject(err)

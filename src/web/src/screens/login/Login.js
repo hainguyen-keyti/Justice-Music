@@ -70,12 +70,12 @@ class Login extends React.Component {
     this.onClickSignin = this.onClickSignin.bind(this)
 }
 
-componentWillMount(){
-    if(localStorage.getItem('accessToken')){
-      this.props.history.push('/login')
-      // window.location.reload()
-    }
-}
+// componentWillMount(){
+//     if(localStorage.getItem('accessToken')){
+//       this.props.history.push('/home')
+//       // window.location.reload()
+//     }
+// }
 
   onClickSignin = () => {
     let {email, password} = this.state

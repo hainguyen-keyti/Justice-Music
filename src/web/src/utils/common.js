@@ -1,12 +1,13 @@
 import React from 'react';
 import { notification, Spin } from 'antd';
 import config from '../config';
+import {store} from '../store';
 
 const key = "updatable";
 
 
 export function getHeaders() {
-    var token = localStorage.getItem('accessToken')
+    var token = store.getState().userReducer.user.accessToken
     
     var headers = {
         'Content-Type': 'application/json; charset=utf-8',

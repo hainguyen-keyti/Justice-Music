@@ -131,7 +131,7 @@ class Chat extends React.Component {
   handleKeyPressMessage(e) {
     var data = {
       receiverID: this.props.chatReducer.receiverID,
-      senderID: localStorage.getItem('userID')
+      senderID: this.props.userReducer.user.id
     }
     if (e.key === 'Enter') {
       this.handleClickSend(e);
@@ -150,7 +150,7 @@ class Chat extends React.Component {
         receiverID: lastMessage.receiverID
       }
   
-      if(localStorage.getItem('userID') !== lastMessage.senderID){
+      if(this.props.userReducer.user.id !== lastMessage.senderID){
         this.socket.emit('is seen', data)
       }
     }
@@ -160,7 +160,7 @@ class Chat extends React.Component {
     this.setState({content: e.target.value})
     var data = {
       receiverID: this.props.chatReducer.receiverID,
-      senderID: localStorage.getItem('userID')
+      senderID: this.props.userReducer.user.id
     }
     if(this.state.content.length === 0){
       this.onFocusMessage();
@@ -171,12 +171,12 @@ class Chat extends React.Component {
   handleClickSend = () => {
     if(this.state.content){
       let data = {
-        senderID: localStorage.getItem('userID'),
+        senderID: this.props.userReducer.user.id,
         receiverID: this.props.chatReducer.receiverID,
         content: this.state.content,
       }
       let input = {
-        senderID: localStorage.getItem('userID'),
+        senderID: this.props.userReducer.user.id,
         content: this.state.content,
         date_created: Date(Date.now()),
       }
@@ -204,13 +204,13 @@ class Chat extends React.Component {
     }
   }
   componentWillMount = () => {
-    if(localStorage.getItem('accessToken') === null){
+    if(this.props.userReducer.user.accessToken === null){
       this.props.history.push('/login')
     }
 
     this.props.getListFriend();
 
-    let token = localStorage.getItem('accessToken')
+    let token = this.props.userReducer.user.accessToken
     this.socket = io(config.url, {'query':{'token':token}});
 
     this.socket.on('error', data => {
@@ -284,7 +284,7 @@ class Chat extends React.Component {
             <IconButton style={{padding: 5}}>
               <AccountCircle/>
             </IconButton>
-            {localStorage.getItem('email')}
+            {this.props.userReducer.user.email}
           </div>
             <Typography variant="h6">
               {this.props.chatReducer.titleName}
@@ -336,7 +336,7 @@ class Chat extends React.Component {
                 <ul>
                   {
                     this.props.chatReducer.listMessage.map( msg => {
-                      if(msg.senderID === localStorage.getItem('userID')){
+                      if(msg.senderID === this.props.userReducer.user.id){
                         var arr = this.props.chatReducer.listMessage;
                         var lastMessage = arr[arr.length - 1];
                         if(msg === lastMessage && lastMessage.isSeen === true)

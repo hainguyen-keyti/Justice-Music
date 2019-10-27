@@ -3,14 +3,15 @@ import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typo
 import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading} from '../../utils/common'
-
+import { connect} from 'react-redux'
+import { set_hak } from '../../actions/user'
 
 const { Text } = Typography;
-export default class Header extends Component {
+class Header extends Component {
     state = { 
         visible: false,
         amountFaucet: 25000,
-        balance: Number(localStorage.getItem('balance'))
+        HAK: this.props.userReducer.user.balance.HAK,
      };
     onClickLogOut = () => {
         this.props.logOut();
@@ -21,7 +22,7 @@ export default class Header extends Component {
       this.setState({visible: false});
       showNotificationLoading("Faucet HAK loading ...")
       let data = {
-          address: localStorage.getItem('addressEthereum'),
+          address: this.props.userReducer.user.addressEthereum,
           amount: this.state.amountFaucet
       }
       getFaucet(data)
@@ -29,19 +30,23 @@ export default class Header extends Component {
           showNotificationTransaction(txHash);
       })
       .then(()=>{
-          this.setState({ balance: this.state.balance + this.state.amountFaucet, amountFaucet: 25000})
-          localStorage.setItem('balance', this.state.balance);
+          this.setState({ HAK: Number(this.state.HAK) + Number(this.state.amountFaucet), amountFaucet: 25000})
+          this.props.set_hak(this.state.HAK)
       })
     };
 
   render () {
-    const { visible, amountFaucet, balance } = this.state
+    const { visible, amountFaucet, HAK } = this.state
     const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
     const menu = (
         <Menu>
             <Menu.Item onClick={()=> this.props.history.push('/page')}>
                 <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15}} />
-                <Text>{balance} HAK</Text>
+                <Text>{HAK} HAK</Text>
+            </Menu.Item>
+            <Menu.Item onClick={()=> this.props.history.push('/page')}>
+                <Icon type="dollar" style={{ color: '#1da1f2', fontSize: 15}} />
+                <Text>{this.props.userReducer.user.balance.ETH} ETH</Text>
             </Menu.Item>
             <Menu.Divider />
           <Menu.Item onClick={()=> this.props.history.push('/page')}>
@@ -134,3 +139,13 @@ export default class Header extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  userReducer: state.userReducer,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  set_hak: (hak)=>dispatch(set_hak(hak)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

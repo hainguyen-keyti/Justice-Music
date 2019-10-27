@@ -1,4 +1,6 @@
 const initialState = {
+    user: null,
+
     isSignin: false,
     signinSuccessful: false,
     isSignup: false,
@@ -8,6 +10,23 @@ const initialState = {
 
 export const userReducer = ( state = initialState, action) => {
     switch(action.type){
+    case 'SET_HAK':
+        return {
+            ...state,
+            user: {
+                ...state.user,
+                balance: {
+                    ...state.user.balance,
+                    HAK: action.hak
+                }
+            }
+    }
+    case 'SET_USER_DATA':
+        return {
+            ...state,
+            isSignin: true,
+            user: action.user
+    }
     case 'SIGNIN_START':
         return {
             ...state,
@@ -26,20 +45,20 @@ export const userReducer = ( state = initialState, action) => {
         error: action.err
     }
     case 'SIGNIN_FAIL_HANDLE':
-    return {
-    ...state,
-    error: null
+        return {
+        ...state,
+        error: null
     }
     case 'CLEAR_STATE':
         return {
-            isSignup: false,
-            signupSuccessful: false,
-            error: null
+        isSignup: false,
+        signupSuccessful: false,
+        error: null
         }
     case 'SIGNUP_START':
         return {
-            ...state,
-            isSignup: true
+        ...state,
+        isSignup: true
         }
     case 'SIGNUP_SUCCESSFUL':
         return {

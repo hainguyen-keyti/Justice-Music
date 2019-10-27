@@ -5,7 +5,11 @@ export function login(email, password){
         dispatch(signin_start())
 
         loginAPI(email, password)
-        .then(() => {
+        .then((user) => {
+            console.log(user)
+            dispatch(set_user_data(user))
+        })
+        .then(()=>{
             dispatch(signin_successful())
         })
         .catch((err) => {
@@ -14,6 +18,19 @@ export function login(email, password){
     }
 }
 
+export function set_user_data(user){
+    return {
+        type: 'SET_USER_DATA',
+        user: user
+    }
+}
+
+export function set_hak(hak){
+    return {
+        type: 'SET_HAK',
+        hak: hak
+    }
+}
 
 export function signin_start(){
     return {

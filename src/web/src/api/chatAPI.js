@@ -1,11 +1,12 @@
 import axios from 'axios';
 import config from '../config';
 import  {getHeaders} from '../utils/common'
+import {store} from '../store';
 
 export function getListMessage(receiverID){
     return new Promise((resolve, reject)=>{
         var data = {
-            senderID: localStorage.getItem('userID'),
+            senderID: store.getState().userReducer.user.id,
             receiverID: receiverID
         }
         return axios.post(config.api_url+ '/chats/getListMessage', data, {headers: getHeaders()})
@@ -22,7 +23,7 @@ export function getListMessage(receiverID){
 export function getListFriend() {
     return new Promise((resolve, reject)=>{
         var data = {
-            userID: localStorage.getItem('userID'),
+            userID: store.getState().userReducer.user.id,
         }
         return axios.post(config.api_url+ '/chats/getListFriend', data, {headers: getHeaders()})
           .then(res => {
@@ -34,3 +35,4 @@ export function getListFriend() {
           .catch(err => {reject(err)});
     })
 }
+
