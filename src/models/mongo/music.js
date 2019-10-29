@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 
 var MusicSchema = mongoose.Schema({
+    idSolidity: {
+        type: String,
+        trim: true,
+    },
     hash: {
         type: String,
         trim: true,

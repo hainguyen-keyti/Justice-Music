@@ -27,7 +27,7 @@ contract UserBehavior is FileStruct, Ownable{
         fileStorage = FileStorage(_fileStorage);
     }
     
-    function uploadFile(string memory _fileHash, uint _price, Kind _kind, string memory _idMongoose) public{
+    function uploadFile(string memory _fileHash, uint _price, Kind _kind, string memory _idMongoose) public returns(uint){
         while (fileStorage.getIsUsingID() == 1){
             continue;
         }
@@ -40,6 +40,7 @@ contract UserBehavior is FileStruct, Ownable{
         fileStorage.setUserList_uploadList(msg.sender, tempID);
         fileStorage.setFileLength(1);
         emit Log_uploadFile(msg.sender, _kind, tempID);
+        return tempID;
     }
 
     function dowloadFile(uint _idFile) public returns(string memory){
@@ -109,18 +110,13 @@ contract UserBehavior is FileStruct, Ownable{
         emit Log_investISO(msg.sender, _idFile, _investAmount);
     }
     
-    function getISOInfo(uint _idFile) public view returns(
-        uint offerPercent,
-        uint offerAmount,
-        uint amountRemaining,
-        uint timeExpired,
-        uint ownerPercent,
-        Invest[] memory){
-        ISO memory temp = fileStorage.getISOList(_idFile);
-        return (temp.offerPercent, temp.offerAmount, temp.amountRemaining, temp.timeExpired, temp.ownerPercent, fileStorage.getISOList(_idFile).investListISO);
+    function getISOId(uint _idFile) public view returns(ISO[] memory){
+        ISO[] memory tempISO = new ISO[](1);
+        tempISO[0] = fileStorage.getISOList(_idFile);
+        return tempISO;
     }
     
-    function getListISO() public view returns(ISO[] memory) {
+    function getISOList() public view returns(ISO[] memory) {
       ISO[] memory tempISO = fileStorage.getISOListInfo();
       return tempISO;
     }

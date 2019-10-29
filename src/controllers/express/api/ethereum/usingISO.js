@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
             if(!tx)
                 return Promise.reject("Field to excute transaction");
             response_express.success(res, tx.hash)
+            // Create a model about ISO to storage some field like, imageMusic, time, ....
         })
         .catch(err => {response_express.exception(res, JSON.parse(err.responseText).error.message)
         })
