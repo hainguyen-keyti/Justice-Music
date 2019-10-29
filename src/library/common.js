@@ -60,8 +60,8 @@ exports.ModifyFile = (tx, page) => {
 			var result = [];
 			if (!page || page < 1){ page = 1;}
 			for(let i = (tx.length-1-(page-1)*10); i >= ((tx.length-page*10 > 0)?tx.length-page*10:0); i--){
-				let {idFile, idMongoDb, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
-				await Music.findOne({_id: idMongoDb, hash: fileHash})
+				let {idFile, idMongoose, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
+				await Music.findOne({_id: idMongoose, hash: fileHash})
 				.then( music => {
 					let data = {
 						idFile: Number(idFile),
@@ -96,6 +96,73 @@ exports.ModifyFile = (tx, page) => {
 		}
     })
 }
+
+
+exports.ModifyFile = (tx, page) => {
+	return new Promise( async (resolve, reject) => {
+	try {
+		var result = [];
+		if (!page || page < 1){ page = 1;}
+		for(let i = (tx.length-1-(page-1)*10); i >= ((tx.length-page*10 > 0)?tx.length-page*10:0); i--){
+			let {idFile, idMongoose, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
+			await Music.findOne({_id: idMongoose, hash: fileHash})
+			.then( music => {
+				let data = {
+					idFile: Number(idFile),
+					owner,
+					price: Number(price),
+					totalDownloader: Number(totalDownloader),
+					weekDownloader: Number(weekDownloader),
+					blockTime: Number(blockTime),
+					valid,
+					kind,
+					IsISO,
+					music
+				}
+				result.push(data);
+			})
+		}
+		let jsonRes = {
+			page: page,
+			total: tx.length,
+			file: result
+		}
+		return resolve(jsonRes)	
+	} catch (error) {
+		return reject(error)
+	}
+	})
+}
+
+
+exports.ModifyFileISO = (tx) => {
+	return new Promise( async (resolve, reject) => {
+	try {
+		const result = await tx.map(record => {
+			let returnObj = {}
+			returnObj.offerPercent = Number(record.offerPercent)
+			returnObj.offerAmount = Number(record.offerAmount)
+			returnObj.amountRemaining = Number(record.amountRemaining)
+			returnObj.timeExpired = Number(record.timeExpired)
+			returnObj.ownerPercent = Number(record.ownerPercent) 
+			returnObj.numberOfDownload = Number(record.numberOfDownload)
+			returnObj.week = Number(record.week)
+			returnObj.investListISO = record.investListISO.map(e => {
+				let investObj = {}
+				investObj.investor = e.investor
+				investObj.percentage = Number(e.percentage)
+				investObj.amount = Number(e.amount)
+				return investObj
+			})
+			return returnObj
+		});
+		return resolve(result)	
+	} catch (error) {
+		return reject(error)
+	}
+	})
+}
+
 
 exports.getBlance = (address) => {
 	return new Promise((resolve, reject) => {

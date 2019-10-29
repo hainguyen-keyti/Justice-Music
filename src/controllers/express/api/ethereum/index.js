@@ -13,7 +13,9 @@ ethereumRoutes.post('/investISO', require('./investISO'))
 
 ethereumRoutes.get('/getUserUpload', require('./getUserUpload'))
 ethereumRoutes.get('/getUserDownload', require('./getUserDownload'))
-ethereumRoutes.get('/getISOInfo', require('./getISOInfo'))
+ethereumRoutes.get('/getISOId', require('./getISOId'))
+ethereumRoutes.get('/getISOAddress', require('./getISOAddress'))
+ethereumRoutes.get('/getISOList', require('./getISOList'))
 module.exports = ethereumRoutes;
 
 // let provider = ethers.getDefaultProvider(config.testNet);

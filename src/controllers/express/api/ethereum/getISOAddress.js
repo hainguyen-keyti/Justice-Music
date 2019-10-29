@@ -11,15 +11,17 @@ module.exports = async (req, res) => {
         if(!user){
             return response_express.exception(res, "User not exist!")
         }
-        let privateKey = user.privateKey;
-        let wallet = new ethers.Wallet(privateKey, config.provider);
+        let wallet = new ethers.Wallet(user.privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
-        contractWithSigner.getISOInfo(req.query.page)
+        contractWithSigner.getISOAddress(req.query.address)
         .then(tx => {
             if(!tx){
                 return response_express.exception(res, "Transaction failed, please try again!")
             }
-            console.log(tx)
+            lib_common.ModifyFileISO(tx)
+            .then(result => {
+                return response_express.success(res, result)  
+            })
         })
         .catch(err => response_express.exception(res, err));
     })
