@@ -48,6 +48,7 @@ var userSchema = mongoose.Schema({
     avatar: {
         type: String,
         trim: true,
+        default: "QmXwrePcDqV2YR1xyJU4mpxadaQgHHMLsitBgWtZS2c9Zn"
     },
     birthday: {
         type: Date,

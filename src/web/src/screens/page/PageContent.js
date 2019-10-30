@@ -9,9 +9,10 @@ import {
  } from 'antd';
 import 'antd/dist/antd.css';
 import './index.css'
-import MusicTable from './musicTable'
-import UploadModal from '../../components/uploadModal/uploadModal'
-import InfoISO from '../../components/infoISO'
+import UploadTable from './UploadTable'
+import DownloadTable from './DownloadTable'
+import UploadModal from '../../components/uploadModal'
+import ISOAddress from '../../components/ISOAddress'
 
 const { TabPane } = Tabs;
 const { Title, Text } = Typography;
@@ -57,23 +58,14 @@ export default class PageContent extends Component {
             </Col>
               <Col span={18}>
                 <Tabs tabBarExtraContent={operations}>
-                  <TabPane tab="Bài hát" key="1">
-                    <MusicTable/>
+                  <TabPane tab="Bài hát đã đăng" key="1">
+                    <UploadTable/>
                   </TabPane>
                   <TabPane tab="ISO" key="2">
-                    <Col span={8}>
-                      <InfoISO 
-                        background="https://i.ytimg.com/vi/DZDYZ9nRHfU/maxresdefault.jpg"
-                        artistAvatar="https://2sao.vietnamnetjsc.vn/images/2019/09/26/23/24/unnamed---Copy-1.jpg"
-                        songName="Đức Phúc"
-                        artistName="Hết Duyên Cạn Nhớ"
-                        currentPercent={26}
-                        timeExpire={1572139227906}
-                        />
-                      </Col>
+                      <ISOAddress/>
                   </TabPane>
                   <TabPane tab="Bài hát đã mua" key="3">
-                    Content of tab 3
+                    <DownloadTable/>
                   </TabPane>
                   <TabPane tab="Sự kiện" key="">
                     Content of tab 1

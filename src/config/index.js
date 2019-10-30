@@ -14,13 +14,13 @@ var main_config = {
             ownerSecretKey: '2C4104E79EA8936FA6C0D0E7B796B391DE814890066B8B8640E13A554DECE084',
             provider: ethers.getDefaultProvider('kovan'),
 
-            userBehaviorAddress: '0xc15655B2F51D7e60c72166B7F1a76066cD544D96',
+            userBehaviorAddress: '0x3a667Bb379Bf2F8e61f41422f45901B2AB774537',
             userBehaviorABI: abi.userBehaviorABI,
 
             tokenAddress: '0x84C470e05128A2d1FfFF6132801182Aa4CeD9F89',
             tokenABI: abi.tokenABI,
 
-            fileStorageAddress: '0x6E3e5fE527719391d1f24FC6F922103f10e15e6E',
+            fileStorageAddress: '0x95D9e5f5d141e8668e138a9f0ef7Db7d1124838C',
             fileStorageABI: abi.fileStorageABI,
 
             rankingAddress: '0xEaBB2d7eeAF13d8A9710055AD27f738410915d3d', // chua fix dia chi vs abi

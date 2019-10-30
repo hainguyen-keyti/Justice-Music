@@ -5,6 +5,7 @@ import Chat from './screens/chat/Chat'
 import Home from './screens/home'
 import Index from './screens/index/Index'
 import Page from './screens/page'
+import ISO from './screens/iso'
 import Layout from './components/layout'
 
 const Root = () => (
@@ -17,6 +18,7 @@ const Root = () => (
                 <Route path="/message" component={Chat} />
                 <Route path="/page" component={Page} />
                 <Route path="/test" component={Layout} />
+                <Route path="/iso" component={ISO} />
             </Switch>
         </div>
     </Router>

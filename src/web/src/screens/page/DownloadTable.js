@@ -1,12 +1,12 @@
 import React from 'react'
 import { Table, Avatar, Typography, Divider, Icon, Tag, Button } from 'antd';
-import { getUserUpload } from '../../api/userAPI'
+import { getUserDownload } from '../../api/userAPI'
 import { connect} from 'react-redux'
 import {set_music_selected} from '../../actions/app'
 import UsingISO from '../../components/usingISO'
 
 const { Text, Title } = Typography;
-class MusicTable extends React.Component {
+class DownloadTable extends React.Component {
   state = {
     data: [],
     pagination: {},
@@ -19,7 +19,7 @@ class MusicTable extends React.Component {
 
   handleTableChange = (pagination) => {
     this.setState({ loading: true })
-    getUserUpload(pagination ? pagination.current : 1).then(data => {
+    getUserDownload(pagination ? pagination.current : 1).then(data => {
         const pagination = { ...this.state.pagination };
         console.log("this is data")
         console.log(data)
@@ -80,27 +80,27 @@ class MusicTable extends React.Component {
             </Text>
         )
       },
-      {
-        title: 'action',
-        key: 'action',
-        render: record => (
-          <div style={{display: 'flex'}}>
-              <Icon type="solution" />
-              <Divider type="vertical" />
-              <Icon type="caret-right" />
-              <Divider type="vertical" />
-              <UsingISO idFile={record.idFile}/>
-              <Divider type="vertical" />
-              {record.IsISO ? <Icon type="check-square" style={{ color: '#1da1f2'}} /> : <Icon type="close-square" />}
-          </div>
-        ),
-      },
+      // {
+      //   title: 'action',
+      //   key: 'action',
+      //   render: record => (
+      //     <div style={{display: 'flex'}}>
+      //         <Icon type="solution" />
+      //         <Divider type="vertical" />
+      //         <Icon type="caret-right" />
+      //         <Divider type="vertical" />
+      //         <UsingISO idFile={record.idFile}/>
+      //         <Divider type="vertical" />
+      //         {record.IsISO ? <Icon type="check-square" style={{ color: '#1da1f2'}} /> : <Icon type="close-square" />}
+      //     </div>
+      //   ),
+      // },
     ];    
     return (
       <Table
         size="middle"
         showHeader={false}
-        title={()=><Title level={4} style={{color: '#2daaed'}}>BÀI HÁT SƠN TÙNG M-TP</Title>}
+        title={()=><Title level={4} style={{color: '#2daaed'}}>BÀI HÁT KEYTI ĐÃ MUA</Title>}
         columns={columns}
         rowKey={record => record.idFile}
         dataSource={this.state.data}
@@ -119,4 +119,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   set_music_selected: (musicSelected)=>dispatch(set_music_selected(musicSelected))
 })
-export default connect(mapStateToProps, mapDispatchToProps)(MusicTable);
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadTable);

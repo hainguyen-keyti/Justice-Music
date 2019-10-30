@@ -333,6 +333,56 @@ exports.userBehaviorABI = [
 					{
 						"components": [
 							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
 								"name": "investor",
 								"type": "address"
 							},
@@ -400,6 +450,56 @@ exports.userBehaviorABI = [
 					{
 						"components": [
 							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
 								"name": "investor",
 								"type": "address"
 							},
@@ -458,6 +558,56 @@ exports.userBehaviorABI = [
 					{
 						"name": "week",
 						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
 					},
 					{
 						"components": [
@@ -1155,6 +1305,70 @@ exports.fileStorageABI = [
 		"constant": false,
 		"inputs": [
 			{
+				"name": "_ID",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"name": "idFile",
+						"type": "uint256"
+					},
+					{
+						"name": "idMongoose",
+						"type": "string"
+					},
+					{
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"name": "totalDownloader",
+						"type": "uint256"
+					},
+					{
+						"name": "weekDownloader",
+						"type": "int256"
+					},
+					{
+						"name": "blockTime",
+						"type": "uint256"
+					},
+					{
+						"name": "valid",
+						"type": "bool"
+					},
+					{
+						"name": "kind",
+						"type": "uint8"
+					},
+					{
+						"name": "IsISO",
+						"type": "bool"
+					}
+				],
+				"name": "_file",
+				"type": "tuple"
+			}
+		],
+		"name": "setISOListFile",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
 				"name": "_IsUsingID",
 				"type": "uint256"
 			}
@@ -1521,6 +1735,56 @@ exports.fileStorageABI = [
 					{
 						"components": [
 							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
 								"name": "investor",
 								"type": "address"
 							},
@@ -1588,6 +1852,56 @@ exports.fileStorageABI = [
 					{
 						"components": [
 							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
 								"name": "investor",
 								"type": "address"
 							},
@@ -1646,6 +1960,56 @@ exports.fileStorageABI = [
 					{
 						"name": "week",
 						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
 					},
 					{
 						"components": [

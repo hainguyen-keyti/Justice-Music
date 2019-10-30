@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
         }
         let wallet = new ethers.Wallet(user.privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
+        
         contractWithSigner.getUserUpload()
         .then(tx => {
             if(!tx){
@@ -20,10 +21,9 @@ module.exports = async (req, res) => {
             }
             lib_common.ModifyFile(tx, req.query.page)
             .then(result => {
-                console.log(result)
                 return response_express.success(res, result)  
             })
         })
-        .catch(err => response_express.exception(res, err));
+        .catch(err => {response_express.exception(res, JSON.parse(err.responseText).error.message)});
     })
 }

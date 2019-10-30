@@ -2,6 +2,7 @@ const ethers = require('ethers');
 const config = require('../../../../config');
 const response_express = require(config.library_dir + '/response').response_express;
 const User = require(config.models_dir + '/mongo/user');
+const ISO = require(config.models_dir + '/mongo/iso');
 
 module.exports = async (req, res) => {
     console.log(req.token_info.email)
@@ -20,8 +21,8 @@ module.exports = async (req, res) => {
                 return Promise.reject("Field to excute transaction");
             response_express.success(res, tx.hash)
             // Create a model about ISO to storage some field like, imageMusic, time, ....
+            // ISO.create(req.body.server)
         })
-        .catch(err => {response_express.exception(res, JSON.parse(err.responseText).error.message)
-        })
+        .catch(err => {response_express.exception(res, JSON.parse(err.responseText).error.message)})
     })
 }

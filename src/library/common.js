@@ -3,6 +3,7 @@ var jwt = require('jsonwebtoken');
 var response_express = require(config.library_dir+'/response').response_express;
 const ethers = require('ethers');
 const Music = require(config.models_dir + '/mongo/music');
+const User = require(config.models_dir + '/mongo/user')
 
 let privateKey = config.ownerSecretKey;
 let wallet = new ethers.Wallet(privateKey, config.provider);
@@ -138,8 +139,20 @@ exports.ModifyFile = (tx, page) => {
 exports.ModifyFileISO = (tx) => {
 	return new Promise( async (resolve, reject) => {
 	try {
-		const result = await tx.map(record => {
+		return resolve( await Promise.all(tx.map( async record => {
 			let returnObj = {}
+			await User.findOne({addressEthereum: record.ISOFile.owner})
+			.then( user => {
+				returnObj.avatar = user.avatar
+				returnObj.artistName = user.name
+			})
+			.catch(err=>reject(err))
+			await Music.findOne({idSolidity: record.ISOFile.idFile})
+			.then( music => {
+				returnObj.background = music.image
+				returnObj.musicName = music.name
+			})
+			.catch(err=>reject(err))
 			returnObj.offerPercent = Number(record.offerPercent)
 			returnObj.offerAmount = Number(record.offerAmount)
 			returnObj.amountRemaining = Number(record.amountRemaining)
@@ -154,9 +167,10 @@ exports.ModifyFileISO = (tx) => {
 				investObj.amount = Number(e.amount)
 				return investObj
 			})
+
 			return returnObj
-		});
-		return resolve(result)	
+		})))
+		// return resolve(result)
 	} catch (error) {
 		return reject(error)
 	}

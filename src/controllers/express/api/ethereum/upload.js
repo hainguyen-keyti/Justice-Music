@@ -20,6 +20,7 @@ module.exports = async (req, res) => {
         let wallet = new ethers.Wallet(privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
         tempMusicID = music._id;
+        console.log("hahhahahah")
         return contractWithSigner.uploadFile(req.body.ether.hash, req.body.ether.price, 2, music._id.toString())
     })
     .then(tx => {

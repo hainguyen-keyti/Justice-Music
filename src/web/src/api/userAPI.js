@@ -84,9 +84,40 @@ export function getUserUpload(pageNumber){
   })
 }
 
+export function getUserDownload(pageNumber){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/ethereums/getUserDownload?page=' + pageNumber, {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
 export function upload(data){
   return new Promise((resolve, reject)=>{
       return axios.post(config.api_url+ '/ethereums/upload', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          console.log("this is result " + res.data.result)
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
+export function download(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/ethereums/download', data, {headers: getHeaders()})
         .then(res => {
           if (res.data.status === 0) {
             console.log(res.data.error.message)
@@ -118,6 +149,23 @@ export function usingISO(data){
   })
 }
 
+export function investISO(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/ethereums/investISO', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          console.log("this is result " + res.data.result)
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
 export function getFaucet(data){
   return new Promise((resolve, reject)=>{
       return axios.post(config.api_url+ '/ethereums/faucet', data, {headers: getHeaders()})
@@ -131,5 +179,33 @@ export function getFaucet(data){
         .catch(err => {
           reject(err);
         });
+  })
+}
+
+export function getISOAddress(address){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/ethereums/getISOAddress?address=' + address, {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
+export function getISOList(){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/ethereums/getISOList', {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
   })
 }

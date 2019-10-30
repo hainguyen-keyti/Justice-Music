@@ -19,21 +19,21 @@ export default class InfoISO extends React.Component {
       cover={<img className="img-background-music" alt="music background" src={background}/>}
       bodyStyle={{padding: '15px', width: '100%'}}
     >
-      <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={artistAvatar} alt="Avatar photo"/>} title={songName} description={artistName} />
+      <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={artistAvatar} alt="Avatar photo"/>} title={artistName} description={songName} />
       <Tooltip title="ISO">
-        <Text type="warning" style={{marginTop: "10px"}}>Percent Remaining</Text>
+        <Text type="warning" style={{marginTop: "10px"}}>Percent</Text>
         <Progress
         style={{paddingRight: '10px'}}
           strokeColor={{
             from: '#108ee9',
             to: '#FF5733',
           }}
-          percent={currentPercent}
+          percent={parseFloat(currentPercent).toFixed(3)}
           status="active"
           showInfo
         />
       </Tooltip>
-      <Countdown title="Time Remaining" valueStyle={{fontSize: '16px'}} value={timeExpire} format="D Ngày H Giờ m Phút s" />
+      <Countdown title="Time Remaining" valueStyle={{fontSize: '16px'}} value={timeExpire * 1000} format="D Ngày H Giờ m Phút s" />
     </Card>
     )
   }

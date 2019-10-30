@@ -80,7 +80,7 @@ class Header extends Component {
             <div>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} >SONGS</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} >ARTISTS</Button>
-                <Button ghost style={{color: '#424242', marginLeft: 5}} >ISO</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/iso')} >ISO</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} >RANKING</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} >EVENTS</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} >CONTRACTS</Button>
