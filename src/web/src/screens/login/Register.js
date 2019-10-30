@@ -15,9 +15,11 @@ const styles = theme => ({
     submit: {
         marginTop: theme.spacing.unit * 3,
         opacity: '0.6',
+        backgroundColor: '#0099FF',
+        color:'white',
       },
       typeColor: {
-        color: '#e0e0e0',
+        color: 'black',
         textAlign: 'center',
       },
 });
@@ -72,7 +74,7 @@ class Register extends React.Component{
                     <Grid item xs={12}>
                     <TextField
                         required
-                        label="name"
+                        label="Name"
                         fullWidth
                         autoComplete="billing full name"
                         value={this.state.name}
@@ -129,6 +131,7 @@ class Register extends React.Component{
                                 value="1"
                                 name="radio-button-demo"
                                 aria-label="B"
+                                color="black"
                             />
                         }
                         label="Male"
@@ -143,6 +146,8 @@ class Register extends React.Component{
                                 value="2"
                                 name="radio-button-demo"
                                 aria-label="B"
+                                color="black"
+
                             />
                         }
                         label="Female"
@@ -157,6 +162,8 @@ class Register extends React.Component{
                                 value="3"
                                 name="radio-button-demo"
                                 aria-label="B"
+                                color="black"
+
                             />
                         }
                         label="Other"
@@ -166,7 +173,6 @@ class Register extends React.Component{
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="inherit"
                         className={classes.submit}
                         disabled={this.props.userReducer.isSignup && !this.props.userReducer.signupSuccessful}
                         onClick={this.onClickSignUp}
