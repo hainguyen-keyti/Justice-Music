@@ -6,7 +6,7 @@ import Home from './screens/home'
 import Index from './screens/index/Index'
 import Page from './screens/page'
 import ISO from './screens/iso'
-import Layout from './components/layout'
+import Setting from './screens/setting'
 
 const Root = () => (
     <Router>
@@ -17,8 +17,8 @@ const Root = () => (
                 <Route path="/login" component={Login} />
                 <Route path="/message" component={Chat} />
                 <Route path="/page" component={Page} />
-                <Route path="/test" component={Layout} />
                 <Route path="/iso" component={ISO} />
+                <Route path="/setting" component={Setting} />
             </Switch>
         </div>
     </Router>
