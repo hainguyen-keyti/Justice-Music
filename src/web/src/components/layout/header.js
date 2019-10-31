@@ -40,16 +40,16 @@ class Header extends Component {
     const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
     const menu = (
         <Menu>
-            <Menu.Item onClick={()=> this.props.history.push('/page')}>
+            <Menu.Item onClick={()=> this.props.history.push('/HAK')}>
                 <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
                 <Text>{HAK} HAK</Text>
             </Menu.Item>
-            <Menu.Item onClick={()=> this.props.history.push('/page')}>
+            <Menu.Item onClick={()=> this.props.history.push('/ETH')}>
                 <Icon type="dollar" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
                 <Text>{this.props.userReducer.user.balance.ETH} ETH</Text>
             </Menu.Item>
             <Menu.Divider />
-          <Menu.Item onClick={()=> this.props.history.push('/page')}>
+          <Menu.Item onClick={()=> this.props.history.push(`/${this.props.userReducer.user.addressEthereum}`)}>
             <Icon type="user" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
             <Text>Home Page</Text>
           </Menu.Item>

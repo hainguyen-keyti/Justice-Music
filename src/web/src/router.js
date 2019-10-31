@@ -16,9 +16,9 @@ const Root = () => (
                 <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/message" component={Chat} />
-                <Route path="/page" component={Page} />
                 <Route path="/iso" component={ISO} />
                 <Route path="/setting" component={Setting} />
+                <Route path="/:userName" component={Page} />
             </Switch>
         </div>
     </Router>

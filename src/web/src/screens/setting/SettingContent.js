@@ -64,6 +64,21 @@ class SettingForm extends React.Component {
         <Form.Item
           label={
             <span>
+              UserName&nbsp;
+              <Tooltip title="What do you want others to call you?">
+                <Icon style={{ fontSize: '15px', color: '#1da1f2', paddingLeft: 5}} type="question-circle-o" />
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator('userName', {
+            rules: [{ required: true, message: 'Your input is not valid.', pattern: /^\S{8,16}$/ }],
+          })(<Input />)}
+        </Form.Item>
+
+        <Form.Item
+          label={
+            <span>
               Youtube&nbsp;
               <Tooltip title="Write your link youtube chanel.">
                 <Icon style={{ fontSize: '15px', color: '#1da1f2', paddingLeft: 5}} type="youtube"/>

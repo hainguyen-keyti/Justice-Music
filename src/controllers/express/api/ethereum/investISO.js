@@ -32,12 +32,10 @@ module.exports = (req, res) => {
                 }
         })
         .catch(err => {
-            console.log(err)
             return response_express.exception(res, "Gas of this transaction can not estimate!")
         })
     })
     .catch(err => {
-        console.log(err)
         return response_express.exception(res, "Something wrong with user at mongoose!")
     })
 }

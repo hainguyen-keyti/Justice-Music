@@ -2,7 +2,8 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import {
   Col,
-  Skeleton
+  Skeleton,
+  Empty
  } from 'antd';
 import {getISOAddress} from '../../api/userAPI'
 import InfoISO from '../../components/infoISO'
@@ -27,6 +28,8 @@ class ISOAddress extends React.Component {
     return (
       <div style={{width: '100%'}}>
         {this.state.loading ? <Skeleton active /> : 
+          (this.state.dataISO.length === 0 ?
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/> :
           this.state.dataISO.map(record => 
             <Col span={8}>
               <InfoISO 
@@ -38,7 +41,7 @@ class ISOAddress extends React.Component {
                 timeExpire={record.timeExpired}
               />
             </Col>
-          )
+          ))
         }
       </div>
     );

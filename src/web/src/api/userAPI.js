@@ -27,12 +27,12 @@ export function login(email, password){
     })
 }
 
-export function createUser(email, password, name, phone, genre){
+export function createUser(email, password, nickName, phone, genre){
   return new Promise((resolve, reject) => {
     const register = {
       email,
       password,
-      name,
+      nickName,
       phone,
       genre
     }
@@ -224,5 +224,19 @@ export function updateUser(data){
         .catch(err => {
           reject(err);
         });
+  })
+}
+
+export function getUserPage(userName){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/actions/userPage?userName=' + userName, {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
   })
 }

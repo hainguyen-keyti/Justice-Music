@@ -144,7 +144,7 @@ exports.ModifyFileISO = (tx) => {
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( user => {
 				returnObj.avatar = user.avatar
-				returnObj.artistName = user.name
+				returnObj.artistName = user.nickName
 			})
 			.catch(err=>reject(err))
 			await Music.findOne({idSolidity: record.ISOFile.idFile})

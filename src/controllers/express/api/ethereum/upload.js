@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
         return Music.create(req.body.server)
     })
     .then(music => {
-        console.log(music)
         let wallet = new ethers.Wallet(privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
         tempMusicID = music._id;
@@ -29,7 +28,6 @@ module.exports = async (req, res) => {
         response_express.success(res, tx.hash)
         tx.wait().then((getID)=>{
             let numb = parseInt(getID.logs[0].data.slice(130), 16) // Get Id from event uploadFile
-            console.log(numb)
             Music.updateOne({ _id: tempMusicID }, { $set: { idSolidity: numb } }).exec()
         })
     })

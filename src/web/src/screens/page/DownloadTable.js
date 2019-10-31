@@ -1,9 +1,8 @@
 import React from 'react'
-import { Table, Avatar, Typography, Divider, Icon, Tag, Button } from 'antd';
+import { Table, Avatar, Typography, Icon, Tag, Button } from 'antd';
 import { getUserDownload } from '../../api/userAPI'
 import { connect} from 'react-redux'
 import {set_music_selected} from '../../actions/app'
-import UsingISO from '../../components/usingISO'
 
 const { Text, Title } = Typography;
 class DownloadTable extends React.Component {

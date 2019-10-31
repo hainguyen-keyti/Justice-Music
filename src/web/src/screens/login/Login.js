@@ -12,8 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Register from './Register';
 import logo from '../../images/logo.png'
-import { border } from '@material-ui/system';
-import { NONCE_EXPIRED } from 'ethers/errors';
 
 const styles = theme => ({
   background: {

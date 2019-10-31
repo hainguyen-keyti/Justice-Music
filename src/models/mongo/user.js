@@ -15,9 +15,16 @@ var userSchema = mongoose.Schema({
             isAsync: false
           }
     },
-    name: {
+    nickName: {
         type: String,
         trim: true,
+    },
+    userName: {
+        type: String,
+        trim: true,
+        index: {
+            unique: true,
+        },
     },
     phone: {
         type: String,

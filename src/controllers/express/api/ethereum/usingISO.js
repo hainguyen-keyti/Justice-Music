@@ -5,7 +5,6 @@ const User = require(config.models_dir + '/mongo/user');
 const ISO = require(config.models_dir + '/mongo/iso');
 
 module.exports = async (req, res) => {
-    console.log(req.token_info.email)
     User.findOne({email: req.token_info.email})
     .then(user => {
         if(!user){
@@ -16,7 +15,6 @@ module.exports = async (req, res) => {
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
         contractWithSigner.usingISO(req.body.idFile, req.body.offerPercent, req.body.offerAmount, req.body.maintain)
         .then(tx => {
-            console.log(tx)
             if(!tx)
                 return Promise.reject("Field to excute transaction");
             response_express.success(res, tx.hash)

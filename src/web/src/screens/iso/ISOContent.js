@@ -2,11 +2,11 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import {
   Col,
-  Skeleton
  } from 'antd';
 import {getISOList} from '../../api/userAPI'
 import InfoISO from '../../components/infoISO'
 import { connect} from 'react-redux'
+import ComponentLoading from '../../components/loading'
 
 class ISOContent extends React.Component {
   state = {
@@ -26,7 +26,7 @@ class ISOContent extends React.Component {
   render() {
     return (
       <div style={{width: '100%'}}>
-        {this.state.loading ? <Skeleton active /> : 
+        {this.state.loading ? <ComponentLoading /> : 
           this.state.dataISO.map(record => 
             <Col span={6}>
               <InfoISO 

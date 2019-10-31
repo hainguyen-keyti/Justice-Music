@@ -5,7 +5,6 @@ const lib_common = require(config.library_dir+'/common');
 const User = require(config.models_dir + '/mongo/user');
 
 module.exports = async (req, res) => {
-    console.log(req.token_info.email)
     User.findOne({email: req.token_info.email})
     .then(user => {
         if(!user){

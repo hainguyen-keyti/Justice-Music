@@ -3,14 +3,16 @@ const User = require(config.models_dir + '/mongo/user')
 const response_express = require(config.library_dir + '/response').response_express
 
 module.exports = (req, res) => {
-    const {avatar, facebook, youtube, phone, home, nickname } = req.body
+    const {avatar, facebook, youtube, phone, home, nickname, userName } = req.body
     if(!req.token_info || req.token_info === undefined)
         response_express.exception(res, new Error('Failed to authenticate token.'))
     
     User.findOne({_id: req.token_info._id})
     .then( user => {
+        user.phone = phone
+        user.userName = userName
         user.avatar = avatar
-        user.name = nickname
+        user.nickName = nickname
         user.otherInfomaion = {
             facebook,
             youtube,
