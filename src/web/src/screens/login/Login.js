@@ -12,16 +12,19 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Register from './Register';
 import logo from '../../images/logo.png'
+import { border } from '@material-ui/system';
+import { NONCE_EXPIRED } from 'ethers/errors';
 
 const styles = theme => ({
   background: {
-    backgroundImage: `url(${require(`${ ('../../images/login-background.png')}`)})`,
+    // backgroundImage: `url(${require(`${ ('../../images/login-background.png')}`)})`,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     height: '100vh'
   },
   main: {
+    height:'500px',
     width: 'auto',
     display: 'flex',
     justifyContent: 'center',
@@ -32,13 +35,14 @@ const styles = theme => ({
     },
   },
   paper: {
+    paddingTop:'50px',
     marginTop: theme.spacing.unit * 8,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     backgroundColor: 'transparent',
-    width: '50%'
+    width: '50%',
   },
   form: {
     width: '100%',
@@ -47,14 +51,19 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
     opacity: '0.6',
+    color:'white',
+    backgroundColor:'#0099FF',
+
   },
   typeColor: {
-    color: '#e0e0e0',
+    color: '#1da1f2',
     textAlign: 'center',
   },
   hide: {
     display: 'none'
   }
+
+  
 });
 
 class Login extends React.Component {
@@ -110,12 +119,12 @@ class Login extends React.Component {
         <main className={classes.main}>
               <Paper className={classes.paper}>
                 <img src={logo} alt="Smiley face" style={{height: '45px', width: '45px'}}/>
-                <Typography className={classes.typeColor} component="h1" variant="h5">
+                {/* <Typography className={classes.typeColor} component="h1" variant="h5">
                   Sign in
-                </Typography>
+                </Typography> */}
                 <form className={classes.form}>
                   <FormControl required fullWidth>
-                    <InputLabel>Email Address</InputLabel>
+                    <InputLabel>Email</InputLabel>
                     <Input 
                     id="email" 
                     name="email" 
@@ -145,8 +154,8 @@ class Login extends React.Component {
                   >
                     Sign in
                   </Button>
-                  <Button onClick={this.onClickRegister} style={{backgroundColor: '#e0e0e0' , marginTop: '30px', opacity: '0.5'}}>
-                    Register here
+                  <Button onClick={this.onClickRegister} fullWidth style={{float:'right',display:'inline-block',backgroundColor: 'white' , marginTop: '30px', opacity: '0.5',color:'black'}}>
+                    Register
                   </Button>
                 </form>
               </Paper>
