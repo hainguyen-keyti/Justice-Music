@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
             avatar, 
             addressEthereum, 
             folow, 
-            otherInfomaion
+            otherInfomaion: otherInfomaion ? otherInfomaion : {}
         }
         return response_express.success(res, data) 
     })

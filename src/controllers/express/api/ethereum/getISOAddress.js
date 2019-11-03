@@ -17,6 +17,8 @@ module.exports = async (req, res) => {
             if(!tx){
                 return response_express.exception(res, "Transaction failed, please try again!")
             }
+            console.log("afdadfadfadfdfaf")
+            console.log(tx)
             lib_common.ModifyFileISO(tx)
             .then(result => {
                 return response_express.success(res, result)  

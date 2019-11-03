@@ -70,9 +70,9 @@ export function findUser(email){
   })
 }
 
-export function getUserUpload(pageNumber){
+export function getUserUpload(address){
   return new Promise((resolve, reject) => {
-    return axios.get(config.api_url+ '/ethereums/getUserUpload?page=' + pageNumber, {
+    return axios.get(config.api_url + `/ethereums/getUserUpload/${address}`, {
       headers: getHeaders()
     })
     .then( res => {
@@ -82,11 +82,11 @@ export function getUserUpload(pageNumber){
     })
     .catch(err => reject(err))
   })
-}
+} 
 
-export function getUserDownload(pageNumber){
+export function getUserDownload(address){
   return new Promise((resolve, reject) => {
-    return axios.get(config.api_url+ '/ethereums/getUserDownload?page=' + pageNumber, {
+    return axios.get(config.api_url + `/ethereums/getUserDownload/${address}`, {
       headers: getHeaders()
     })
     .then( res => {

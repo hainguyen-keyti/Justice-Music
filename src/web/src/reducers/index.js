@@ -2,11 +2,13 @@ import { combineReducers } from "redux";
 import {userReducer} from "./user"
 import {chatReducer} from "./chat"
 import {appReducer} from "./app"
+import {pageReducer} from "./page"
 
 const systemReducer = combineReducers({
     userReducer,
     chatReducer,
-    appReducer
+    appReducer,
+    pageReducer,
 });
 
 const rootReducer = (state, action) => {

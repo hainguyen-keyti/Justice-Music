@@ -2,35 +2,23 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import {
   Col,
-  Skeleton,
-  Empty
+  Empty,
+  Spin
  } from 'antd';
 import {getISOAddress} from '../../api/userAPI'
 import InfoISO from '../../components/infoISO'
 import { connect} from 'react-redux'
+import './index.css'
 
 class ISOAddress extends React.Component {
-  state = {
-    dataISO: [],
-    loading: true,
-  };
-
-  componentDidMount() {
-    getISOAddress(this.props.userReducer.user.addressEthereum).then(data => {
-      this.setState({
-        dataISO: data,
-        loading: false
-      });
-    });
-  }
-
   render() {
+    console.log(this.props.pageReducer.isoData.length)
     return (
       <div style={{width: '100%'}}>
-        {this.state.loading ? <Skeleton active /> : 
-          (this.state.dataISO.length === 0 ?
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/> :
-          this.state.dataISO.map(record => 
+        {this.props.pageReducer.loadingIsoData ? <div className="loading-data-iso"> <Spin size="large"/> </div> : 
+          (this.props.pageReducer.isoData.length === 0 ?
+          <div className="loading-data-iso"> <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/> </div> :
+          this.props.pageReducer.isoData.map(record => 
             <Col span={8}>
               <InfoISO 
                 background={"https://ipfs.io/ipfs/" + record.background}
@@ -49,10 +37,10 @@ class ISOAddress extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  userReducer: state.userReducer,
+  pageReducer: state.pageReducer,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+  getISOAddress: (address)=>dispatch(getISOAddress(address))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ISOAddress);

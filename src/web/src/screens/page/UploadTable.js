@@ -1,40 +1,16 @@
 import React from 'react'
 import { Table, Avatar, Typography, Divider, Icon, Tag, Button } from 'antd';
-import { getUserUpload, download } from '../../api/userAPI'
+import { download } from '../../api/userAPI'
 import { connect} from 'react-redux'
 import {set_music_selected} from '../../actions/app'
 import UsingISO from '../../components/usingISO'
 import InvestISO from '../../components/investISO'
 import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
+import config from '../../config'
+import {getUserDownload} from '../../actions/page'
 
 const { Text, Title } = Typography;
 class MusicTable extends React.Component {
-  state = {
-    data: [],
-    pagination: {},
-    loading: false,
-  };
-
-  componentDidMount() {
-    this.handleTableChange();
-  }
-
-  handleTableChange = (pagination) => {
-    this.setState({ loading: true })
-    getUserUpload(pagination ? pagination.current : 1).then(data => {
-        const pagination = { ...this.state.pagination };
-        console.log("this is data")
-        console.log(data)
-        pagination.pageSize = 10;
-        pagination.total = data.total
-        this.setState({
-          loading: false,
-          data: data.file,
-          pagination,
-        });
-      });
-  };
-
   handleBuySong = (idFile) => {
     showNotificationLoading("Downloading ...")
     const data = {
@@ -43,12 +19,15 @@ class MusicTable extends React.Component {
     download(data)  
     .then((txHash) => {
       showNotificationTransaction(txHash);
+      config.provider.waitForTransaction(txHash)
+      .then(()=>{
+        this.props.getUserDownload(this.props.userReducer.user.addressEthereum)
+      })
     })
     .catch((error) => {
       showNotificationFail(error)
     })  
   };
-
 
   render() {
     const columns = [
@@ -116,7 +95,7 @@ class MusicTable extends React.Component {
           </div>
         ),
       },
-    ];    
+    ];
     return (
       <Table
         size="middle"
@@ -124,9 +103,9 @@ class MusicTable extends React.Component {
         title={()=><Title level={4} style={{color: '#2daaed'}}>BÀI HÁT CỦA KEYTI</Title>}
         columns={columns}
         rowKey={record => record.idFile}
-        dataSource={this.state.data}
-        pagination={this.state.pagination}
-        loading={this.state.loading}
+        dataSource={this.props.pageReducer.uploadData}
+        // pagination={this.state.pagination}
+        loading={this.props.pageReducer.loadingUpload}
         onChange={this.handleTableChange}
       />
     );
@@ -134,10 +113,12 @@ class MusicTable extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  appReducer: state.appReducer,
+  pageReducer: state.pageReducer,
+  userReducer: state.userReducer,
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  getUserDownload: (address)=>dispatch(getUserDownload(address)),
   set_music_selected: (musicSelected)=>dispatch(set_music_selected(musicSelected))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(MusicTable);

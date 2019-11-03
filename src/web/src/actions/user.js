@@ -1,4 +1,7 @@
 import { login as loginAPI, createUser as createUserAPI } from '../api/userAPI'
+import { ethers } from 'ethers';
+import config from '../config';
+
 
 export function login(email, password){
     return (dispatch) => {
@@ -8,12 +11,47 @@ export function login(email, password){
         .then((user) => {
             console.log(user)
             dispatch(set_user_data(user))
+            return user
         })
-        .then(()=>{
+        .then((user)=>{
             dispatch(signin_successful())
+            return user
+        })
+        .then((user)=>{
+            dispatch(getBlanceETH(user.addressEthereum))
         })
         .catch((err) => {
             dispatch(signin_fail(err))
+        });
+    }
+}
+
+export function getBlanceETH(address){
+    return (dispatch) => {
+        config.provider.on(address, (balance) => {
+            console.log("hahahahahahahahahahah")
+            const eth = ethers.utils.formatEther(balance)
+            dispatch(set_eth(eth))
+      });
+    }
+}
+
+export function getBlanceHAK(address){
+    return (dispatch) => {
+        const {tokenAddress, tokenABI, provider} = config
+        let contract = new ethers.Contract(tokenAddress, tokenABI, provider);
+        let filter1 = contract.filters.Transfer(null, address);
+        contract.on(filter1, (from, to, value) => {
+            console.log(Number(value))
+            console.log('I received ' + value.toString() + ' tokens from ' + from);
+            dispatch(set_hak_add(Number(value)))
+        });
+
+        let filter2 = contract.filters.Transfer(address, null);
+        contract.on(filter2, (from, to, value) => {
+            console.log(Number(value))
+            console.log('I sended ' + value.toString() + ' tokens to ' + to);
+            dispatch(set_hak_sub(Number(value)))
         });
     }
 }
@@ -25,10 +63,23 @@ export function set_user_data(user){
     }
 }
 
-export function set_hak(hak){
+export function set_hak_add(hak){
     return {
-        type: 'SET_HAK',
+        type: 'SET_HAK_ADD',
         hak: hak
+    }
+}
+export function set_hak_sub(hak){
+    return {
+        type: 'SET_HAK_SUB',
+        hak: hak
+    }
+}
+
+export function set_eth(eth){
+    return {
+        type: 'SET_ETH',
+        eth: eth
     }
 }
 

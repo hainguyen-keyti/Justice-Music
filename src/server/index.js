@@ -1,18 +1,17 @@
-var express = require('express');
-var app = express();
-var config = require('../config');
-var helmet = require('helmet');
+const express = require('express');
+const app = express();
+const config = require('../config');
+const helmet = require('helmet');
 const fileUpload = require('express-fileupload');
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var path = require('path');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
-
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const ipfs = require('../library/nodeIPFS')
 const start = () => {
     return new Promise((resolve, reject) => {
-
+        ipfs.createIPFS()
         app.use(fileUpload({
             createParentPath: true
         }));

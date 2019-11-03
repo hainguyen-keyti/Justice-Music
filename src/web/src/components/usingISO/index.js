@@ -9,6 +9,9 @@ import {
 import 'antd/dist/antd.css';
 import {usingISO} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
+import config from '../../config'
+import {getISOAddress} from '../../actions/page'
+import {connect} from 'react-redux';
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
@@ -77,7 +80,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     },
 );
 
-export default class UsingISO extends React.Component {
+class UsingISO extends React.Component {
   state = {
     visible: false,
   };
@@ -112,6 +115,10 @@ export default class UsingISO extends React.Component {
     usingISO(data)  
     .then((txHash) => {
       showNotificationTransaction(txHash);
+      config.provider.waitForTransaction(txHash)
+      .then(()=>{
+        this.props.getISOAddress(this.props.userReducer.user.addressEthereum)
+      })
     })
     .catch((error) => {
       showNotificationFail(error)
@@ -136,3 +143,12 @@ export default class UsingISO extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  userReducer: state.userReducer,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getISOAddress: (address)=>dispatch(getISOAddress(address)),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(UsingISO);

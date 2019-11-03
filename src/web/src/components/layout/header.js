@@ -4,14 +4,12 @@ import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading} from '../../utils/common'
 import { connect} from 'react-redux'
-import { set_hak } from '../../actions/user'
 
 const { Text } = Typography;
 class Header extends Component {
     state = { 
         visible: false,
         amountFaucet: 25000,
-        HAK: this.props.userReducer.user.balance.HAK,
      };
     onClickLogOut = () => {
         this.props.logOut();
@@ -30,26 +28,28 @@ class Header extends Component {
           showNotificationTransaction(txHash);
       })
       .then(()=>{
-          this.setState({ HAK: Number(this.state.HAK) + Number(this.state.amountFaucet), amountFaucet: 25000})
-          this.props.set_hak(this.state.HAK)
+          this.setState({ amountFaucet: 25000})
       })
     };
 
   render () {
-    const { visible, amountFaucet, HAK } = this.state
+    const { visible, amountFaucet } = this.state
     const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
     const menu = (
         <Menu>
             <Menu.Item onClick={()=> this.props.history.push('/HAK')}>
                 <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
-                <Text>{HAK} HAK</Text>
+                <Text>{this.props.userReducer.user.HAK} HAK</Text>
             </Menu.Item>
             <Menu.Item onClick={()=> this.props.history.push('/ETH')}>
                 <Icon type="dollar" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
-                <Text>{this.props.userReducer.user.balance.ETH} ETH</Text>
+                <Text>{this.props.userReducer.balanceETH} ETH</Text>
             </Menu.Item>
             <Menu.Divider />
-          <Menu.Item onClick={()=> this.props.history.push(`/${this.props.userReducer.user.addressEthereum}`)}>
+          <Menu.Item onClick={()=> this.props.userReducer.user.userName ?
+            this.props.history.push(`/${this.props.userReducer.user.userName}`) :
+            this.props.history.push(`/${this.props.userReducer.user.addressEthereum}`)
+          }>
             <Icon type="user" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
             <Text>Home Page</Text>
           </Menu.Item>
@@ -145,7 +145,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  set_hak: (hak)=>dispatch(set_hak(hak)),
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

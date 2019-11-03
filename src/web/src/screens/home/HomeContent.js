@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import '../home/HomeContent.css'
 import { Row, Col, List } from 'antd';
 import { Carousel } from 'antd';
+import {connect} from 'react-redux';
 
 const data = [
   {
@@ -48,9 +49,8 @@ const data = [
     img: 'https://avatar-nct.nixcdn.com/song/2019/09/25/0/2/1/8/1569378226451.jpg',
   },
 ];
-export default class HomeContent extends Component {
 
-
+class HomeContent extends Component {
   render() {
   return (
   <div >
@@ -155,3 +155,13 @@ export default class HomeContent extends Component {
 )
 }
 }         
+
+
+const mapStateToProps = (state) => ({
+  userReducer: state.userReducer,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+})
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContent);

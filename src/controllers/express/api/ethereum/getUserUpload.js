@@ -5,7 +5,7 @@ const lib_common = require(config.library_dir+'/common');
 const User = require(config.models_dir + '/mongo/user');
 
 module.exports = async (req, res) => {
-    User.findOne({email: req.token_info.email})
+    User.findOne({addressEthereum: req.params.address})
     .then(user => {
         if(!user){
             return response_express.exception(res, "User not exist!")
@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
             if(!tx){
                 return response_express.exception(res, "Transaction failed, please try again!")
             }
-            lib_common.ModifyFile(tx, req.query.page)
+            lib_common.ModifyMusicFile(tx)
             .then(result => {
                 return response_express.success(res, result)  
             })

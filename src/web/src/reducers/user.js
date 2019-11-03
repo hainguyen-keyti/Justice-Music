@@ -1,6 +1,7 @@
 const initialState = {
     user: null,
 
+    balanceETH: 0,
     isSignin: false,
     signinSuccessful: false,
     isSignup: false,
@@ -10,16 +11,26 @@ const initialState = {
 
 export const userReducer = ( state = initialState, action) => {
     switch(action.type){
-    case 'SET_HAK':
+    case 'SET_HAK_ADD':
         return {
             ...state,
             user: {
                 ...state.user,
-                balance: {
-                    ...state.user.balance,
-                    HAK: action.hak
-                }
+                HAK: (Number(state.user.HAK) + action.hak)
             }
+    }
+    case 'SET_HAK_SUB':
+        return {
+            ...state,
+            user: {
+                ...state.user,
+                HAK: (state.user.HAK -  action.hak)
+            }
+    }
+    case 'SET_ETH':
+        return {
+            ...state,
+            balanceETH: action.eth
     }
     case 'SET_USER_DATA':
         return {

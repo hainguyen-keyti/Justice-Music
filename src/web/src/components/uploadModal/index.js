@@ -14,6 +14,9 @@ import {
 import 'antd/dist/antd.css';
 import {upload} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
+import config from '../../config';
+import {getUserUpload} from '../../actions/page'
+import { connect} from 'react-redux'
 
 function beforeUpload(file, kind) {
   if(kind === "Image"){
@@ -180,7 +183,7 @@ class extends React.Component {
   },
 );
 
-export default class UploadModal extends React.Component {
+class UploadModal extends React.Component {
   state = {
     visible: false,
   };
@@ -230,6 +233,10 @@ export default class UploadModal extends React.Component {
     upload(data)  
     .then((txHash) => {
       showNotificationTransaction(txHash);
+      config.provider.waitForTransaction(txHash)
+      .then(()=>{
+        this.props.getUserUpload(this.props.userReducer.user.addressEthereum)
+      })
     })
     .catch((error) => {
       showNotificationFail(error)
@@ -252,3 +259,13 @@ export default class UploadModal extends React.Component {
     );
   }
 }
+
+
+const mapStateToProps = (state) => ({
+  userReducer: state.userReducer,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getUserUpload: (address)=>dispatch(getUserUpload(address))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(UploadModal);

@@ -19,7 +19,6 @@ module.exports = async (req, res) => {
             }
             lib_common.ModifyFileISO(tx)
             .then(result => {
-                console.log(result)
                 return response_express.success(res, result)  
             })
         })

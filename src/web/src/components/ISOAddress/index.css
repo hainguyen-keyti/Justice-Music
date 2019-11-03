@@ -1,0 +1,7 @@
+.loading-data-iso {
+    text-align: center;
+    border-bottom:  rgba(0, 0, 0, 0.05) solid 1px;
+    border-top:  rgba(0, 0, 0, 0.05) solid 1px;
+    padding: 30px 50px;
+    margin: 20px 0;
+  }

@@ -55,56 +55,12 @@ exports.deleteSensitiveInfoUser = function(user){
 	return userInfo;
 }
 
-exports.ModifyFile = (tx, page) => {
-    return new Promise( async (resolve, reject) => {
-		try {
-			var result = [];
-			if (!page || page < 1){ page = 1;}
-			for(let i = (tx.length-1-(page-1)*10); i >= ((tx.length-page*10 > 0)?tx.length-page*10:0); i--){
-				let {idFile, idMongoose, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
-				await Music.findOne({_id: idMongoose, hash: fileHash})
-				.then( music => {
-					let data = {
-						idFile: Number(idFile),
-						owner,
-						price: Number(price),
-						totalDownloader: Number(totalDownloader),
-						weekDownloader: Number(weekDownloader),
-						blockTime: Number(blockTime),
-						valid,
-						kind,
-						IsISO,
-						music
-						// fileHash,
-						// image: music.image,
-						// view: music.view,
-						// nameSong: music.name,
-						// artists: music.artist,
-						// tags: music.tags,
-						// contractPermission: music.contractPermission
-					}
-					result.push(data);
-				})
-			}
-			let jsonRes = {
-				page: page,
-				total: tx.length,
-				file: result
-			}
-			return resolve(jsonRes)	
-		} catch (error) {
-			return reject(error)
-		}
-    })
-}
 
-
-exports.ModifyFile = (tx, page) => {
+exports.ModifyMusicFile = (tx) => {
 	return new Promise( async (resolve, reject) => {
 	try {
-		var result = [];
-		if (!page || page < 1){ page = 1;}
-		for(let i = (tx.length-1-(page-1)*10); i >= ((tx.length-page*10 > 0)?tx.length-page*10:0); i--){
+		let result = [];
+		for(let i = tx.length-1; i >= 0; i--){
 			let {idFile, idMongoose, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
 			await Music.findOne({_id: idMongoose, hash: fileHash})
 			.then( music => {
@@ -123,17 +79,13 @@ exports.ModifyFile = (tx, page) => {
 				result.push(data);
 			})
 		}
-		let jsonRes = {
-			page: page,
-			total: tx.length,
-			file: result
-		}
-		return resolve(jsonRes)	
+		return resolve(result)	
 	} catch (error) {
 		return reject(error)
 	}
 	})
 }
+
 
 
 exports.ModifyFileISO = (tx) => {
@@ -143,6 +95,7 @@ exports.ModifyFileISO = (tx) => {
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( user => {
+				console.log(user)
 				returnObj.avatar = user.avatar
 				returnObj.artistName = user.nickName
 			})
