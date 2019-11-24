@@ -32,7 +32,7 @@ module.exports = (req, res) => {
         response_express.success(res);
     })
     .catch(err => {
-        console.log("create fail" + err)
+        console.log("create fail " + err)
         response_express.exception(res, err);
     })
 } 

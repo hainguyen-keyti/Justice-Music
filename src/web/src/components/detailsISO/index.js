@@ -1,0 +1,106 @@
+import React from 'react';
+import {
+    Button,
+    Modal,
+    Icon,
+    Table,
+    Tooltip,
+    Typography
+  } from 'antd';
+import 'antd/dist/antd.css';
+import {connect} from 'react-redux';
+import InfoISO from '../infoISO'
+import InvestISO from '../investISO'
+const { Text } = Typography;
+
+class DetailsISO extends React.Component {
+  state = {
+    visible: false,
+  };
+
+  showModal = () => {
+    this.setState({ visible: true });
+  };
+
+  onClickOk(value) {
+    this.setState({ visible: value });
+  }
+
+  onClickCancel(value) {
+    this.setState({ visible: value });
+  }
+  
+  render() {
+    let { record }= this.props
+    const columns = [
+      {
+        title: 'Address',
+        dataIndex: 'investor',
+        key: 'address',
+        ellipsis: true,
+        render: address => <a href={`/${address}`}>{address}</a>,
+      },
+      {
+        title: 'Invest percent',
+        dataIndex: 'percentage',
+        key: 'percent',
+        render: percent => <Text>{parseFloat(percent / 1000).toFixed(3)} %</Text>,
+      },
+      {
+        title: 'Invest Amount',
+        dataIndex: 'amount',
+        key: 'amount',
+        render: amount => <Text>{amount} HAK</Text>,
+      },
+      
+    ];
+    return (
+      <div>
+        <Tooltip title="Show more details of this song">
+          <Icon type="info-circle" style={{fontSize: 20}} onClick={this.showModal} />
+        </Tooltip>
+        <Modal
+          title={record.musicName + " - ISO"}
+          bodyStyle={{ padding: 0, margin: 0 }} // Nên set cái boder bằng 0 chổ này( hoặc trong component InfoISO) thì đẹp hơn.
+          visible={this.state.visible}
+          // onOk={()=>this.onClickOK(false)}
+          // onCancel={()=>this.onClickCancel(false)}
+          footer={[
+            <Button key="back" onClick={()=>this.onClickCancel(false)}>
+              Return
+            </Button>,
+            <Button key="submit" type="primary">
+              <InvestISO idFile={record.idFile}/>
+            </Button>,
+          ]}
+        >
+          <InfoISO record={record} action={false}/>
+          <div style={{padding: 5, margin: 5}}>
+            <Text >Total Offer Amount: </Text>
+            <Text type="secondary">{record.amountRemaining} HAK</Text>
+            <br />
+            <Text >Total Offer Percent: </Text>
+            <Text type="secondary">{parseFloat(record.offerPercent / 1000).toFixed(3)} %</Text>
+            <br />
+            <Text >Amount Remaining: </Text>
+            <Text type="secondary">{record.amountRemaining} HAK</Text>
+            <br />
+            <Text >Owner Percent Remaining: </Text>
+            <Text type="secondary">{parseFloat(record.ownerPercent / 1000).toFixed(3)} %</Text>
+            <br />
+          </div>
+          <Table columns={columns} dataSource={record.investListISO} pagination={false}/>
+        </Modal>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  userReducer: state.userReducer,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+})
+export default connect(mapStateToProps, mapDispatchToProps)(DetailsISO);

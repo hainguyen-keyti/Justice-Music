@@ -2,7 +2,7 @@ import React from 'react';
 import { Result, Button } from 'antd';
 import 'antd/dist/antd.css';
 
-export default class ComponentLoading extends React.Component {
+export default class ComponentSuccess extends React.Component {
   render() {
     return (
       <Result
@@ -10,10 +10,9 @@ export default class ComponentLoading extends React.Component {
       title={this.props.title}
       subTitle={this.props.subTitle}
       extra={[
-        <Button type="primary" key="console">
-          Go Console
-        </Button>,
-        <Button key="buy">Buy Again</Button>,
+        <Button type="primary" onClick={()=>this.props.history.push('/home')}>
+          Go to homepage
+        </Button>
       ]}
     />
     )

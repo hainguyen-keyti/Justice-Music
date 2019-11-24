@@ -109,9 +109,15 @@ contract FileStorage is FileStruct{
     
     function getISOListAddress(address _addr) public view onlyOwnerContract returns(ISO[] memory){
         uint[] memory tempIDList = UserList[_addr].uploadList;
-        ISO[] memory result = new ISO[](tempIDList.length);
+        uint count = 0;
         for(uint i = 0; i < tempIDList.length ; i++){
             if(FileList[tempIDList[i]].IsISO){
+                count++;
+            }
+        }
+        ISO[] memory result = new ISO[](count);
+        for(uint i = 0; i < tempIDList.length ; i++){
+            if(FileList[tempIDList[i]].IsISO == true){
                 ISO memory tempISO = ISOList[tempIDList[i]];
                 result[i] = tempISO;
             }
@@ -140,6 +146,10 @@ contract FileStorage is FileStruct{
             ISOList[_ID].week = ISOList[_ID].week + _Value;
         else
             revert();
+    }
+    
+    function setISOListFile(uint _ID, File memory _file) public onlyOwnerContract{
+        ISOList[_ID].ISOFile = _file;
     }
     
     function setListIDISO(uint _ID) public onlyOwnerContract{

@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import {
+  Row,
   Col,
   Empty,
   Spin
@@ -18,18 +19,17 @@ class ISOAddress extends React.Component {
         {this.props.pageReducer.loadingIsoData ? <div className="loading-data-iso"> <Spin size="large"/> </div> : 
           (this.props.pageReducer.isoData.length === 0 ?
           <div className="loading-data-iso"> <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/> </div> :
-          this.props.pageReducer.isoData.map(record => 
+          <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 20]}>
+            {this.props.pageReducer.isoData.map(record => 
             <Col span={8}>
-              <InfoISO 
-                background={"https://ipfs.io/ipfs/" + record.background}
-                artistAvatar={"https://ipfs.io/ipfs/" + record.avatar}
-                artistName={record.artistName}
-                songName={record.musicName}
-                currentPercent={100 - (record.amountRemaining * 100 / record.offerAmount)}
-                timeExpire={record.timeExpired}
+              <InfoISO
+                record={record}
+                action={true}
               />
             </Col>
-          ))
+          )}
+          </Row>
+          )
         }
       </div>
     );

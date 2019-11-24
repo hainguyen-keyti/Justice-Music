@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import {
+  Row,
   Col,
  } from 'antd';
 import {getISOList} from '../../api/userAPI'
@@ -27,18 +28,16 @@ class ISOContent extends React.Component {
     return (
       <div style={{width: '100%'}}>
         {this.state.loading ? <ComponentLoading /> : 
-          this.state.dataISO.map(record => 
+          <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 20]}>
+            {this.state.dataISO.map(record => 
             <Col span={6}>
-              <InfoISO 
-                background={"https://ipfs.io/ipfs/" + record.background}
-                artistAvatar={"https://ipfs.io/ipfs/" + record.avatar}
-                artistName={record.artistName}
-                songName={record.musicName}
-                currentPercent={100 - (record.amountRemaining * 100 / record.offerAmount)}
-                timeExpire={record.timeExpired}
+              <InfoISO
+                record={record}
+                action={true}
               />
             </Col>
-          )
+          )}
+          </Row>
         }
       </div>
     );

@@ -36,13 +36,13 @@ module.exports = (req, res) => {
         if(!isMatchPassword){
             return Promise.reject("Password not match")
         }
-        lib_common.getBlance(addressEthereum).then( balance => {
+        lib_common.getBalance(addressEthereum).then( balance => {
             response_express.success(res, {accessToken, refreshToken, id, email, userName, addressEthereum, HAK: balance.HAK})
             console.log("login successfull")
         })
     })
     .catch(err=>{
         response_express.exception(res, err.message || err);
-        console.log("login fail" + err);
+        console.log("login fail " + err);
     })
 } 

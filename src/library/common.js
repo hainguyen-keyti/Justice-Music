@@ -92,6 +92,7 @@ exports.ModifyFileISO = (tx) => {
 	return new Promise( async (resolve, reject) => {
 	try {
 		return resolve( await Promise.all(tx.map( async record => {
+			console.log("kokokoasdkofakdofkadsofkodskfodskfosdk")
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( user => {
@@ -106,6 +107,7 @@ exports.ModifyFileISO = (tx) => {
 				returnObj.musicName = music.name
 			})
 			.catch(err=>reject(err))
+			returnObj.idFile = Number(record.ISOFile.idFile)
 			returnObj.offerPercent = Number(record.offerPercent)
 			returnObj.offerAmount = Number(record.offerAmount)
 			returnObj.amountRemaining = Number(record.amountRemaining)
@@ -131,7 +133,7 @@ exports.ModifyFileISO = (tx) => {
 }
 
 
-exports.getBlance = (address) => {
+exports.getBalance = (address) => {
 	return new Promise((resolve, reject) => {
 		const promises = [
 			config.provider.getBalance(address),

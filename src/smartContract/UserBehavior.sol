@@ -92,6 +92,7 @@ contract UserBehavior is FileStruct, Ownable{
         fileStorage.setISOList(_idFile, 4, 100000);
         fileStorage.setISOList(_idFile, 5, 0);
         fileStorage.setISOList(_idFile, 6, 1);
+        fileStorage.setISOListFile(_idFile, fileStorage.getFileList(_idFile));
         fileStorage.setFileList_IsISO(_idFile, true);
         fileStorage.setListIDISO(_idFile);
         emit Log_usingISO(msg.sender, _idFile, _offerPercent, _offerAmount, _maintain);

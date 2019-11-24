@@ -1,0 +1,34 @@
+.login-form {
+    max-width: 380px;
+    /* background-color: rgba(0,0,0,.25); */
+    padding: 30px;
+    margin: 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,.25);
+
+  }
+  .login-form-forgot {
+    float: right;
+  }
+  .login-form-button {
+    width: 100%;
+  }
+  .wrap-form-login {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .register-form {
+    width: 700px;
+    max-width: 800px;
+    /* background-color: rgba(0,0,0,.25); */
+    padding: 30px;
+    margin: 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,.25);
+
+  }

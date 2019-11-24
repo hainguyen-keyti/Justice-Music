@@ -1,204 +1,224 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import withStyles from '@material-ui/core/styles/withStyles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import PropTypes from 'prop-types';
-import { createUser, signup_fail, signup_fail_handle, clear_state} from '../../actions/user'
+import 'antd/dist/antd.css';
+import './index.css';
+import {
+  Form,
+  Input,
+  Tooltip,
+  Icon,
+  Select,
+  Checkbox,
+  Button,
+  Radio,
+  Result
+} from 'antd';
+import { createUser, signup_fail, signup_fail_handle, clear_state_register} from '../../actions/user'
 import {connect} from 'react-redux';
+import ComponentLoading from '../../components/loading'
+import ComponentError from '../../components/error'
 
-const styles = theme => ({
-    submit: {
-        marginTop: theme.spacing.unit * 3,
-        opacity: '0.6',
-        backgroundColor: '#0099FF',
-        color:'white',
+const { Option } = Select;
+class RegistrationForm extends React.Component {
+  state = {
+    confirmDirty: false,
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      let {email, password, nickName, phone, genre} = values
+      if (!err) {
+        console.log('Received values of form: ', values);
+        this.props.createUser(email, password, nickName, phone, genre)
+      }
+    });
+  };
+
+  handleConfirmBlur = e => {
+    const { value } = e.target;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
+      callback();
+    }
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  };
+
+  handleSubmitSuccess = () => {
+    this.props.history.push('/home')
+    this.props.clear_state_register()
+  };
+
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 8,
+        },
       },
-      typeColor: {
-        color: 'black',
-        textAlign: 'center',
-      },
-});
-
-class Register extends React.Component{
-    state = {
-        name: "",
-        email: "",
-        password: "",
-        phone: "",
-        genre: ""
+    };
+    const prefixSelector = getFieldDecorator('prefix', {
+      initialValue: '84',
+    })(
+      <Select style={{ width: 70 }}>
+        <Option value="84">+84</Option>
+        <Option value="86">+86</Option>
+      </Select>,
+    );
+    if(this.props.userReducer.error){
+      alert(this.props.userReducer.error)
+      // this.props.signup_fail_handle();
+      this.props.clear_state_register()
+      return <ComponentError />
     }
-
-    constructor(props){
-        super(props)
-    
-        this.onClickSignUp = this.onClickSignUp.bind(this)
+    if(this.props.userReducer.signupSuccessful){
+      console.log("vo roi ne")
+      this.props.form.resetFields()
+      return (  
+      <Result
+        status="success"
+        title="Login Success"
+        subTitle="Click here to go home page !"
+        extra={[
+          <Button type="primary" onClick={this.handleSubmitSuccess}>
+            Go to homepage
+          </Button>
+        ]}
+      />
+      )
     }
-
-    handleChange = event => {
-        this.setState({genre: event.target.value})
+    if(this.props.userReducer.isSignup){
+      return <ComponentLoading />
     }
+    return (
+      <div className="wrap-form-login">
+          <Form onSubmit={this.handleSubmit} className="register-form">
+        <Form.Item label="E-mail">
+          {getFieldDecorator('email', {
+            rules: [
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ],
+          })(<Input />)}
+        </Form.Item>
+        <Form.Item label="Password" hasFeedback>
+          {getFieldDecorator('password', {
+            rules: [
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+              {
+                validator: this.validateToNextPassword,
+              },
+            ],
+          })(<Input.Password />)}
+        </Form.Item>
+        <Form.Item label="Confirm Password" hasFeedback>
+          {getFieldDecorator('confirm', {
+            rules: [
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              {
+                validator: this.compareToFirstPassword,
+              },
+            ],
+          })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+        </Form.Item>
+        <Form.Item
+          label={
+            <span>
+              Nickname&nbsp;
+              <Tooltip title="What do you want others to call you?">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator('nickName', {
+            rules: [{ required: true, message: 'Your input is not valid.', pattern: /^\S{8,16}$/ }],
+          })(<Input />)}
+        </Form.Item>
 
-    onClickSignUp() {
-        let {name, email, password, phone, genre} = this.state;
-        this.props.createUser(email, password, name, phone, genre)
-    }
-    render(){
-        const { classes } = this.props;
-        if(this.props.userReducer.error){
-            alert("Register fail: you must input correct email and mobie phone format,   " + this.props.userReducer.error)
-            this.props.signup_fail_handle();
-        }
-        if(this.props.userReducer.signupSuccessful){
-            this.props.clear_state();
-            this.setState({
-                name: "",
-                email: "",
-                password: "",
-                phone: "",
-                genre: ""
-            })
-            alert("Register successfully")
-        }
-        return (
-            <div>
-              <Typography variant="h6" gutterBottom className={classes.typeColor}>
-                Register Form
-              </Typography>
-              <form >
-                <Grid container spacing={24}>
-                    <Grid item xs={12}>
-                    <TextField
-                        required
-                        label="Name"
-                        fullWidth
-                        autoComplete="billing full name"
-                        value={this.state.name}
-                        onChange={e=>this.setState({name: e.target.value})} 
-                    />
-                    </Grid>
-                    <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="email"
-                        name="email"
-                        label="Email"
-                        fullWidth
-                        autoComplete="billing email"
-                        value={this.state.email}
-                        onChange={e=>this.setState({email: e.target.value})} 
-                    />
-                    </Grid>
-                    <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="password"
-                        name="password"
-                        type="password"
-                        label="Password"
-                        color= '#e0e0e0'
-                        fullWidth
-                        autoComplete="billing password"
-                        value={this.state.password}
-                        onChange={e=>this.setState({password: e.target.value})} 
-                    />
-                    </Grid>
-                    <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="phone"
-                        name="phone"
-                        label="Phone"
-                        fullWidth
-                        autoComplete="billing phone"
-                        value={this.state.phone}
-                        onChange={e=>this.setState({phone: e.target.value})} 
-                    />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormLabel required component="legend">Genre</FormLabel>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <FormControlLabel
-                        control ={
-                            <Radio
-                                checked={this.state.genre === '1'}
-                                onChange={this.handleChange}
-                                value="1"
-                                name="radio-button-demo"
-                                aria-label="B"
-                                color="black"
-                            />
-                        }
-                        label="Male"
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <FormControlLabel
-                        control ={
-                            <Radio
-                                checked={this.state.genre === '2'}
-                                onChange={this.handleChange}
-                                value="2"
-                                name="radio-button-demo"
-                                aria-label="B"
-                                color="black"
+        <Form.Item label="Phone Number">
+          {getFieldDecorator('phone', {
+            rules: [{ required: true, message: 'Please input your phone number!' }],
+          })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+        </Form.Item>
 
-                            />
-                        }
-                        label="Female"
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <FormControlLabel
-                        control ={
-                            <Radio
-                                checked={this.state.genre === '3'}
-                                onChange={this.handleChange}
-                                value="3"
-                                name="radio-button-demo"
-                                aria-label="B"
-                                color="black"
+        <Form.Item label="Genre">
+              {getFieldDecorator('genre', {
+                initialValue: 3,
+              })(
+                <Radio.Group>
+                  <Radio value={1}>Man</Radio>
+                  <Radio value={2}>Woman</Radio>
+                  <Radio value={3}>Other</Radio>
+                </Radio.Group>,
+              )}
+            </Form.Item>
 
-                            />
-                        }
-                        label="Other"
-                        />
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        className={classes.submit}
-                        disabled={this.props.userReducer.isSignup && !this.props.userReducer.signupSuccessful}
-                        onClick={this.onClickSignUp}
-                        >
-                        Sign Up
-                    </Button>
-                </Grid>
-              </form>
-            </div>
-        );
-    }
+        <Form.Item {...tailFormItemLayout}>
+          {getFieldDecorator('agreement', {
+            valuePropName: 'checked',
+          })(
+            <Checkbox>
+              I have read the <a>agreement</a>
+            </Checkbox>,
+          )}
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+      </div>
+    );
+  }
 }
 
-Register.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
+const WrappedRegistrationForm = Form.create({ name: 'register' })(RegistrationForm);
 
 const mapStateToProps = (state) => ({
     userReducer: state.userReducer
 })
 
 const mapDispatchToProps = (dispatch) =>({
-    createUser: (email, password, name, phone, genre) => dispatch(createUser(email, password, name, phone, genre)),
+    createUser: (email, password, nickName, phone, genre) => dispatch(createUser(email, password, nickName, phone, genre)),
     signup_fail: () => dispatch(signup_fail()),
     signup_fail_handle: () => dispatch(signup_fail_handle()),
-    clear_state: () => dispatch(clear_state())
+    clear_state_register: () => dispatch(clear_state_register())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(Register));
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedRegistrationForm);
+
+          

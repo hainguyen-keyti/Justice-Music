@@ -6,19 +6,12 @@ import config from '../config';
 export function login(email, password){
     return (dispatch) => {
         dispatch(signin_start())
-
         loginAPI(email, password)
         .then((user) => {
-            console.log(user)
             dispatch(set_user_data(user))
-            return user
         })
-        .then((user)=>{
+        .then(()=>{
             dispatch(signin_successful())
-            return user
-        })
-        .then((user)=>{
-            dispatch(getBlanceETH(user.addressEthereum))
         })
         .catch((err) => {
             dispatch(signin_fail(err))
@@ -26,35 +19,61 @@ export function login(email, password){
     }
 }
 
-export function getBlanceETH(address){
+let isListenHAK = true
+
+export function getBalance(address){
     return (dispatch) => {
-        config.provider.on(address, (balance) => {
-            console.log("hahahahahahahahahahah")
-            const eth = ethers.utils.formatEther(balance)
-            dispatch(set_eth(eth))
-      });
+        if(isListenHAK) {
+            isListenHAK = false;
+            config.provider.getBalance(address)
+            .then((balance) => {
+                const eth = ethers.utils.formatEther(balance)
+                dispatch(set_eth(eth))
+            })
+            config.provider.on(address, (balance) => {
+                const eth = ethers.utils.formatEther(balance)
+                dispatch(set_eth(eth))
+            });
+
+            const {tokenAddress, tokenABI, provider} = config
+            let contract = new ethers.Contract(tokenAddress, tokenABI, provider);
+            let filter1 = contract.filters.Transfer(null, address);
+            contract.on(filter1, (from, to, value) => {
+                console.log(Number(value))
+                console.log('I received ' + value.toString() + ' tokens from ' + from);
+                dispatch(set_hak_add(Number(value)))
+            });
+
+            let filter2 = contract.filters.Transfer(address, null);
+            contract.on(filter2, (from, to, value) => {
+                console.log(Number(value))
+                console.log('I sended ' + value.toString() + ' tokens to ' + to);
+                dispatch(set_hak_sub(Number(value)))
+            });
+        }
     }
 }
 
-export function getBlanceHAK(address){
-    return (dispatch) => {
-        const {tokenAddress, tokenABI, provider} = config
-        let contract = new ethers.Contract(tokenAddress, tokenABI, provider);
-        let filter1 = contract.filters.Transfer(null, address);
-        contract.on(filter1, (from, to, value) => {
-            console.log(Number(value))
-            console.log('I received ' + value.toString() + ' tokens from ' + from);
-            dispatch(set_hak_add(Number(value)))
-        });
+// export function getBalanceHAK(address){
+//     return (dispatch) => {
+//         const {tokenAddress, tokenABI, provider} = config
+//         let contract = new ethers.Contract(tokenAddress, tokenABI, provider);
+//         let filter1 = contract.filters.Transfer(null, address);
+//         contract.on(filter1, (from, to, value) => {
+//             console.log(Number(value))
+//             console.log('I received ' + value.toString() + ' tokens from ' + from);
+//             dispatch(set_hak_add(Number(value)))
+//         });
 
-        let filter2 = contract.filters.Transfer(address, null);
-        contract.on(filter2, (from, to, value) => {
-            console.log(Number(value))
-            console.log('I sended ' + value.toString() + ' tokens to ' + to);
-            dispatch(set_hak_sub(Number(value)))
-        });
-    }
-}
+//         let filter2 = contract.filters.Transfer(address, null);
+//         contract.on(filter2, (from, to, value) => {
+//             console.log(Number(value))
+//             console.log('I sended ' + value.toString() + ' tokens to ' + to);
+//             dispatch(set_hak_sub(Number(value)))
+//         });
+//     }
+// }
+
 
 export function set_user_data(user){
     return {
@@ -108,13 +127,15 @@ export function signin_fail_handle(){
     }
 }
 
-export function createUser(email, password, name, phone, genre){
+export function createUser(email, password, nickName, phone, genre){
     return (dispatch) => {
         dispatch(signup_start())
-
-        createUserAPI(email, password, name, phone, genre)
+        createUserAPI(email, password, nickName, phone, genre)
         .then(() => {
             dispatch(signup_successful())
+        })
+        .then(() => {
+            dispatch(login(email, password))
         })
         .catch((err) => {
             dispatch(signup_fail(err))
@@ -128,9 +149,9 @@ export function signup_start(){
     }
 }
 
-export function clear_state(){
+export function clear_state_register(){
     return {
-        type: 'CLEAR_STATE'
+        type: 'CLEAR_STATE_REGISTER'
     }
 }
 

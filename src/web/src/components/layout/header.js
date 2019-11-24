@@ -4,6 +4,7 @@ import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading} from '../../utils/common'
 import { connect} from 'react-redux'
+import { getBalance } from '../../actions/user'
 
 const { Text } = Typography;
 class Header extends Component {
@@ -31,6 +32,9 @@ class Header extends Component {
           this.setState({ amountFaucet: 25000})
       })
     };
+    componentDidMount = () => {
+        this.props.getBalance(this.props.userReducer.user.addressEthereum)
+    }
 
   render () {
     const { visible, amountFaucet } = this.state
@@ -145,7 +149,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+  getBalance: (userAddress) => dispatch(getBalance(userAddress)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

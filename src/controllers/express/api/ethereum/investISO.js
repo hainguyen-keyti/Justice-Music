@@ -12,7 +12,7 @@ module.exports = (req, res) => {
         }
         let wallet = new ethers.Wallet(user.privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
-        let balance = await lib_common.getBlance(user.addressEthereum)
+        let balance = await lib_common.getBalance(user.addressEthereum)
         if(balance.HAK < req.body.investAmount){
             return response_express.exception(res, "Your HAK balance is not enough!")
         }

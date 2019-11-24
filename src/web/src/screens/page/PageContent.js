@@ -54,13 +54,13 @@ class PageContent extends Component {
                 <div className="info-icon">
                   <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
                     <Icon className="icon-style" type="phone"  />
-                    <Text type="secondary">{phone}</Text>
+                    <Text ellipsis type="secondary">{phone}</Text>
                   </a>
                   {
                     otherInfomaion.youtube ? 
                     <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
                       <Icon className="icon-style" type="youtube"  />
-                      <Text type="secondary">{otherInfomaion.youtube}</Text>
+                      <Text ellipsis type="secondary">{otherInfomaion.youtube}</Text>
                     </a> :
                     null
                   }
@@ -68,7 +68,7 @@ class PageContent extends Component {
                     otherInfomaion.facebook ? 
                     <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
                       <Icon className="icon-style" type="facebook"  />
-                      <Text type="secondary">{otherInfomaion.facebook}</Text>
+                      <Text ellipsis type="secondary">{otherInfomaion.facebook}</Text>
                     </a> :
                     null
                   }
@@ -76,7 +76,7 @@ class PageContent extends Component {
                     otherInfomaion.home ?
                     <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
                       <Icon className="icon-style" type="home"  />
-                      <Text type="secondary">{otherInfomaion.home}</Text>
+                      <Text ellipsis type="secondary">{otherInfomaion.home}</Text>
                     </a> :
                     null
                   }

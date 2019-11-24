@@ -4,7 +4,6 @@ import { download } from '../../api/userAPI'
 import { connect} from 'react-redux'
 import {set_music_selected} from '../../actions/app'
 import UsingISO from '../../components/usingISO'
-import InvestISO from '../../components/investISO'
 import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
 import config from '../../config'
 import {getUserDownload} from '../../actions/page'
@@ -85,11 +84,9 @@ class MusicTable extends React.Component {
               <Divider type="vertical" />
               <Icon type="caret-right" />
               <Divider type="vertical" />
-              <UsingISO idFile={record.idFile}/>
-              <Divider type="vertical" />
               {record.IsISO ? <Icon type="check-square" style={{ color: '#1da1f2'}} /> : <Icon type="close-square" />}
               <Divider type="vertical" />
-              <InvestISO idFile={record.idFile}/>
+              <UsingISO idFile={record.idFile}/>
               <Divider type="vertical" />
               <Icon  style={{ color: '#1da1f2'}} type="download" onClick={()=>{this.handleBuySong(record.idFile)}} />
           </div>

@@ -1,5 +1,5 @@
 const initialState = {
-    user: null,
+    user: {},
 
     balanceETH: 0,
     isSignin: false,
@@ -60,8 +60,9 @@ export const userReducer = ( state = initialState, action) => {
         ...state,
         error: null
     }
-    case 'CLEAR_STATE':
+    case 'CLEAR_STATE_REGISTER':
         return {
+        ...state,
         isSignup: false,
         signupSuccessful: false,
         error: null
@@ -73,9 +74,9 @@ export const userReducer = ( state = initialState, action) => {
         }
     case 'SIGNUP_SUCCESSFUL':
         return {
-            ...state,
-            isSignup: false,
-            signupSuccessful: true
+        ...state,
+        isSignup: false,
+        signupSuccessful: true
     }
     case 'SIGNUP_FAIL':
         return {

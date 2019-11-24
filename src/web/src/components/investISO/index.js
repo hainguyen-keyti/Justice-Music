@@ -4,7 +4,8 @@ import {
     InputNumber,
     Modal,
     Icon,
-    message
+    message,
+    Tooltip
   } from 'antd';
 import 'antd/dist/antd.css';
 import {investISO} from '../../api/userAPI'
@@ -45,7 +46,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     },
 );
 
-export default class UsingISO extends React.Component {
+export default class InvestISO extends React.Component {
   state = {
     visible: false,
   };
@@ -93,7 +94,9 @@ export default class UsingISO extends React.Component {
   render() {
     return (
       <div>
-        <Icon type="rise" onClick={this.showModal} style={{ color: '#1da1f2'}}/>
+        <Tooltip title="Invest this song">
+          <Icon type="bg-colors" onClick={this.showModal} style={{ fontSize: 20}}/>
+        </Tooltip>
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}

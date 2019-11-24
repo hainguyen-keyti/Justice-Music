@@ -92,6 +92,8 @@ export function getUserDownload(address){
     .then( res => {
       if (res.data.status === 0)
         return reject(res.data.error.message)
+      console.log("this is get user download log")
+      console.log(res.data.result)
       resolve(res.data.result)
     })
     .catch(err => reject(err))
@@ -204,9 +206,13 @@ export function getISOList(){
     .then( res => {
       if (res.data.status === 0)
         return reject(res.data.error.message)
+      console.log(res.data.result)
       resolve(res.data.result)
     })
-    .catch(err => reject(err))
+    .catch(err => {
+      console.log("loine: " + err)
+      reject(err)
+    })
   })
 }
 
