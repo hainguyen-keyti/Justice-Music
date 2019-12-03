@@ -233,6 +233,23 @@ export function updateUser(data){
   })
 }
 
+export function follow(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/actions/follow', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          console.log("this is result " + res.data.result)
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
 export function getUserPage(userName){
   return new Promise((resolve, reject) => {
     return axios.get(config.api_url+ '/actions/userPage?userName=' + userName, {

@@ -6,6 +6,7 @@ import {
   Typography,
   Tabs,
   Icon,
+  Button
  } from 'antd';
 import 'antd/dist/antd.css';
 import './index.css'
@@ -15,22 +16,32 @@ import UploadModal from '../../components/uploadModal'
 import ISOAddress from '../../components/ISOAddress'
 import ComponentLoading from '../../components/loading'
 import Component404 from '../../components/404'
-import {getUserPage} from '../../actions/page'
+import {getUserPage, set_is_follow} from '../../actions/page'
 import { connect} from 'react-redux'
+import {follow} from '../../api/userAPI'
 
 const { TabPane } = Tabs;
 const { Title, Text } = Typography;
-const operations = <UploadModal/>;
-class PageContent extends Component {
 
+class PageContent extends Component {
   componentDidMount(){
     this.props.getUserPage(this.props.userName)
   }
   handle_error = () => {}
+  onHanleFollow = (setFollow) =>{
+    const data = {
+      followedID: this.props.pageReducer.userInfoData._id
+    }
+    follow(data)
+    .then(result => {
+      this.props.set_is_follow(setFollow)
+    })
+  }
   render() {
     if (this.props.pageReducer.errorPage) return (<Component404 history={this.props.history} subTitle="Page not found. Please try another link!"></Component404>)
     if (!this.props.pageReducer.userInfoData) return (<ComponentLoading/>)
-    const {folow, phone, otherInfomaion, avatar, nickName, addressEthereum} = this.props.pageReducer.userInfoData
+    const {follow, phone, otherInfomaion, avatar, nickName, addressEthereum, _id, isFollowed} = this.props.pageReducer.userInfoData
+    const operations = (_id === this.props.userReducer.user.id) ? <UploadModal/> : <Button type="danger" onClick={() => this.onHanleFollow(!isFollowed)}>{isFollowed ? "Unfollow" : "Follow"}</Button>
     return (
         <div>
           <Row>
@@ -46,7 +57,7 @@ class PageContent extends Component {
                 </div>
                 <div>
                   <Title level={4}>{nickName}</Title>
-                  <Text type="secondary">{folow} Theo dõi</Text>
+                  <Text type="secondary">{follow} Follow</Text>
                 </div>
               </div>
               {
@@ -107,10 +118,12 @@ class PageContent extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  pageReducer: state.pageReducer
+  pageReducer: state.pageReducer,
+  userReducer: state.userReducer
 })
 
 const mapDispatchToProps = (dispatch) => ({
   getUserPage: (userName)=>dispatch(getUserPage(userName)),
+  set_is_follow: (setFollow)=>dispatch(set_is_follow(setFollow)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PageContent);

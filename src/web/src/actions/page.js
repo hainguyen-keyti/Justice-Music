@@ -79,7 +79,12 @@ export function getUserPage(userName){
     }
 }
 
-
+export function set_is_follow(setFollow){
+    return {
+        type: 'SET_IS_FOLLOW',
+        setFollow
+    }
+}
 export function set_loading_upload(loadingUpload){
     return {
         type: 'SET_LOADING_UPLOAD',

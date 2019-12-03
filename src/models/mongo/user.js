@@ -89,10 +89,6 @@ var userSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-    folow: {
-        type: Number,
-        default: 0,
-    },
     otherInfomaion: {
         type: Object
     }

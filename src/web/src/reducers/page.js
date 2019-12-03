@@ -17,7 +17,15 @@ const initialState = {
 
 export const pageReducer = ( state = initialState, action) => {
     switch(action.type){
-
+    case 'SET_IS_FOLLOW':
+        return {
+            ...state,
+            userInfoData: {
+                ...state.userInfoData,
+                isFollowed: action.setFollow,
+                follow: action.setFollow ? (state.userInfoData.follow + 1) : (state.userInfoData.follow - 1) 
+            },
+    }
     case 'HANDLE_SET_ERROR_GET_USER_UPLOAD':
         return {
             ...state,

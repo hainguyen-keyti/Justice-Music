@@ -245,7 +245,7 @@ class UploadModal extends React.Component {
   render() {
     return (
       <div>
-        <Button onClick={this.showModal}>
+        <Button type="danger" onClick={this.showModal}>
           Upload
         </Button>
         <CollectionCreateForm
