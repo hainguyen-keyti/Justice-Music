@@ -8,6 +8,7 @@ import Index from './screens/index/Index'
 import Page from './screens/page'
 import ISO from './screens/iso'
 import Setting from './screens/setting'
+import MusicPlayer from './components/musicPlayer'
 
 const Root = () => (
     <Router>
@@ -22,6 +23,7 @@ const Root = () => (
                 <Route path="/setting" component={Setting} />
                 <Route path="/:userName" component={Page} />
             </Switch>
+            <MusicPlayer/>
         </div>
     </Router>
 )

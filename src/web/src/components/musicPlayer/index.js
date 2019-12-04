@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
-import { Card, Button, Slider, Avatar } from 'antd';
+import { Card, Button, Slider, Avatar, Dropdown, Tooltip } from 'antd';
 import './index.css'
 import Duration from './duration'
 import Typography from 'antd/lib/typography/Typography';
 import { connect} from 'react-redux'
 
+
 class MusicPlayer extends Component {
   state = {
     totalSeconds: 0,
+    loop: true,
     playing: true,
     playingIcon: 'pause',
-    loadingInfo: {}
+    loopIcon: 'redo',
+    loadingInfo: {},
+    volume: 0.3
   };  
 
   onHandleClickPlaying = () => {
@@ -21,7 +25,14 @@ class MusicPlayer extends Component {
       playingIcon: (playingIcon === 'pause') ? 'caret-right' : 'pause',
     })
   }
-
+  onHandleClickLoop = () => {
+    const { loop, loopIcon } = this.state;
+    this.setState({
+      loop: !loop,
+      loopIcon: (loopIcon === 'redo') ? 'close' : 'redo',
+    })
+  }
+  
   onChangeSeek = value => {
     // console.log('change', value)
     if (isNaN(value)) {
@@ -33,6 +44,16 @@ class MusicPlayer extends Component {
     this.player.seekTo(parseFloat(value))
   };
 
+  onChangeVolume = value => {
+    // console.log('change', value)
+    if (isNaN(value)) {
+      return;
+    }
+    this.setState({
+      volume: value/100,
+    });
+  };
+  
   Tooltip = value => {
     return <Duration seconds={value}/>
   }
@@ -41,9 +62,9 @@ class MusicPlayer extends Component {
     this.player = player
   }
   render () {
-    const { totalSeconds, playing, playingIcon, loadingInfo } = this.state;
+    const { totalSeconds, playing, loop, playingIcon, loopIcon, loadingInfo, volume } = this.state;
     return (
-      <div style={{visibility: this.props.appReducer.musicSelected ? '' : 'hidden'}}>
+      <div style={{visibility: Object.entries(this.props.appReducer.musicSelected).length === 0 ? 'hidden' : ''}}>
           <Card
           hoverable
           bordered={false}
@@ -52,7 +73,9 @@ class MusicPlayer extends Component {
             <div className="player">
               <ReactPlayer
                 ref={this.ref}
-                url={this.props.appReducer.musicSelected}
+                volume={volume}
+                loop={loop}
+                url={"https://ipfs.io/ipfs/" + this.props.appReducer.musicSelected.hash}
                 playing={playing}
                 width='0'
                 height='0'
@@ -60,22 +83,29 @@ class MusicPlayer extends Component {
                 onDuration={(data)=>{this.setState({totalSeconds: data})}}
               />
               <Button shape="circle" size="large" icon="step-backward" className="icon-formart"/>
-              <Button shape="circle" size="large" icon={playingIcon} className="icon-formart" onClick={()=>{this.onHandleClickPlaying()}} />
+              <Tooltip title={playing ? "Play" : "Stop"}>
+                <Button shape="circle" size="large" icon={playingIcon} className="icon-formart" onClick={()=>{this.onHandleClickPlaying()}} />
+              </Tooltip>
               <Button shape="circle" size="large" icon="step-forward" className="icon-formart"/>
-              <Button shape="circle" size="large" icon="retweet" className="icon-formart"/>
-              <Avatar size={45} style={{marginLeft: 20}} src="https://ipfs.io/ipfs/QmXwrePcDqV2YR1xyJU4mpxadaQgHHMLsitBgWtZS2c9Zn" alt="Avatar photo"/>
+              <Tooltip title={loop ? "Loop" : 'No Loop'}>
+                <Button shape="circle" size="large" icon={loopIcon} className="icon-formart" onClick={()=>{this.onHandleClickLoop()}}/>
+              </Tooltip>
+              <Avatar size={50} style={{marginLeft: 20}} src={"https://ipfs.io/ipfs/" + this.props.appReducer.musicSelected.image} alt="Avatar photo"/>
               <Slider
                 tipFormatter={this.Tooltip}
                 min={0}
                 max={totalSeconds}
                 onChange={this.onChangeSeek}
                 value={typeof loadingInfo.playedSeconds === 'number' ? loadingInfo.playedSeconds : 0}
-                style={{width: '300px'}}
+                style={{width: '300px', marginLeft: 10}}
                 step={0.000001} 
               />
-                <Duration seconds={loadingInfo.playedSeconds ? loadingInfo.playedSeconds : 0}/>
-                <Typography>/</Typography>
-                <Duration seconds={totalSeconds}/>
+              <Duration seconds={loadingInfo.playedSeconds ? loadingInfo.playedSeconds : 0}/>
+              <Typography>/</Typography>
+              <Duration seconds={totalSeconds}/>
+              <Dropdown overlay={<div style={{display: 'inline-block', height: 100}}><Slider onChange={this.onChangeVolume} vertical defaultValue={30}/></div>} placement="topCenter">
+                <Button style={{marginLeft: 10}} shape="circle" type="danger" icon="bell" />
+              </Dropdown>
             </div>
           </Card>
       </div>

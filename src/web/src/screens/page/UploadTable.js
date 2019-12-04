@@ -48,7 +48,7 @@ class MusicTable extends React.Component {
                     alignContent: 'center'
                 }}
             >
-                <Button  style={{textAlign: 'left', padding: 0}}  type="link" onClick={() => {this.props.set_music_selected(music.hash)}}>{music.name}</Button>
+                <Button  style={{textAlign: 'left', padding: 0}}  type="link" onClick={() => {this.props.set_music_selected(music)}}>{music.name}</Button>
                 <Text type="secondary">{music.artist}</Text>
             </div>,
         // filters: [{ text: 'Male', value: 'male' }, { text: 'Female', value: 'female' }],

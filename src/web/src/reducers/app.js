@@ -1,5 +1,5 @@
 const initialState = {
-    musicSelected: '',
+    musicSelected: {},
     rankingdata: null,
     isLoadingRankingData: false,
     error: null,
@@ -10,7 +10,7 @@ export const appReducer = ( state = initialState, action) => {
     case 'SET_MUSIC_SELECTED':
         return {
             ...state,
-            musicSelected: "https://ipfs.io/ipfs/" + action.musicSelected
+            musicSelected: action.musicSelected
         }
     case 'SET_RANKING':
         return {

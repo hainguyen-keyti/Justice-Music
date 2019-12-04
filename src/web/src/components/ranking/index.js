@@ -4,13 +4,15 @@ import {
   List,
   Typography,
   Avatar,
-  Spin
+  Spin,
+  Skeleton
  } from 'antd';
  import {getRanking} from '../../actions/app'
 import { connect} from 'react-redux'
 import './index.css'
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
+const arrTemp = [{},{},{},{},{},{},{},{},{},{}]
 class Ranking extends React.Component {
   componentDidMount(){
     this.props.getRanking()
@@ -19,22 +21,39 @@ class Ranking extends React.Component {
     const {rankingdata} = this.props.appReducer
     return (
       <div style={{width: '100%'}}>
-        <h2 > BẢNG XẾP HẠNG TUẦN </h2>
-        {rankingdata === null ? <div className="loading-data-iso"> <Spin/> </div> :
+        <Title level={4} type="secondary"> BẢNG XẾP HẠNG TUẦN </Title>
+        {rankingdata === null ? 
+        (
+          <List
+          itemLayout="horizontal"
+          dataSource={arrTemp}
+          renderItem={item => (
+            <List.Item>
+              <Skeleton loading={true} active paragraph={{rows: 1}} avatar={{shape: 'square', size: 70}} /> 
+            </List.Item>
+          )}
+        />
+        )
+        :
           (
             <List
               itemLayout="horizontal"
               dataSource={rankingdata}
-              renderItem={item => (
+              renderItem={(item, index) => (
                 <List.Item>
                   <div style={{  display: 'flex', flexDirection: 'column' ,alignItems: 'center'}}>
-                    <Text style={{alignSelf: 'center'}} strong type="danger">1</Text>
-                    <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking}</Text>
+                    <Title level={4} style={{alignSelf: 'center', marginRight: 10}} type={index === 0 ? "danger" : (index === 1 ? "warning" : (index === 2 ? "" : "secondary"))}>{index + 1}</Title>
                   </div>
                   <List.Item.Meta
-                    avatar={<Avatar shape="square" size={60} src={'https://ipfs.io/ipfs/' + item.music.image}/>}
+                    avatar={<Avatar shape="square" size={70} src={'https://ipfs.io/ipfs/' + item.music.image}/>}
                     title={<a href="https://ant.design">{item.music.name}</a>}
-                    description={item.music.artist}
+                    description={
+                    <div>
+                      {item.music.artist}
+                      <br/>
+                      <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking}</Text>
+                    </div>
+                    }
                   />
                 </List.Item>
               )}
