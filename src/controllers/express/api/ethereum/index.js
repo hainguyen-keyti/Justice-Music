@@ -10,12 +10,15 @@ ethereumRoutes.post('/download', require('./download'))
 ethereumRoutes.post('/faucet', require('./faucet'))
 ethereumRoutes.post('/usingISO', require('./usingISO'))
 ethereumRoutes.post('/investISO', require('./investISO'))
+ethereumRoutes.post('/rankPerWeek', require('./rankPerWeek'))
 
 ethereumRoutes.get('/getUserUpload/:address', require('./getUserUpload'))
 ethereumRoutes.get('/getUserDownload/:address', require('./getUserDownload'))
 ethereumRoutes.get('/getISOId', require('./getISOId'))
 ethereumRoutes.get('/getISOAddress', require('./getISOAddress'))
 ethereumRoutes.get('/getISOList', require('./getISOList'))
+ethereumRoutes.get('/getTimeRanking', require('./getTimeRanking'))
+
 module.exports = ethereumRoutes;
 
 // let provider = ethers.getDefaultProvider(config.testNet);

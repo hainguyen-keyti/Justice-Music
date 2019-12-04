@@ -23,7 +23,7 @@ var main_config = {
             fileStorageAddress: '0x2bE1a87f5CD66aE3E96afC8D40FCaa7B35646425',
             fileStorageABI: abi.fileStorageABI,
 
-            rankingAddress: '0xEaBB2d7eeAF13d8A9710055AD27f738410915d3d', // chua fix dia chi vs abi
+            rankingAddress: '0x7BF16e55E63F4Ab44945f9Bd66AD8e1580caf64C',
             rankingABI: abi.rankingABI,
             
             root_dir: root,

@@ -92,8 +92,6 @@ export function getUserDownload(address){
     .then( res => {
       if (res.data.status === 0)
         return reject(res.data.error.message)
-      console.log("this is get user download log")
-      console.log(res.data.result)
       resolve(res.data.result)
     })
     .catch(err => reject(err))
@@ -263,3 +261,18 @@ export function getUserPage(userName){
     .catch(err => reject(err))
   })
 }
+
+export function getRanking(){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/ethereums/getTimeRanking', {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+

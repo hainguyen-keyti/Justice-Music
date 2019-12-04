@@ -2186,15 +2186,15 @@ exports.rankingABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"name": "_fileStorage",
+				"type": "address"
+			}
+		],
 		"payable": true,
 		"stateMutability": "payable",
 		"type": "constructor"
-	},
-	{
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "fallback"
 	},
 	{
 		"anonymous": false,
@@ -2251,48 +2251,12 @@ exports.rankingABI = [
 						"type": "uint256"
 					},
 					{
-						"name": "fileHash",
-						"type": "string"
-					},
-					{
-						"name": "owner",
-						"type": "address"
-					},
-					{
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"name": "totalDownloader",
-						"type": "uint256"
-					},
-					{
-						"name": "weekDownloader",
+						"name": "lastWeekDownloader",
 						"type": "int256"
-					},
-					{
-						"name": "blockTime",
-						"type": "uint256"
-					},
-					{
-						"name": "valid",
-						"type": "bool"
-					},
-					{
-						"name": "kind",
-						"type": "uint8"
-					},
-					{
-						"name": "IsISO",
-						"type": "bool"
 					}
 				],
 				"name": "",
 				"type": "tuple[]"
-			},
-			{
-				"name": "",
-				"type": "int256[]"
 			}
 		],
 		"payable": false,

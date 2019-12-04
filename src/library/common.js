@@ -56,12 +56,36 @@ exports.deleteSensitiveInfoUser = function(user){
 }
 
 
+exports.getListMusicBySolidityID = (arr) => {
+	return new Promise(async (resolve, reject) => {
+	try {
+		let result = [];
+		for(let i = 0; i <= arr.length - 1; i++){
+			await Music.findOne({idSolidity: Number(arr[i].idFile)})
+			.then(async music => {
+				const data = {
+					music,
+					downloadWeekRanking: Number(arr[i].lastWeekDownloader),
+				}
+				result.push(data);
+			})
+		}
+		return resolve(result)	
+	} catch (error) {
+		return reject(error)
+	}
+	})
+}
+
+
 exports.ModifyMusicFile = (tx) => {
 	return new Promise( async (resolve, reject) => {
 	try {
 		let result = [];
 		for(let i = tx.length-1; i >= 0; i--){
 			let {idFile, idMongoose, fileHash, owner, price, totalDownloader, weekDownloader, blockTime,valid, kind, IsISO} = tx[i]
+			if(idMongoose === null)
+				break
 			await Music.findOne({_id: idMongoose, hash: fileHash})
 			.then( music => {
 				let data = {
@@ -92,7 +116,6 @@ exports.ModifyFileISO = (tx) => {
 	return new Promise( async (resolve, reject) => {
 	try {
 		return resolve( await Promise.all(tx.map( async record => {
-			console.log("kokokoasdkofakdofkadsofkodskfodskfosdk")
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( user => {
@@ -150,6 +173,21 @@ exports.getBalance = (address) => {
 		.catch (err => {
 			return reject(err)
 		})
+	})
+}
+
+
+exports.convertArrBigNumberToNumber =  (address) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+		const result = await address.map( instance => {
+			return Number(instance);
+		})
+		return resolve(result)
+		}
+		 catch (error) {
+				return reject(error)
+		}
 	})
 }
 

@@ -1,7 +1,7 @@
 const ethers = require('ethers');
 const config = require('../../../../config');
 const response_express = require(config.library_dir + '/response').response_express;
-const lib_common = require(config.library_dir+'/common');
+// const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => {
     let privateKey = config.ownerSecretKey;
