@@ -119,15 +119,12 @@ exports.ModifyFileISO = (tx) => {
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( user => {
-				console.log(user)
-				returnObj.avatar = user.avatar
-				returnObj.artistName = user.nickName
+				returnObj.user = user
 			})
 			.catch(err=>reject(err))
 			await Music.findOne({idSolidity: record.ISOFile.idFile})
 			.then( music => {
-				returnObj.background = music.image
-				returnObj.musicName = music.name
+				returnObj.music = music
 			})
 			.catch(err=>reject(err))
 			returnObj.idFile = Number(record.ISOFile.idFile)
@@ -177,10 +174,10 @@ exports.getBalance = (address) => {
 }
 
 
-exports.convertArrBigNumberToNumber =  (address) => {
+exports.convertArrBigNumberToNumber =  (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-		const result = await address.map( instance => {
+		const result = await data.map( instance => {
 			return Number(instance);
 		})
 		return resolve(result)

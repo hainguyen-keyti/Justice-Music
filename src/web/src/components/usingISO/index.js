@@ -3,8 +3,10 @@ import {
     Form,
     InputNumber,
     Modal,
-    Icon,
-    message
+    Button,
+    message,
+    Tooltip,
+    Typography
   } from 'antd';
 import 'antd/dist/antd.css';
 import {usingISO} from '../../api/userAPI'
@@ -13,6 +15,7 @@ import config from '../../config'
 import {getISOAddress} from '../../actions/page'
 import {connect} from 'react-redux';
 
+const { Text } = Typography;
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
   class extends React.Component {
@@ -132,7 +135,11 @@ class UsingISO extends React.Component {
   render() {
     return (
       <div>
-        <Icon type="usergroup-add" onClick={this.showModal} style={{ color: '#1da1f2'}}/>
+        <Tooltip title="Using ISO this song" placement="leftTop">
+          <Button style={{width: '100%', height: '100%', textAlign: 'left'}} shape="circle" type="link" icon="usergroup-add" onClick={this.showModal}>
+            <Text>Using ISO</Text>
+          </Button>
+        </Tooltip>
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}

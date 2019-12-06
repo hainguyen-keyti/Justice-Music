@@ -294,6 +294,71 @@ exports.userBehaviorABI = [
 		"constant": true,
 		"inputs": [
 			{
+				"name": "_idFile",
+				"type": "uint256"
+			}
+		],
+		"name": "getFileById",
+		"outputs": [
+			{
+				"components": [
+					{
+						"name": "idFile",
+						"type": "uint256"
+					},
+					{
+						"name": "idMongoose",
+						"type": "string"
+					},
+					{
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"name": "totalDownloader",
+						"type": "uint256"
+					},
+					{
+						"name": "weekDownloader",
+						"type": "int256"
+					},
+					{
+						"name": "blockTime",
+						"type": "uint256"
+					},
+					{
+						"name": "valid",
+						"type": "bool"
+					},
+					{
+						"name": "kind",
+						"type": "uint8"
+					},
+					{
+						"name": "IsISO",
+						"type": "bool"
+					}
+				],
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
 				"name": "_addr",
 				"type": "address"
 			}

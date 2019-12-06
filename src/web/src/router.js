@@ -6,8 +6,10 @@ import Chat from './screens/chat/Chat'
 import Home from './screens/home'
 import Index from './screens/index/Index'
 import Page from './screens/page'
+import Song from './screens/song'
 import ISO from './screens/iso'
 import Setting from './screens/setting'
+import MusicDetail from './screens/musicDetail'
 import MusicPlayer from './components/musicPlayer'
 
 const Root = () => (
@@ -21,7 +23,9 @@ const Root = () => (
                 <Route path="/message" component={Chat} />
                 <Route path="/iso" component={ISO} />
                 <Route path="/setting" component={Setting} />
-                <Route path="/:userName" component={Page} />
+                <Route path="/test" component={MusicDetail} />
+                <Route path="/page/:userName" component={Page} />
+                <Route path="/song/:idFile" component={Song} />
             </Switch>
             <MusicPlayer/>
         </div>

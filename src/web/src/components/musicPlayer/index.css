@@ -1,4 +1,26 @@
-.player{
+.detailPlayer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(239, 242, 245);
+    
+    /* background-image: url('https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT');
+    filter: blur(8px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;  */
+
+
+    border: 1px solid #92d5ff;
+    padding: 10px;
+    border-radius: 50px 20px;
+}
+
+.nowPlayer{
     display: flex;
     flex-direction: row;
     justify-content: center;

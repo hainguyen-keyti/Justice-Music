@@ -46,7 +46,7 @@ class Ranking extends React.Component {
                   </div>
                   <List.Item.Meta
                     avatar={<Avatar shape="square" size={70} src={'https://ipfs.io/ipfs/' + item.music.image}/>}
-                    title={<a href="https://ant.design">{item.music.name}</a>}
+                    title={<Text><a href="https://ant.design">{item.music.name}</a></Text>}
                     description={
                     <div>
                       {item.music.artist}

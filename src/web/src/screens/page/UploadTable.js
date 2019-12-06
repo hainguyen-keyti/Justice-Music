@@ -7,6 +7,7 @@ import UsingISO from '../../components/usingISO'
 import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
 import config from '../../config'
 import {getUserDownload} from '../../actions/page'
+import BuyMusic from '../../components/buyMusic'
 
 const { Text, Title } = Typography;
 class MusicTable extends React.Component {
@@ -88,7 +89,7 @@ class MusicTable extends React.Component {
               <Divider type="vertical" />
               <UsingISO idFile={record.idFile}/>
               <Divider type="vertical" />
-              <Icon  style={{ color: '#1da1f2'}} type="download" onClick={()=>{this.handleBuySong(record.idFile)}} />
+              <BuyMusic  idFile={record.idFile} />
           </div>
         ),
       },

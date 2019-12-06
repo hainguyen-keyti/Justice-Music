@@ -51,8 +51,8 @@ class Header extends Component {
             </Menu.Item>
             <Menu.Divider />
           <Menu.Item onClick={()=> this.props.userReducer.user.userName ?
-            this.props.history.push(`/${this.props.userReducer.user.userName}`) :
-            this.props.history.push(`/${this.props.userReducer.user.addressEthereum}`)
+            this.props.history.push(`/page/${this.props.userReducer.user.userName}`) :
+            this.props.history.push(`/page/${this.props.userReducer.user.addressEthereum}`)
           }>
             <Icon type="user" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
             <Text>Home Page</Text>

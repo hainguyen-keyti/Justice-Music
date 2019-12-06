@@ -14,7 +14,7 @@ var main_config = {
             ownerSecretKey: '2C4104E79EA8936FA6C0D0E7B796B391DE814890066B8B8640E13A554DECE084',
             provider: ethers.getDefaultProvider('kovan'),
 
-            userBehaviorAddress: '0x77d684c1eAfbDC19880369636b410283702e9b46',
+            userBehaviorAddress: '0x05bc50e3281E5705F439568Fc20D9214a620e9Ce',
             userBehaviorABI: abi.userBehaviorABI,
 
             tokenAddress: '0x84C470e05128A2d1FfFF6132801182Aa4CeD9F89',

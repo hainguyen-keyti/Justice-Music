@@ -56,11 +56,13 @@ class DetailsISO extends React.Component {
     ];
     return (
       <div>
-        <Tooltip title="Show more details of this song">
-          <Icon type="info-circle" style={{fontSize: 20}} onClick={this.showModal} />
+        <Tooltip title="Show more details of this song" placement="rightTop">
+          <Button style={{width: '100%', height: '100%', textAlign: 'center'}} shape="circle" type="link" icon="info-circle" onClick={this.showModal}>
+            <Text>Detail ISO</Text>
+          </Button>
         </Tooltip>
         <Modal
-          title={record.musicName + " - ISO"}
+          title={record.music.name + " - ISO"}
           bodyStyle={{ padding: 0, margin: 0 }} // Nên set cái boder bằng 0 chổ này( hoặc trong component InfoISO) thì đẹp hơn.
           visible={this.state.visible}
           // onOk={()=>this.onClickOK(false)}
@@ -69,8 +71,8 @@ class DetailsISO extends React.Component {
             <Button key="back" onClick={()=>this.onClickCancel(false)}>
               Return
             </Button>,
-            <Button key="submit" type="primary">
-              <InvestISO idFile={record.idFile}/>
+            <Button key="submit">
+              <InvestISO idFile={record.idFile} center/>
             </Button>,
           ]}
         >

@@ -3,14 +3,16 @@ import {
     Form,
     InputNumber,
     Modal,
-    Icon,
+    Button,
     message,
-    Tooltip
+    Tooltip,
+    Typography
   } from 'antd';
 import 'antd/dist/antd.css';
 import {investISO} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
 
+const { Text } = Typography;
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
   class extends React.Component {
@@ -94,8 +96,10 @@ export default class InvestISO extends React.Component {
   render() {
     return (
       <div>
-        <Tooltip title="Invest this song">
-          <Icon type="bg-colors" onClick={this.showModal} style={{ fontSize: 20}}/>
+        <Tooltip title="Invest this song" placement="leftTop">
+          <Button style={{width: '100%', height: '100%', textAlign: this.props.center ? 'center' : 'left'}} shape="circle" type="link" icon="bg-colors" onClick={this.showModal}>
+            <Text>Invest</Text>
+          </Button>
         </Tooltip>
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}
