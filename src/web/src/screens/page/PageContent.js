@@ -24,6 +24,12 @@ const { TabPane } = Tabs;
 const { Title, Text } = Typography;
 
 class PageContent extends Component {
+  componentWillReceiveProps({userName}){
+    if (userName != this.props.userName) {
+      this.props.getUserPage(userName)
+    }
+  }
+
   componentDidMount(){
     this.props.getUserPage(this.props.userName)
   }
@@ -53,7 +59,7 @@ class PageContent extends Component {
             <Col span={6}>
               <div className="logo-name">
                 <div style={{padding: '15px'}}>
-                  <Avatar size={160} src={`https://ipfs.io/ipfs/${avatar}`} alt="Avatar photo"/>
+                  <Avatar size={160} src={window.$linkIPFS + avatar} alt="Avatar photo"/>
                 </div>
                 <div>
                   <Title level={4}>{nickName}</Title>
@@ -63,13 +69,13 @@ class PageContent extends Component {
               {
                 otherInfomaion ?
                 <div className="info-icon">
-                  <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                  <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
                     <Icon className="icon-style" type="phone"  />
                     <Text ellipsis type="secondary">{phone}</Text>
                   </a>
                   {
                     otherInfomaion.youtube ? 
-                    <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                    <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
                       <Icon className="icon-style" type="youtube"  />
                       <Text ellipsis type="secondary">{otherInfomaion.youtube}</Text>
                     </a> :
@@ -77,7 +83,7 @@ class PageContent extends Component {
                   }
                   {
                     otherInfomaion.facebook ? 
-                    <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                    <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
                       <Icon className="icon-style" type="facebook"  />
                       <Text ellipsis type="secondary">{otherInfomaion.facebook}</Text>
                     </a> :
@@ -85,7 +91,7 @@ class PageContent extends Component {
                   }
                   {
                     otherInfomaion.home ?
-                    <a href="https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid" className="line-space">
+                    <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
                       <Icon className="icon-style" type="home"  />
                       <Text ellipsis type="secondary">{otherInfomaion.home}</Text>
                     </a> :
@@ -106,7 +112,7 @@ class PageContent extends Component {
                   <TabPane tab="Bài hát đã mua" key="3">
                     <DownloadTable address={addressEthereum}/>
                   </TabPane>
-                  <TabPane tab="Sự kiện" key="">
+                  <TabPane tab="Sự kiện" key="4">
                     Content of tab 1
                   </TabPane>
                 </Tabs>

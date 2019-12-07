@@ -85,7 +85,7 @@ export default class MusicPlayerMainContent extends Component {
             ref={this.ref}
             volume={volume}
             loop={loop}
-            url={"https://ipfs.io/ipfs/" + musicHash}
+            url={window.$linkIPFS + musicHash}
             playing={playing}
             width='0'
             height='0'
@@ -100,7 +100,7 @@ export default class MusicPlayerMainContent extends Component {
             <Tooltip title={loop ? "Loop" : 'No Loop'}>
                 <Button shape="circle" size="large" icon={loopIcon} className="icon-formart" onClick={()=>{this.onHandleClickLoop()}}/>
             </Tooltip>
-            <Avatar size={50} style={{marginLeft: 20}} src={"https://ipfs.io/ipfs/" + imageHash} alt="Avatar photo"/>
+            <Avatar size={50} style={{marginLeft: 20}} src={window.$linkIPFS + imageHash} alt="Avatar photo"/>
             <Slider
                 tipFormatter={this.Tooltip}
                 min={0}

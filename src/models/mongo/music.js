@@ -24,6 +24,10 @@ var MusicSchema = mongoose.Schema({
         type: String,
         require: true,
     },
+    idMongoUserUpload: {
+        type: String,
+        require: true,
+    },
     tags: {
         type: [String],
     },

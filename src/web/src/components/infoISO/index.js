@@ -16,7 +16,7 @@ export default class InfoISO extends React.Component {
   <Card
       hoverable
       // style={{ width: 250, display: 'flex', margin: 15, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}
-      cover={<img className="img-background-music" alt="music background" src={"https://ipfs.io/ipfs/" + record.music.image}/>}
+      cover={<img className="img-background-music" alt="music background" src={window.$linkIPFS + record.music.image}/>}
       bodyStyle={{padding: '15px', width: '100%', border: '0px solid green'}}
       actions={action ? [
         <InvestISO idFile={record.idFile} center/>,
@@ -24,7 +24,7 @@ export default class InfoISO extends React.Component {
       ] : null
     }
     >
-      <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={"https://ipfs.io/ipfs/" + record.user.avatar} alt="Avatar photo"/>} title={record.user.nickName} description="15.256 Follows" />
+      <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={window.$linkIPFS + record.user.avatar} alt="Avatar photo"/>} title={record.user.nickName} description="15.256 Follows" />
       <Text>
           <a href={this.props.link}>{record.music.name}</a>
       </Text>
@@ -36,7 +36,7 @@ export default class InfoISO extends React.Component {
           from: '#108ee9',
           to: '#FF5733',
         }}
-        percent={parseFloat(100 - (record.amountRemaining * 100 / record.offerAmount)).toFixed(1)}
+        percent={Number(parseFloat(100 - (record.amountRemaining * 100 / record.offerAmount)).toFixed(1))}
         status="active"
         showInfo
       />

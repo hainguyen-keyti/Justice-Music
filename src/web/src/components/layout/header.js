@@ -50,9 +50,12 @@ class Header extends Component {
                 <Text>{this.props.userReducer.balanceETH} ETH</Text>
             </Menu.Item>
             <Menu.Divider />
-          <Menu.Item onClick={()=> this.props.userReducer.user.userName ?
+          <Menu.Item onClick={()=> {
+            console.log(this.props)
+            this.props.userReducer.user.userName ?
             this.props.history.push(`/page/${this.props.userReducer.user.userName}`) :
             this.props.history.push(`/page/${this.props.userReducer.user.addressEthereum}`)
+          }
           }>
             <Icon type="user" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
             <Text>Home Page</Text>

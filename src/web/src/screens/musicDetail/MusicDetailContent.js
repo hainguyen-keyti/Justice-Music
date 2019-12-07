@@ -45,11 +45,11 @@ class MusicDetailContent extends React.Component {
             <Row style={{padding: 5, margin: 5}}>
               <Col span={8}>
                 <Row>
-                  <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={"https://ipfs.io/ipfs/QmS1NihcXcm57fLf2jx5UkQhJyC1QogWcoF78DMbrYfmid"} alt="Avatar photo"/>} title="Ngoc Trinh" description="15.256 Follows" />
+                  <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={"https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"} alt="Avatar photo"/>} title="Ngoc Trinh" description="15.256 Follows" />
                 </Row>
                 <Row style={{padding: 5, margin: 5}}>
                   <div className="logo-name">
-                    <Avatar shape='square' size={220} src={'https://ipfs.io/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C'} alt="Music photo"/>
+                    <Avatar shape='square' size={220} src={'https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C'} alt="Music photo"/>
                     <Paragraph strong style={{fontSize: '25px', margin: '15px'}} ellipsis>Nói Hêt Lòng Này</Paragraph>
                   </div>
                 </Row>

@@ -35,7 +35,7 @@ class MusicTable extends React.Component {
         title: 'Image',
         dataIndex: 'music.image',
         // sorter: true,
-        render: image => <Avatar shape='square' size='large' src={'https://ipfs.io/ipfs/' + image} alt="Music photo"/>,
+        render: image => <Avatar shape='square' size='large' src={window.$linkIPFS + image} alt="Music photo"/>,
         // width: '20%',
       },
       {

@@ -9,6 +9,9 @@ module.exports = async (req, res) => {
     let contractWithSigner = new ethers.Contract(config.rankingAddress, config.rankingABI, wallet)
     contractWithSigner.getTimeRanking()
     .then(time => {
+        if(time.length === 0){
+            return response_express.exception(res, "Fail to get time ranking. Time ranking empty")
+        }
         lib_common.convertArrBigNumberToNumber(time)
         .then(result => {
             contractWithSigner.getRanking(result[result.length - 1], 2)

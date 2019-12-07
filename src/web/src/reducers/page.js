@@ -70,7 +70,7 @@ export const pageReducer = ( state = initialState, action) => {
     case 'SET_MUSIC_SELECTED':
         return {
             ...state,
-            musicSelected: "https://ipfs.io/ipfs/" + action.musicSelected
+            musicSelected: window.$linkIPFS + action.musicSelected
         }
     case 'SET_USER_UPLOAD_DATA':
         return {

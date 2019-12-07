@@ -40,12 +40,13 @@ class Ranking extends React.Component {
               itemLayout="horizontal"
               dataSource={rankingdata}
               renderItem={(item, index) => (
+                item ? 
                 <List.Item>
                   <div style={{  display: 'flex', flexDirection: 'column' ,alignItems: 'center'}}>
                     <Title level={4} style={{alignSelf: 'center', marginRight: 10}} type={index === 0 ? "danger" : (index === 1 ? "warning" : (index === 2 ? "" : "secondary"))}>{index + 1}</Title>
                   </div>
                   <List.Item.Meta
-                    avatar={<Avatar shape="square" size={70} src={'https://ipfs.io/ipfs/' + item.music.image}/>}
+                    avatar={<Avatar shape="square" size={70} src={window.$linkIPFS + item.music.image}/>}
                     title={<Text><a href="https://ant.design">{item.music.name}</a></Text>}
                     description={
                     <div>
@@ -56,6 +57,8 @@ class Ranking extends React.Component {
                     }
                   />
                 </List.Item>
+                :
+                null
               )}
             />
           )

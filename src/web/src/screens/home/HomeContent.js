@@ -21,16 +21,16 @@ class HomeContent extends Component {
       <Row gutter={[8, 32]}>
         <Carousel autoplay>
           <div>
-            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+            <img style={{width: '100%', height: '400px', repeat: 'no-repeat', size: 'cover', position: 'center center'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
           </div>
         </Carousel>        
       </Row>
@@ -44,16 +44,16 @@ class HomeContent extends Component {
 
             <Row gutter={[8, 32]}>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-              <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+              <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
             </Row>
 
@@ -63,16 +63,16 @@ class HomeContent extends Component {
 
             <Row gutter={[8, 32]}>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-              <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+              <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
             </Row>
 
@@ -82,16 +82,16 @@ class HomeContent extends Component {
 
             <Row gutter={[8, 32]}>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-              <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+              <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
               <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.io/ipfs/QmQczzwhLgyTrWtboqCswDqcFTt2t8kLDRP9iGQc18S7YT"/>
+                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
               </Col>
             </Row>
         </Col>

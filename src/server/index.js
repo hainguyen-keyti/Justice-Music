@@ -8,10 +8,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const ipfs = require('../library/nodeIPFS')
 const start = () => {
     return new Promise((resolve, reject) => {
-        ipfs.createIPFS()
         app.use(fileUpload({
             createParentPath: true
         }));

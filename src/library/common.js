@@ -7,7 +7,9 @@ const User = require(config.models_dir + '/mongo/user')
 
 let privateKey = config.ownerSecretKey;
 let wallet = new ethers.Wallet(privateKey, config.provider);
-let contractWithSigner = new ethers.Contract(config.tokenAddress, config.tokenABI, wallet)
+let contractWithSignerToken = new ethers.Contract(config.tokenAddress, config.tokenABI, wallet)
+let contractWithSignerUserBehavior = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
+
 
 exports.findMissParams = function(obj, checkProps) {
 	if(!Array.isArray(checkProps)){
@@ -77,6 +79,24 @@ exports.getListMusicBySolidityID = (arr) => {
 	})
 }
 
+exports.getSongByIdMongo = (idMongo) => {
+	return new Promise(async (resolve, reject) => {
+	try {
+		const songMongo = await Music.findById(idMongo)
+		const promises = [
+			User.findById(songMongo.idMongoUserUpload),
+			contractWithSignerUserBehavior.getFileById(songMongo.idSolidity),
+			contractWithSignerUserBehavior.getISOId(songMongo.idSolidity),
+		]
+		const arrData = await Promise.all(promises)
+		console.log(arrData)
+		return resolve(arrData)
+	} catch (error) {
+		return reject(error)
+	}
+	})
+}
+
 
 exports.ModifyMusicFile = (tx) => {
 	return new Promise( async (resolve, reject) => {
@@ -119,12 +139,23 @@ exports.ModifyFileISO = (tx) => {
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( user => {
-				returnObj.user = user
+				const data = { 
+					nickName: user.nickName,
+					avatar: user.avatar,
+					addressEthereum: user.addressEthereum,
+				}
+				returnObj.user = data
 			})
 			.catch(err=>reject(err))
 			await Music.findOne({idSolidity: record.ISOFile.idFile})
 			.then( music => {
 				returnObj.music = music
+
+				const data = { 
+					image: music.image,
+					name: music.name,
+				}
+				returnObj.music = data
 			})
 			.catch(err=>reject(err))
 			returnObj.idFile = Number(record.ISOFile.idFile)
@@ -157,7 +188,7 @@ exports.getBalance = (address) => {
 	return new Promise((resolve, reject) => {
 		const promises = [
 			config.provider.getBalance(address),
-			contractWithSigner.balanceOf(address)
+			contractWithSignerToken.balanceOf(address)
 		]
 		Promise.all(promises)
 		.then(data => {

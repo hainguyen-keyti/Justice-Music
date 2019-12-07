@@ -21,7 +21,7 @@ class ISOAddress extends React.Component {
           <div className="loading-data-iso"> <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/> </div> :
           <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 20]}>
             {this.props.pageReducer.isoData.map(record => 
-            <Col span={8}>
+            <Col key={record.idFile} span={8}>
               <InfoISO
                 record={record}
                 action={true}

@@ -1,14 +1,11 @@
-const node = require('./nodeIPFS')
+const ipfsClient = require('ipfs-http-client')
+const ipfs = ipfsClient('http://34.67.61.172:5001')
 exports.getHashIPFS = (buffer) =>{
     return new Promise( async (resolve, rejects) => {
-            node.getNode().add(buffer, (error, ipfsHash) => {
-                if (error) {
-                    rejects(error);
-                    return node.getNode().stop();
-                  }
-                resolve(ipfsHash[0].hash)
-                // return node.stop() // chua biet cach chay node ipfs 1 lan duy nhat
-            })
+        const results = await ipfs.add(buffer)
+        console.log("thiis issssffasdfadsfasdf")
+        console.log(results[0].hash)
+        resolve(results[0].hash)
         }
     );
 }
