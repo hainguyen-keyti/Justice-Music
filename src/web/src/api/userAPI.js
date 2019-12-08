@@ -196,6 +196,20 @@ export function getISOAddress(address){
   })
 }
 
+export function getSongByID(idMongo){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/actions/getSongByID?id=' + idMongo, {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
 export function getISOList(){
   return new Promise((resolve, reject) => {
     return axios.get(config.api_url+ '/ethereums/getISOList', {
@@ -223,6 +237,22 @@ export function updateUser(data){
               return reject(res.data.error.message)
           }
           console.log("this is result " + res.data.result)
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
+export function postLyric(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/actions/postLyric', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
           resolve(res.data.result);
         })
         .catch(err => {

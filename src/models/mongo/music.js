@@ -20,6 +20,10 @@ var MusicSchema = mongoose.Schema({
     name: {
         type: String,
     },
+    lyric: {
+        type: String,
+        default: "This song not update lyric yet.",
+    },
     artist: {
         type: String,
         require: true,

@@ -4,6 +4,7 @@ var response_express = require(config.library_dir+'/response').response_express;
 const ethers = require('ethers');
 const Music = require(config.models_dir + '/mongo/music');
 const User = require(config.models_dir + '/mongo/user')
+const Follow = require(config.models_dir + '/mongo/follow')
 
 let privateKey = config.ownerSecretKey;
 let wallet = new ethers.Wallet(privateKey, config.provider);
@@ -79,18 +80,56 @@ exports.getListMusicBySolidityID = (arr) => {
 	})
 }
 
-exports.getSongByIdMongo = (idMongo) => {
+exports.getSongByIdMongo = (idMongo, senderID) => {
 	return new Promise(async (resolve, reject) => {
 	try {
+		let result = {}
 		const songMongo = await Music.findById(idMongo)
 		const promises = [
 			User.findById(songMongo.idMongoUserUpload),
 			contractWithSignerUserBehavior.getFileById(songMongo.idSolidity),
 			contractWithSignerUserBehavior.getISOId(songMongo.idSolidity),
+			Follow.countDocuments({followedID: songMongo.idMongoUserUpload}),
+			Follow.exists({userID: senderID})
 		]
 		const arrData = await Promise.all(promises)
-		console.log(arrData)
-		return resolve(arrData)
+
+		let musicData = {
+			idFile: Number(arrData[1][0].idFile),
+			price: Number(arrData[1][0].price),
+			totalDownloader: Number(arrData[1][0].totalDownloader),
+			weekDownloader: Number(arrData[1][0].weekDownloader),
+			blockTime: Number(arrData[1][0].blockTime),
+			valid: arrData[1][0].valid,
+			IsISO: arrData[1][0].IsISO,
+		}
+		
+		let music = Object.assign({}, musicData, songMongo._doc );
+		result.music = music
+		result.user = arrData[0]
+		result.follow= arrData[3]
+		result.isFollowed = arrData[4]
+		if(music.IsISO)
+		{
+			result.idFile = Number(arrData[2][0].ISOFile.idFile)
+			result.offerPercent = Number(arrData[2][0].offerPercent)
+			result.offerAmount = Number(arrData[2][0].offerAmount)
+			result.amountRemaining = Number(arrData[2][0].amountRemaining)
+			result.timeExpired = Number(arrData[2][0].timeExpired)
+			result.ownerPercent = Number(arrData[2][0].ownerPercent) 
+			result.numberOfDownload = Number(arrData[2][0].numberOfDownload)
+			result.week = Number(arrData[2][0].week)
+			result.investListISO = arrData[2][0].investListISO.map(e => {
+				let investObj = {}
+				investObj.investor = e.investor
+				investObj.percentage = Number(e.percentage)
+				investObj.amount = Number(e.amount)
+				return investObj
+			})
+		}
+
+
+		return resolve(result)
 	} catch (error) {
 		return reject(error)
 	}

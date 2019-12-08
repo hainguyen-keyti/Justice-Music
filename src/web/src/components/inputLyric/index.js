@@ -1,0 +1,70 @@
+import React from 'react';
+import { Typography, Button, Tooltip, Modal } from 'antd';
+import ReactQuill from 'react-quill';
+import {postLyric} from '../../api/userAPI'
+import 'react-quill/dist/quill.snow.css'; // ES6
+const { Paragraph, Text} = Typography;
+
+
+export default class InputLyric extends React.Component {
+  state = { 
+    visible: false,
+    text: '',
+   };
+
+  handleChange = (value) => {
+    this.setState({ text: value })
+  }
+  
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = e => {
+    this.setState({
+      visible: false,
+    });
+    const data = {
+      idMongo: this.props.idMongo,
+      lyric: this.state.text,
+    }
+    console.log(data)
+    postLyric(data).then((result) => {
+      console.log(result)
+    })
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  render() {
+    return (
+    <div>
+      <Tooltip title="Edit lyric" placement="leftTop">
+        <Button ghost type="danger" icon="edit" onClick={this.showModal}>
+          <Text>Edit lyric</Text>
+        </Button>
+      </Tooltip>
+      <Modal
+        title="Basic Modal"
+        visible={this.state.visible}
+        onOk={this.handleSubmit}
+        onCancel={this.handleCancel}
+        okButtonProps={{ type: "danger" }}
+        okText="Submit"
+      >
+        <ReactQuill
+          theme="snow"
+          value={this.state.text}
+          onChange={this.handleChange} />
+      </Modal>
+    </div>
+    )
+  }
+}

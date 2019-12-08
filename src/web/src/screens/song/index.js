@@ -5,7 +5,7 @@ import SongContent from './SongContent'
 export default class Song extends Component {
   render () {
     return (
-        <Layout main={<SongContent idFile={this.props.match.params.idFile}/>} history={this.props.history}/>
+        <Layout main={<SongContent idMongo={this.props.match.params.idMongo}/>} history={this.props.history}/>
     )
   }
 }

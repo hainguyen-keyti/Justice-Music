@@ -11,6 +11,8 @@ userActionRoutes.get('/getSongByID', require('./getSongByID'))
 
 userActionRoutes.post('/follow', require('./follow'))
 
+userActionRoutes.post('/postLyric', require('./postLyric'))
+
 
 
 module.exports = userActionRoutes;

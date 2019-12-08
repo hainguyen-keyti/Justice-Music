@@ -17,10 +17,7 @@ module.exports = (req, res) => {
         const {nickName, phone, avatar, addressEthereum, otherInfomaion, _id } = user
         Follow.countDocuments({followedID: _id})
         .then(async count => {
-            console.log("this is follow count: " + count)
             const isFollowed = await Follow.exists({userID: req.token_info._id})
-            console.log("11111111111111111111111111111111111111111111111111111111111111")
-            console.log(isFollowed)
             const data = {
                 _id,
                 nickName, 

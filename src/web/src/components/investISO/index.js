@@ -97,7 +97,7 @@ export default class InvestISO extends React.Component {
     return (
       <div>
         <Tooltip title="Invest this song" placement="leftTop">
-          <Button style={{width: '100%', height: '100%', textAlign: this.props.center ? 'center' : 'left'}} shape="circle" type="link" icon="bg-colors" onClick={this.showModal}>
+          <Button type="primary" ghost icon="bg-colors" onClick={this.showModal}>
             <Text>Invest</Text>
           </Button>
         </Tooltip>

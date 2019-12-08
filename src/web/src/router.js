@@ -25,7 +25,7 @@ const Root = () => (
                 <Route path="/setting" component={Setting} />
                 <Route path="/test" component={MusicDetail} />
                 <Route path="/page/:userName" component={Page} />
-                <Route path="/song/:idFile" component={Song} />
+                <Route path="/song/:idMongo" component={Song} />
             </Switch>
             <MusicPlayer/>
         </div>

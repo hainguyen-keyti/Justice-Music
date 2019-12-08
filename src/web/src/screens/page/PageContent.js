@@ -18,7 +18,7 @@ import ComponentLoading from '../../components/loading'
 import Component404 from '../../components/404'
 import {getUserPage, set_is_follow} from '../../actions/page'
 import { connect} from 'react-redux'
-import {follow} from '../../api/userAPI'
+import FollowButton from '../../components/followButton'
 
 const { TabPane } = Tabs;
 const { Title, Text } = Typography;
@@ -33,21 +33,11 @@ class PageContent extends Component {
   componentDidMount(){
     this.props.getUserPage(this.props.userName)
   }
-  handle_error = () => {}
-  onHanleFollow = (setFollow) =>{
-    const data = {
-      followedID: this.props.pageReducer.userInfoData._id
-    }
-    follow(data)
-    .then(result => {
-      this.props.set_is_follow(setFollow)
-    })
-  }
   render() {
     if (this.props.pageReducer.errorPage) return (<Component404 history={this.props.history} subTitle="Page not found. Please try another link!"></Component404>)
     if (!this.props.pageReducer.userInfoData) return (<ComponentLoading/>)
     const {follow, phone, otherInfomaion, avatar, nickName, addressEthereum, _id, isFollowed} = this.props.pageReducer.userInfoData
-    const operations = (_id === this.props.userReducer.user.id) ? <UploadModal/> : <Button type="danger" onClick={() => this.onHanleFollow(!isFollowed)}>{isFollowed ? "Unfollow" : "Follow"}</Button>
+    const operations = <FollowButton ownerSongID={_id} isFollowed/>
     return (
         <div>
           <Row>

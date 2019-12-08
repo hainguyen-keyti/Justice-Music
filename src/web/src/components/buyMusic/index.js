@@ -33,7 +33,7 @@ class BuyMusic extends React.Component {
     return (
 
     <Tooltip title="Buy this song" placement="leftTop">
-      <Button style={{width: '100%', height: '100%', textAlign: 'left'}} shape="circle" type="link" icon="download" onClick={()=>{this.handleBuySong(this.props.idFile)}}>
+      <Button type="primary" ghost icon="download" onClick={()=>{this.handleBuySong(this.props.idFile)}}>
         <Text>Buy</Text>
       </Button>
     </Tooltip>

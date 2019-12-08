@@ -136,7 +136,7 @@ class UsingISO extends React.Component {
     return (
       <div>
         <Tooltip title="Using ISO this song" placement="leftTop">
-          <Button style={{width: '100%', height: '100%', textAlign: 'left'}} shape="circle" type="link" icon="usergroup-add" onClick={this.showModal}>
+          <Button type="danger" ghost icon="usergroup-add" onClick={this.showModal}>
             <Text>Using ISO</Text>
           </Button>
         </Tooltip>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Avatar, Typography, Divider, Icon, Tag, Button } from 'antd';
+import { Table, Avatar, Typography, Divider, Icon, Tag, Button, Tooltip } from 'antd';
 import { download } from '../../api/userAPI'
 import { connect} from 'react-redux'
 import {set_music_selected} from '../../actions/app'
@@ -8,6 +8,7 @@ import {showNotificationTransaction, showNotificationLoading, showNotificationFa
 import config from '../../config'
 import {getUserDownload} from '../../actions/page'
 import BuyMusic from '../../components/buyMusic'
+import { withRouter } from "react-router";
 
 const { Text, Title } = Typography;
 class MusicTable extends React.Component {
@@ -83,12 +84,20 @@ class MusicTable extends React.Component {
           <div style={{display: 'flex'}}>
               <Icon type="solution" />
               <Divider type="vertical" />
-              <Icon type="caret-right" />
+
+              <Tooltip title="Go to Song Detail" placement="leftTop">
+                <Button type="primary" ghost icon="caret-right" onClick={()=> this.props.history.push(`/song/${record.music._id}`)}>
+                  <Text>Song Detail</Text>
+                </Button>
+              </Tooltip>
               <Divider type="vertical" />
+
               {record.IsISO ? <Icon type="check-square" style={{ color: '#1da1f2'}} /> : <Icon type="close-square" />}
               <Divider type="vertical" />
+
               <UsingISO idFile={record.idFile}/>
               <Divider type="vertical" />
+
               <BuyMusic  idFile={record.idFile} />
           </div>
         ),
@@ -119,4 +128,4 @@ const mapDispatchToProps = (dispatch) => ({
   getUserDownload: (address)=>dispatch(getUserDownload(address)),
   set_music_selected: (musicSelected)=>dispatch(set_music_selected(musicSelected))
 })
-export default connect(mapStateToProps, mapDispatchToProps)(MusicTable);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicTable));
