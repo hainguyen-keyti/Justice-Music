@@ -12,7 +12,9 @@ import {
   Card,
   Avatar,
   Typography,
-
+  Table,
+  Progress,
+  Statistic
 } from 'antd';
 import * as moment from 'moment';
 import MusicPlayerMainContent from '../../components/musicPlayer/musicPlayerMainContent';
@@ -26,12 +28,34 @@ import InputLyric from '../../components/inputLyric';
 import {getSongByID} from '../../actions/song';
 import ComponentLoading from '../../components/loading'
 import FollowButton from '../../components/followButton'
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
+import {formatThousands} from '../../utils/common'
 
-const { Paragraph, Text} = Typography;
-
+const { Paragraph, Text, Title} = Typography;
+const { Countdown } = Statistic;
 const { Meta } = Card;
 const { TabPane } = Tabs;
+const columns = [
+  {
+    title: 'Address',
+    dataIndex: 'investor',
+    key: 'address',
+    ellipsis: true,
+    render: address => <a href={`/${address}`}>{address}</a>,
+  },
+  {
+    title: 'Invest percent',
+    dataIndex: 'percentage',
+    key: 'percent',
+    render: percent => <Text>{parseFloat(percent / 1000).toFixed(3)} %</Text>,
+  },
+  {
+    title: 'Invest Amount',
+    dataIndex: 'amount',
+    key: 'amount',
+    render: amount => <Text>{formatThousands(amount)} HAK</Text>,
+  }, 
+];
 
 class SongContent extends React.Component {
   state = {
@@ -57,8 +81,7 @@ class SongContent extends React.Component {
                 <Row>
                   <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={'https://ipfs.fotra.tk/ipfs/' + songData.user.avatar} alt={songData.user.email}/>} title={songData.user.nickName} description={
                     <div className="row-space-between">
-                      <Text> {songData.follow} Follow </Text>
-                      <FollowButton ownerSongID={songData.user._id} isFollowed={songData.isFollowed}/>
+                      <Text> {formatThousands(songData.follow)} Follow </Text>
                     </div>
                     } />
                 </Row>
@@ -80,17 +103,81 @@ class SongContent extends React.Component {
                 </Row>
               </Col>
               <Col span={16}>
-                <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
-                  {/* <Button size="large" type="primary" ghost>
-                    <InfoISO record={songData} action={true}/>
-                  </Button>               */}
-                    <InvestISO idFile={songData.idFile}/>
-                    <BuyMusic idFile={songData.idFile}/>
+                <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'space-around', marginBottom: 10, paddingBottom: 10}}>
+                    <FollowButton ownerSongID={songData.user._id} isFollowed={songData.isFollowed}/>
                     <UsingISO idFile={songData.idFile}/> 
                     <InputLyric idMongo={this.props.idMongo}/>
+                    <InvestISO idFile={songData.idFile}/>
+                    <BuyMusic idFile={songData.idFile}/>
                 </Row>
-                <Row style={{padding: 5, margin: 5}}>
-                    <InputLyric idMongo={this.props.idMongo}/>
+                <Row style={{padding: 5, marginTop: 20 }}>
+                  <Title level={4} type="secondary"> LYRIC  </Title>
+                  <div style={{width: '100%', maxHeight: 250, backgroundColor: 'rgb(239, 242, 245)', overflow: 'auto'}}>
+                    <div style={{padding: 5, margin: 5}} dangerouslySetInnerHTML={{__html: songData.music.lyric}} />
+                  </div>
+                </Row>
+                <Row style={{padding: 3, marginTop: 20}}>
+                  <Title level={4} type="secondary"> INITIAL SONG OFFERING (ISO) INFOMATION </Title>
+                  {songData.music.IsISO ? 
+                  <div>
+                  <Countdown valueStyle={{fontSize: '17px', textAlign: 'center', margin: '5px'}} value={songData.timeExpired * 1000} format="D Ngày H Giờ m Phút s" />
+                  <Progress
+                    style={{paddingRight: '10px', margin: '5px'}}
+                    strokeColor={{
+                      from: '#108ee9',
+                      to: '#FF5733',
+                    }}
+                    percent={Number(parseFloat(100 - (songData.amountRemaining * 100 / songData.offerAmount)).toFixed(1))}
+                    status="active"
+                    showInfo
+                  />
+                  <TextText title='Progress' content={formatThousands(songData.offerAmount - songData.amountRemaining) + ' / ' + formatThousands(songData.offerAmount) + ' HAK'}/>
+                  <TextText title='Total Offer Amount' content={formatThousands(songData.offerAmount) + ' HAK'}/>
+                  <TextText title='Total Offer Percent' content={parseFloat(songData.offerPercent / 1000).toFixed(3) + '%'}/>
+                  <TextText title='Amount Remaining' content={formatThousands(songData.amountRemaining) + ' HAK'}/>
+                  <TextText title='Owner Percent Remaining' content={parseFloat(songData.ownerPercent / 1000).toFixed(3) + '%'}/>
+                  <TextText title='Invest table' content=''/>
+                  <Table columns={columns} dataSource={songData.investListISO} pagination={false}/>
+                  </div>
+                  :
+                  <Text> This song is not using ISO yet. </Text>
+                  }
+                </Row>
+                <Row style={{padding: 5, marginTop: 20 }}>
+                  <Row >
+                    <Button style={{textAlign: 'left', padding: 0, fontSize: '20px'}}  type="link" onClick={() => {}}>
+                      <Title level={4} type="secondary">MORE USER UPLOAD SONGS >>></Title>
+                    </Button>
+                  </Row>
+                  <Row style={{paddingRight: '10px', margin: '5px'}}>
+                    <Col span={8}>
+                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+                    </Col>
+                    <Col span={8}>
+                    <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+                    </Col>
+                    <Col span={8}>
+                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+                    </Col>
+                  </Row>
+                </Row>
+                <Row style={{padding: 5, marginTop: 20 }}>
+                  <Row >
+                    <Button style={{textAlign: 'left', padding: 0, fontSize: '20px'}}  type="link" onClick={() => {}}>
+                      <Title level={4} type="secondary">RELATED SONGS >>></Title>
+                    </Button>
+                  </Row>
+                  <Row style={{paddingRight: '10px', margin: '5px'}}>
+                    <Col span={8}>
+                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+                    </Col>
+                    <Col span={8}>
+                    <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+                    </Col>
+                    <Col span={8}>
+                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+                    </Col>
+                  </Row>
                 </Row>
               </Col>
             </Row>

@@ -11,6 +11,7 @@ import 'antd/dist/antd.css';
 import {connect} from 'react-redux';
 import InfoISO from '../infoISO'
 import InvestISO from '../investISO'
+import {formatThousands} from '../../utils/common'
 const { Text } = Typography;
 
 class DetailsISO extends React.Component {
@@ -50,14 +51,13 @@ class DetailsISO extends React.Component {
         title: 'Invest Amount',
         dataIndex: 'amount',
         key: 'amount',
-        render: amount => <Text>{amount} HAK</Text>,
-      },
-      
+        render: amount => <Text>{formatThousands(amount)} HAK</Text>,
+      }, 
     ];
     return (
       <div>
         <Tooltip title="Show more details of this song" placement="rightTop">
-          <Button style={{width: '100%', height: '100%', textAlign: 'center'}} shape="circle" type="link" icon="info-circle" onClick={this.showModal}>
+          <Button type="danger" ghost icon="info-circle" onClick={this.showModal}>
             <Text>Detail ISO</Text>
           </Button>
         </Tooltip>
@@ -66,26 +66,21 @@ class DetailsISO extends React.Component {
           bodyStyle={{ padding: 0, margin: 0 }} // Nên set cái boder bằng 0 chổ này( hoặc trong component InfoISO) thì đẹp hơn.
           visible={this.state.visible}
           // onOk={()=>this.onClickOK(false)}
-          // onCancel={()=>this.onClickCancel(false)}
+          onCancel={()=>this.onClickCancel(false)}
           footer={[
-            <Button key="back" onClick={()=>this.onClickCancel(false)}>
-              Return
-            </Button>,
-            <Button key="submit">
               <InvestISO idFile={record.idFile} center/>
-            </Button>,
           ]}
         >
           <InfoISO record={record} action={false}/>
           <div style={{padding: 5, margin: 5}}>
             <Text >Total Offer Amount: </Text>
-            <Text type="secondary">{record.amountRemaining} HAK</Text>
+            <Text type="secondary">{formatThousands(record.offerAmount)} HAK</Text>
             <br />
             <Text >Total Offer Percent: </Text>
             <Text type="secondary">{parseFloat(record.offerPercent / 1000).toFixed(3)} %</Text>
             <br />
             <Text >Amount Remaining: </Text>
-            <Text type="secondary">{record.amountRemaining} HAK</Text>
+            <Text type="secondary">{formatThousands(record.amountRemaining)} HAK</Text>
             <br />
             <Text >Owner Percent Remaining: </Text>
             <Text type="secondary">{parseFloat(record.ownerPercent / 1000).toFixed(3)} %</Text>

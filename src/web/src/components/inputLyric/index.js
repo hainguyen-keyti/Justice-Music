@@ -25,6 +25,7 @@ export default class InputLyric extends React.Component {
   handleOk = e => {
     this.setState({
       visible: false,
+      text: '',
     });
     const data = {
       idMongo: this.props.idMongo,
@@ -52,9 +53,9 @@ export default class InputLyric extends React.Component {
         </Button>
       </Tooltip>
       <Modal
-        title="Basic Modal"
+        title="Edit Lyric"
         visible={this.state.visible}
-        onOk={this.handleSubmit}
+        onOk={this.handleOk}
         onCancel={this.handleCancel}
         okButtonProps={{ type: "danger" }}
         okText="Submit"
