@@ -4,12 +4,14 @@ import {
   List,
   Typography,
   Avatar,
-  Spin,
-  Skeleton
+  Button,
+  Skeleton,
+  Tooltip
  } from 'antd';
  import {getRanking} from '../../actions/app'
 import { connect} from 'react-redux'
 import './index.css'
+import { withRouter } from 'react-router';
 
 const { Text, Title } = Typography;
 const arrTemp = [{},{},{},{},{},{},{},{},{},{}]
@@ -47,12 +49,17 @@ class Ranking extends React.Component {
                   </div>
                   <List.Item.Meta
                     avatar={<Avatar shape="square" size={70} src={window.$linkIPFS + item.music.image}/>}
-                    title={<Text><a href="https://ant.design">{item.music.name}</a></Text>}
+                    title={<Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20}}  type="link" onClick={() => this.props.history.push(`/song/${item.music._id}`)}>{item.music.name}</Button>}
                     description={
                     <div>
                       {item.music.artist}
                       <br/>
-                      <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking}</Text>
+                      <div className="row-space-between">
+                        <Tooltip title={item.user.nickName} placement="leftTop">
+                          <Avatar shape='circle' size='small' src={window.$linkIPFS + item.user.avatar} onClick={() => this.props.history.push(`/page/${item.user.addressEthereum}`)} />
+                        </Tooltip>
+                        <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking}</Text>
+                      </div>
                     </div>
                     }
                   />
@@ -75,4 +82,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getRanking: () => dispatch(getRanking()),
 })
-export default connect(mapStateToProps, mapDispatchToProps)(Ranking);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Ranking));

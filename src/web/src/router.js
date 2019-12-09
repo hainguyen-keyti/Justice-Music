@@ -11,21 +11,24 @@ import ISO from './screens/iso'
 import Setting from './screens/setting'
 import MusicDetail from './screens/musicDetail'
 import MusicPlayer from './components/musicPlayer'
+import Component404 from './components/404'
+import PrivateRoute from './components/PrivateRoute'
 
 const Root = () => (
     <Router>
         <div>
             <Switch>
                 <Route exact path="/" component={Index} />
-                <Route path="/home" component={Home} />
+                <PrivateRoute path="/home" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/message" component={Chat} />
-                <Route path="/iso" component={ISO} />
-                <Route path="/setting" component={Setting} />
-                <Route path="/test" component={MusicDetail} />
-                <Route path="/page/:userName" component={Page} />
-                <Route path="/song/:idMongo" component={Song} />
+                <PrivateRoute path="/message" component={Chat} />
+                <PrivateRoute path="/iso" component={ISO} />
+                <PrivateRoute path="/setting" component={Setting} />
+                <PrivateRoute path="/test" component={MusicDetail} />
+                <PrivateRoute path="/page/:userName" component={Page} />
+                <PrivateRoute path="/song/:idMongo" component={Song} />
+                <PrivateRoute component={Component404} />
             </Switch>
             <MusicPlayer/>
         </div>

@@ -66,7 +66,14 @@ exports.getListMusicBySolidityID = (arr) => {
 		for(let i = 0; i <= arr.length - 1; i++){
 			await Music.findOne({idSolidity: Number(arr[i].idFile)})
 			.then(async music => {
+				const user = await User.findById(music.idMongoUserUpload)
+				const dataUser = { 
+					nickName: user.nickName,
+					avatar: user.avatar,
+					addressEthereum: user.addressEthereum,
+				}
 				const data = {
+					user: dataUser,
 					music,
 					downloadWeekRanking: Number(arr[i].lastWeekDownloader),
 				}
@@ -85,6 +92,9 @@ exports.getSongByIdMongo = (idMongo, senderID) => {
 	try {
 		let result = {}
 		const songMongo = await Music.findById(idMongo)
+		if(!songMongo){
+			return reject("This song is not exist.")
+		}
 		const promises = [
 			User.findById(songMongo.idMongoUserUpload),
 			contractWithSignerUserBehavior.getFileById(songMongo.idSolidity),
@@ -193,6 +203,7 @@ exports.ModifyFileISO = (tx) => {
 				const data = { 
 					image: music.image,
 					name: music.name,
+					hash: music.hash
 				}
 				returnObj.music = data
 			})

@@ -30,33 +30,12 @@ import ComponentLoading from '../../components/loading'
 import FollowButton from '../../components/followButton'
 import { withRouter } from 'react-router';
 import {formatThousands} from '../../utils/common'
+import Component404 from '../../components/404'
 
 const { Paragraph, Text, Title} = Typography;
 const { Countdown } = Statistic;
 const { Meta } = Card;
 const { TabPane } = Tabs;
-const columns = [
-  {
-    title: 'Address',
-    dataIndex: 'investor',
-    key: 'address',
-    ellipsis: true,
-    render: address => <a href={`/${address}`}>{address}</a>,
-  },
-  {
-    title: 'Invest percent',
-    dataIndex: 'percentage',
-    key: 'percent',
-    render: percent => <Text>{parseFloat(percent / 1000).toFixed(3)} %</Text>,
-  },
-  {
-    title: 'Invest Amount',
-    dataIndex: 'amount',
-    key: 'amount',
-    render: amount => <Text>{formatThousands(amount)} HAK</Text>,
-  }, 
-];
-
 class SongContent extends React.Component {
   state = {
     hashAvatar: "",
@@ -67,8 +46,30 @@ class SongContent extends React.Component {
   }
 
   render() {
-    const {songData} = this.props.songReducer 
+    const {songData, error} = this.props.songReducer
+    if (error) return (<Component404 history={this.props.history} subTitle="Song not found. Please try another link!"></Component404>)
     if (!songData) return (<ComponentLoading/>)
+    const columns = [
+      {
+        title: 'Address',
+        dataIndex: 'investor',
+        key: 'address',
+        ellipsis: true,
+        render: address => <Button  style={{textAlign: 'left', padding: 0}}  type="link" onClick={() => this.props.history.push(`/page/${address}`)}>{address}</Button>
+      },
+      {
+        title: 'Invest percent',
+        dataIndex: 'percentage',
+        key: 'percent',
+        render: percent => <Text>{parseFloat(percent / 1000).toFixed(3)} %</Text>,
+      },
+      {
+        title: 'Invest Amount',
+        dataIndex: 'amount',
+        key: 'amount',
+        render: amount => <Text>{formatThousands(amount)} HAK</Text>,
+      }, 
+    ];    
     return (
       <Row>
         <Row gutter={[0, 32]}>
@@ -79,17 +80,23 @@ class SongContent extends React.Component {
             <Row style={{padding: 5, margin: 5}}>
               <Col span={8}>
                 <Row>
-                  <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={'https://ipfs.fotra.tk/ipfs/' + songData.user.avatar} alt={songData.user.email}/>} title={songData.user.nickName} description={
-                    <div className="row-space-between">
-                      <Text> {formatThousands(songData.follow)} Follow </Text>
-                    </div>
-                    } />
+                  <Meta 
+                    style={{paddingBottom: 10}} 
+                    avatar={<Avatar size={59} 
+                    src={'https://ipfs.fotra.tk/ipfs/' + songData.user.avatar} 
+                    alt={songData.user.email}/>} 
+                    title={ <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${songData.user.addressEthereum}`)}>{songData.user.nickName}</Button>} 
+                    description={<Text> {formatThousands(songData.follow)} Follow </Text>} 
+                    />
                 </Row>
                 <Row style={{padding: 5, margin: 5}}>
                   <Avatar shape='square' size={220} src={'https://ipfs.fotra.tk/ipfs/' + songData.music.image} alt="Music photo"/>
-                  <Paragraph strong style={{fontSize: '25px', margin: '15px'}} ellipsis>
-                    {songData.music.name}
-                  </Paragraph>
+                  <Tooltip title={songData.music.name} placement="leftTop">
+                    <Paragraph strong style={{fontSize: '20px', margin: '15px'}} ellipsis={{ rows: 2}}>
+                      {songData.music.name}
+                    </Paragraph>
+                  </Tooltip>
+
                 </Row>
                 <Row style={{padding: 5, margin: 5}}>
                   <TextText title='Singer' content={songData.music.artist}  link='link here'/>
@@ -99,7 +106,7 @@ class SongContent extends React.Component {
                   <TextText title='Download Total' content={songData.music.totalDownloader}/>
                   <TextText title='Download Week' content={songData.music.weekDownloader}/>
                   <TextText title='Contract Permission' content={songData.music.contractPermission ? 'Allow' : 'Not Allow' }/>
-                  <TextText title='ISO' content={songData.music.IsISO ? 'Used' : 'Not Use'} link='link here'/>
+                  <TextText title='ISO' content={!songData.music.IsISO ? 'Not Use' : (moment().unix() >= songData.timeExpired ? 'Used' : 'Now Using')} link='link here'/>
                 </Row>
               </Col>
               <Col span={16}>
@@ -146,7 +153,7 @@ class SongContent extends React.Component {
                 <Row style={{padding: 5, marginTop: 20 }}>
                   <Row >
                     <Button style={{textAlign: 'left', padding: 0, fontSize: '20px'}}  type="link" onClick={() => {}}>
-                      <Title level={4} type="secondary">MORE USER UPLOAD SONGS >>></Title>
+                      <Title level={4} type="secondary">SONG WITH THE SINGER >>></Title>
                     </Button>
                   </Row>
                   <Row style={{paddingRight: '10px', margin: '5px'}}>

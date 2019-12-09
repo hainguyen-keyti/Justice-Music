@@ -11,7 +11,7 @@ class Layout extends Component {
       <div style={{display: 'block'}}>
         <Header history={this.props.history} logOut={this.props.log_out}/>
         <div style={{display: 'flex', justifyContent: 'center', padding: 10, marginTop: 10}}>
-          <div style={{width: 1100}}>
+          <div style={{width: 1100, minHeight: 'calc(100vh - 270px)'}}>
             {this.props.main}
           </div>
         </div>

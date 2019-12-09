@@ -86,7 +86,7 @@ class DetailsISO extends React.Component {
             <Text type="secondary">{parseFloat(record.ownerPercent / 1000).toFixed(3)} %</Text>
             <br />
           </div>
-          <Table columns={columns} dataSource={record.investListISO} pagination={false}/>
+          <Table rowKey={(record) => record.idFile} columns={columns} dataSource={record.investListISO} pagination={false}/>
         </Modal>
       </div>
     );

@@ -51,7 +51,6 @@ class Header extends Component {
             </Menu.Item>
             <Menu.Divider />
           <Menu.Item onClick={()=> {
-            console.log(this.props)
             this.props.userReducer.user.userName ?
             this.props.history.push(`/page/${this.props.userReducer.user.userName}`) :
             this.props.history.push(`/page/${this.props.userReducer.user.addressEthereum}`)
@@ -76,7 +75,7 @@ class Header extends Component {
         </Menu>
       );
     return (
-      <div style={{borderBottom: '1px solid #D6DBDF', height: 60, width: '100vw', display: 'flex' ,justifyContent: 'center' }}>
+      <div style={{borderBottom: '1px solid #D6DBDF', height: 60, display: 'flex' ,justifyContent: 'center' }}>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center' , width: 1100}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <Tooltip placement="topLeft" title="Justice music" arrowPointAtCenter>
