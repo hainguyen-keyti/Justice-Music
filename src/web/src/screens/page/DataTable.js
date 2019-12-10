@@ -82,13 +82,7 @@ class DataTable extends React.Component {
         render: record => (
           <div style={{display: 'flex'}}>
 
-              <UsingISO idFile={record.idFile} circle={true}/>
-
-              <Divider type="vertical" style={{height: '30px'}}/>
-              
-              <Tooltip title="ISO infomation" placement="top">
-                <Button type="primary" shape="circle" icon={ record.IsISO ? "check" : "close"} ghost/>
-              </Tooltip>
+              <UsingISO disabled={(record.IsISO || this.props.userReducer.user.id !== this.props.pageReducer.userInfoData._id) ? true : false} idFile={record.idFile} circle={true}/>
 
               <Divider type="vertical" style={{height: '30px'}}/>
               

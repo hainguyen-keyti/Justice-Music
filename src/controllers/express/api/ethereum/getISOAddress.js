@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
             }
             console.log("afdadfadfadfdfaf")
             console.log(tx)
-            lib_common.ModifyFileISO(tx)
+            lib_common.ModifyFileISO(tx, req.token_info._id)
             .then(result => {
                 return response_express.success(res, result)  
             })

@@ -83,7 +83,7 @@ class SongContent extends React.Component {
                   <Meta 
                     style={{paddingBottom: 10}} 
                     avatar={<Avatar size={59} 
-                    src={'https://ipfs.fotra.tk/ipfs/' + songData.user.avatar} 
+                    src={window.$linkIPFS + songData.user.avatar} 
                     alt={songData.user.email}/>} 
                     title={ <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${songData.user.addressEthereum}`)}>{songData.user.nickName}</Button>} 
                     description={<Text> {formatThousands(songData.follow)} Follow </Text>} 
@@ -112,9 +112,9 @@ class SongContent extends React.Component {
               <Col span={16}>
                 <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'space-around', marginBottom: 10, paddingBottom: 10}}>
                     <FollowButton ownerSongID={songData.user._id} isFollowed={songData.isFollowed}/>
-                    <UsingISO idFile={songData.idFile}/> 
-                    <InputLyric idMongo={this.props.idMongo}/>
-                    <InvestISO idFile={songData.idFile}/>
+                    <UsingISO disabled={(this.props.userReducer.user.id !== songData.user._id) ? true : false} idFile={songData.idFile}/> 
+                    <InputLyric disabled={(this.props.userReducer.user.id !== songData.user._id) ? true : false} idMongo={this.props.idMongo}/>
+                    <InvestISO disabled={(moment().unix() >= songData.timeExpired) ? true : false} idFile={songData.idFile}/>
                     <BuyMusic idFile={songData.idFile}/>
                 </Row>
                 <Row style={{padding: 5, marginTop: 20 }}>
@@ -202,6 +202,7 @@ class SongContent extends React.Component {
 
 const mapStateToProps = (state) => ({
   songReducer: state.songReducer,
+  userReducer: state.userReducer,
 })
 
 const mapDispatchToProps = (dispatch) => ({

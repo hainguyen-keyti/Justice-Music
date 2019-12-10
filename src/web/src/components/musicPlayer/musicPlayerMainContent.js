@@ -7,9 +7,10 @@ import Typography from 'antd/lib/typography/Typography';
 import BuyMusic from '../buyMusic';
 import InvestISO from '../investISO';
 import UsingISO from '../usingISO';
+import { connect} from 'react-redux'
 
 
-export default class MusicPlayerMainContent extends Component {
+class MusicPlayerMainContent extends Component {
   state = {
     totalSeconds: 0,
     loop: true,
@@ -75,7 +76,7 @@ export default class MusicPlayerMainContent extends Component {
               <InvestISO idFile={idFile}/>
           </Menu.Item>
           <Menu.Item>
-              <UsingISO idFile={idFile}/>
+              <UsingISO disabled={(this.props.appReducer.musicSelected.idMongoUserUpload !== this.props.userReducer.user.id) ? true : false} idFile={idFile}/>
           </Menu.Item>
       </Menu>
     );
@@ -118,12 +119,22 @@ export default class MusicPlayerMainContent extends Component {
                 placement="topCenter">
             <Button style={{marginLeft: 10}} shape="circle" type="default" icon="bell" />
             </Dropdown>
-            <Dropdown 
+            {/* <Dropdown 
                 overlay= {menu}
                 placement="topLeft">
                 <Button style={{marginLeft: 10}} shape="circle" type="default" icon="ellipsis" />
-            </Dropdown>
+            </Dropdown> */}
         </div>
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  appReducer: state.appReducer,
+  userReducer: state.userReducer,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+})
+export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayerMainContent)

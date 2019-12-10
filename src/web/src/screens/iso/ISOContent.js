@@ -29,8 +29,8 @@ class ISOContent extends React.Component {
       <div style={{width: '100%'}}>
         {this.state.loading ? <ComponentLoading /> : 
           <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 20]}>
-            {this.state.dataISO.map(record => 
-            <Col span={6}>
+            {this.state.dataISO.map(record =>
+            <Col key={record.idFile} span={6}>
               <InfoISO
                 record={record}
                 action={true}

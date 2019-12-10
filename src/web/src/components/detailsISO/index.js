@@ -13,6 +13,7 @@ import InfoISO from '../infoISO'
 import InvestISO from '../investISO'
 import {formatThousands} from '../../utils/common'
 import TextText from '../../components/text-text';
+import * as moment from 'moment';
 const { Text } = Typography;
 
 class DetailsISO extends React.Component {
@@ -69,10 +70,11 @@ class DetailsISO extends React.Component {
           // onOk={()=>this.onClickOK(false)}
           onCancel={()=>this.onClickCancel(false)}
           footer={[
-              <InvestISO idFile={record.idFile} center/>
+              <InvestISO disabled={(moment().unix() >= record.timeExpired) ? true : false} idFile={record.idFile} center/>
           ]}
         >
           <InfoISO record={record} action={false}/>
+          
           <TextText title='Total Offer Amount' content={formatThousands(record.offerAmount) + ' HAK'}/>
           <TextText title='Total Offer Percent' content={parseFloat(record.offerPercent / 1000).toFixed(3) + '%'}/>
           <TextText title='Amount Remaining' content={formatThousands(record.amountRemaining) + ' HAK'}/>

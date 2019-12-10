@@ -137,11 +137,11 @@ class UsingISO extends React.Component {
       <div>
         {this.props.circle ? 
           <Tooltip title="Using ISO this song" placement="top">
-            <Button shape="circle" type="danger" ghost icon="usergroup-add" onClick={this.showModal}/>
+            <Button disabled={this.props.disabled} shape="circle" type="danger" ghost icon="usergroup-add" onClick={this.showModal}/>
           </Tooltip>
           :
           <Tooltip title="Using ISO this song" placement="leftTop">
-            <Button type="danger" ghost icon="usergroup-add" onClick={this.showModal}>
+            <Button disabled={this.props.disabled} type="danger" ghost icon="usergroup-add" onClick={this.showModal}>
               <Text>Using ISO</Text>
             </Button>
           </Tooltip>

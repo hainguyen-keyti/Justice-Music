@@ -1,10 +1,12 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './InfoISO.css'
-import InvestISO from '../../components/investISO'
+// import InvestISO from '../../components/investISO'
 import DetailsISO from '../../components/detailsISO'
 import { Card, Progress, Statistic, Avatar, Typography, Button } from 'antd';
 import { withRouter } from 'react-router';
+import * as moment from 'moment';
+import {formatThousands} from '../../utils/common'
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
@@ -25,7 +27,15 @@ class InfoISO extends React.Component {
       ] : null
     }
     >
-      <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={window.$linkIPFS + record.user.avatar} alt="Avatar photo"/>} title={record.user.nickName} description="15.256 Follows" />
+      <Meta 
+        style={{paddingBottom: 10}} 
+        avatar={<Avatar size={59} 
+        src={window.$linkIPFS + record.user.avatar} 
+        alt={record.user.nickName}/>} 
+        title={ <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${record.user.addressEthereum}`)}>{record.user.nickName}</Button>} 
+        description={<Text> {formatThousands(record.user.follow)} Follow </Text>} 
+        />
+      
       <Button  style={{textAlign: 'center', padding: 0, fontSize: 14, height: 20}}  type="link" onClick={()=> this.props.history.push(`/song/${record.music._id}`)}>{record.music.name}</Button>
       {/* <Text>
           <a href={this.props.link}>{record.music.name}</a>
@@ -42,7 +52,16 @@ class InfoISO extends React.Component {
         status="active"
         showInfo
       />
-      <Countdown title="Time Remaining" valueStyle={{fontSize: '16px'}} value={record.timeExpired * 1000} format="D Ngày H Giờ m Phút s" />
+      {
+        (moment().unix() >= record.timeExpired) ? 
+        <div>
+            <Text type="secondary">Ant Design</Text>
+            <br />
+            <Text style={{fontSize: 18}} type='danger'> Out of time</Text> 
+        </div>
+        :
+        <Countdown title="Time Remaining" valueStyle={{fontSize: '16px'}} value={record.timeExpired * 1000} format="D Ngày H Giờ m Phút s" /> 
+      }
     </Card>
     )
   }

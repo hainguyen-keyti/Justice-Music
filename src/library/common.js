@@ -212,14 +212,14 @@ exports.ModifyMusicFile = (tx) => {
 
 
 
-exports.ModifyFileISO = (tx) => {
+exports.ModifyFileISO = (tx, senderID) => {
 	return new Promise( async (resolve, reject) => {
 	try {
 		return resolve( await Promise.all(tx.map( async record => {
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
-			.then( user => {
-				const follow = await Follow.countDocuments({followedID: songMongo.idMongoUserUpload}),
+			.then( async user => {
+				const follow = await Follow.countDocuments({followedID: user._id})
 				const isFollowed = await Follow.exists({userID: senderID})
 				const data = { 
 					nickName: user.nickName,

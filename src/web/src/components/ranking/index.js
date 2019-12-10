@@ -58,7 +58,7 @@ class Ranking extends React.Component {
                         <Tooltip title={item.user.nickName} placement="leftTop">
                           <Avatar shape='circle' size='small' src={window.$linkIPFS + item.user.avatar} onClick={() => this.props.history.push(`/page/${item.user.addressEthereum}`)} />
                         </Tooltip>
-                        <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking}</Text>
+                        <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking} Downloads</Text>
                       </div>
                     </div>
                     }
