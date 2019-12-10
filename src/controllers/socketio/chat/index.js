@@ -30,7 +30,7 @@ module.exports = (io) => {
 
         socket.on('chat message', data => {
             if(!data.receiverID)
-                return response_socketio(socket, new Error("Have you choose friend to chat yet?"));
+                return response_socketio(socket, "Have you choose friend to chat yet?")
             if(data.senderID !== decoded_token._id){
                 response_socketio(socket, "Token and userID are different");
                 return;
@@ -57,7 +57,7 @@ module.exports = (io) => {
 
         socket.on('first message', data => {
             if(!data.receiverID)
-                return response_socketio(socket, new Error("Have you choose friend to chat yet?"));
+                return response_socketio(socket, "Have you choose friend to chat yet?");
             if(data.senderID !== decoded_token._id){
                 response_socketio(socket, "Token and userID are different");
                 return;

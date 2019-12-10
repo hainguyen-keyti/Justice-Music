@@ -5,7 +5,7 @@ const userInfo = require('../../../../library/common').deleteSensitiveInfoUser;
 
 module.exports = (req, res) => {
     if(req.token_info._id !== req.body.userID)
-        response_express.exception(res, new Error('Failed to authenticate token.'))
+        response_express.exception(res, 'Failed to authenticate token.')
     
     User.findOne({_id: req.body.userID})
     .then( user => {

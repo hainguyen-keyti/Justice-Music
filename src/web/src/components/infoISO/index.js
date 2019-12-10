@@ -3,13 +3,14 @@ import 'antd/dist/antd.css';
 import './InfoISO.css'
 import InvestISO from '../../components/investISO'
 import DetailsISO from '../../components/detailsISO'
-import { Card, Progress, Statistic, Avatar, Typography } from 'antd';
+import { Card, Progress, Statistic, Avatar, Typography, Button } from 'antd';
+import { withRouter } from 'react-router';
 
 const { Meta } = Card;
 const { Countdown } = Statistic;
 const { Text } = Typography;
 
-export default class InfoISO extends React.Component {
+class InfoISO extends React.Component {
   render() {
     let { record, action }= this.props
     return (
@@ -19,15 +20,16 @@ export default class InfoISO extends React.Component {
       cover={<img className="img-background-music" alt="music background" src={window.$linkIPFS + record.music.image}/>}
       bodyStyle={{padding: '15px', width: '100%', border: '0px solid green'}}
       actions={action ? [
-        <InvestISO idFile={record.idFile} center/>,
+        // <InvestISO idFile={record.idFile} center/>,
         <DetailsISO record={record}/>,
       ] : null
     }
     >
       <Meta style={{paddingBottom: 10}} avatar={<Avatar size={59} src={window.$linkIPFS + record.user.avatar} alt="Avatar photo"/>} title={record.user.nickName} description="15.256 Follows" />
-      <Text>
+      <Button  style={{textAlign: 'center', padding: 0, fontSize: 14, height: 20}}  type="link" onClick={()=> this.props.history.push(`/song/${record.music._id}`)}>{record.music.name}</Button>
+      {/* <Text>
           <a href={this.props.link}>{record.music.name}</a>
-      </Text>
+      </Text> */}
       <br />
       <Text type="warning" style={{marginTop: "10px"}}>Percent</Text>
       <Progress
@@ -45,3 +47,5 @@ export default class InfoISO extends React.Component {
     )
   }
 }
+
+export default withRouter(InfoISO)

@@ -5,7 +5,7 @@ const response_express = require(config.library_dir + '/response').response_expr
 module.exports = (req, res) => {
     try {
         if(!req.files) {
-            response_express.exception(res, "File cannot upload");
+            response_express.exception(res, "File cannot upload")
         } else {
         getHashIPFS(req.files.file.data)
         .then( hash => {

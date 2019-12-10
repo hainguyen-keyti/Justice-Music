@@ -12,8 +12,8 @@ contract Ranking is FileStruct, Ownable{
     
     FileStorage fileStorage;
     
-    constructor() public payable{
-        fileStorage = FileStorage(0x6dC14057fB774B6a5a09cd2110472f8D91413DE9);
+    constructor(address _fileStorage) public payable{
+        fileStorage = FileStorage(_fileStorage);
     }
     
     function rankCalculator(Kind _kind) internal{
@@ -44,24 +44,21 @@ contract Ranking is FileStruct, Ownable{
     }
     
     function RankPerWeek() public onlyOwner{
-        rankCalculator(Kind.Image);
+        // rankCalculator(Kind.Image);
         rankCalculator(Kind.Music);
-        rankCalculator(Kind.Unidentified);
+        // rankCalculator(Kind.Unidentified);
         fileStorage.setTimeRanking(now);
         resetWeekDowloader();
         emit Log_RankPerWeek(msg.sender, now);
     }
     
-    function getRanking(uint _TimeRanking, Kind _kind) public view returns(File[] memory, int[] memory){
+    function getRanking(uint _TimeRanking, Kind _kind) public view returns(FileRanking[] memory){
         uint tempLength = fileStorage.getRankingHistory(_TimeRanking, _kind).length;
-        uint[] memory tempID = new uint[](tempLength);
-        int[] memory tempDownloader = new int[](tempLength);
+        FileRanking[] memory result = new FileRanking[](tempLength);
         for (uint i = 0; i < tempLength; i++){
-            tempID[i] = fileStorage.getRankingHistory(_TimeRanking, _kind)[i].idFile;
-            tempDownloader[i] = fileStorage.getRankingHistory(_TimeRanking, _kind)[i].lastWeekDownloader;
+            result[i] = fileStorage.getRankingHistory(_TimeRanking, _kind)[i];
         }
-        File[] memory tempFile = fileStorage.getFileFunc(tempID);
-        return (tempFile, tempDownloader);
+        return result;
     }
     
     function getTimeRanking() public view returns(uint[] memory){

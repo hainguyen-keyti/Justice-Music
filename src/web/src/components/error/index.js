@@ -5,17 +5,18 @@ import { withRouter } from 'react-router';
 
 class ComponentError extends React.Component {
   render() {
+    const {title, subTitle, goTo, func} = this.props
     return (
       <Result
       status="error"
-      title={this.props.title}
-      subTitle={this.props.subTitle}
+      title={title}
+      subTitle={subTitle}
       extra={[
         <Button type="primary" onClick={()=>{
-          this.props.history.push('/setting')
-          this.props.handleError()
-          }}>
-          Go to setting again!
+          this.props.history.push(`/${goTo}`)
+          func()  // Normally handle error function in redux
+        }}>
+          Go to {goTo}
         </Button>
       ]}
     />

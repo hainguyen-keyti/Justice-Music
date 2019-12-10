@@ -27,6 +27,7 @@ export function updateUser(data){
             dispatch(update_successful(userName))
         })
         .catch((err) => {
+            console.log(err)
             dispatch(update_fail(err))
         });
     }
@@ -87,7 +88,7 @@ export function getBalance(address){
                 dispatch(set_hak_add(Number(value)))
             });
 
-            let filter2 = contract.filters.Transfer(address, null);
+            let filter2 = contract.filters.Transfer(address);
             contract.on(filter2, (from, to, value) => {
                 console.log(Number(value))
                 console.log('I sended ' + value.toString() + ' tokens to ' + to);

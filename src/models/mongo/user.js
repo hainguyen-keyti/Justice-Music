@@ -55,7 +55,12 @@ var userSchema = mongoose.Schema({
     avatar: {
         type: String,
         trim: true,
-        default: "QmXwrePcDqV2YR1xyJU4mpxadaQgHHMLsitBgWtZS2c9Zn"
+        default: "QmNNb8tD5ofB9hUwrfMg6qWejz9XACByWN3EvSw1rrs6cV"
+    },
+    coverPhoto: {
+        type: String,
+        trim: true,
+        default: "QmRyc4pEvpETmyN6hZ9DGSCDQGkTEWgjfuSseLjQbt6NhE"
     },
     birthday: {
         type: Date,
@@ -89,9 +94,18 @@ var userSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-    otherInfomaion: {
-        type: Object
-    }
+    facebook: {
+        type: String,
+        trim: true,
+    },
+    youtube: {
+        type: String,
+        trim: true,
+    },
+    home: {
+        type: String,
+    },
+
 });
 
 userSchema.pre('save', next => {

@@ -43,7 +43,6 @@ export const userReducer = ( state = initialState, action) => {
     case 'HANDLE_UPDATE_ERROR':
         return {
         ...state,
-        updateSuccessful: false,
         errorUpdate: null
     }
     case 'RESET_UPDATE':

@@ -4,27 +4,25 @@ const response_express = require(config.library_dir + '/response').response_expr
 const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => {
-    if(!req.token_info || req.token_info === undefined)
-        response_express.exception(res, new Error('Failed to authenticate token.'))
-    
+    if(!req.token_info || req.token_info === undefined){
+        return response_express.exception(res, 'Failed to authenticate token.')
+    }
 
-    console.log(req.body)
-    const data = await lib_common.RemoveObjFieldNull(req.body, ["otherInfomaion"])
-    if(Object.entries(data).length === 0)
-        response_express.exception(res, "Can not input Object empty")
-
+    const data = await lib_common.RemoveObjFieldNull(req.body) // this function to remove all field that null, empyty or undefine 
+    if(Object.entries(data).length === 0){
+        return response_express.exception(res, "Please input field that you want update!")
+    }
 
     User.findById(req.token_info._id)
-    .then((user) => {
-
-        response_express.exception(res, "loi roi")
-        // Object.assign(user, req.body.mainInfo);
-        // Object.assign(user.otherInfomaion, req.body.subInfo);
-        // console.log(user)
-        // return user.save();
+    .then( (user) => {
+        Object.assign(user, data);
+        return user.save();
     })
-    .then(()=>{
-        return response_express.success(res, "Update Success")
+    .then((user)=>{
+        return response_express.success(res, user.userName)
     })
-    .catch(err=>response_express.exception(res, err.message))
+    .catch(err=>{
+        console.log(err)
+        return response_express.exception(res, err)
+    })
 }

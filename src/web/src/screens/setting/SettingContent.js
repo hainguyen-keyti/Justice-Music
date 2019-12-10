@@ -10,7 +10,7 @@ import {
   Icon,
 } from 'antd';
 import Avatar from '../../components/uploadAvatar'
-import {updateUser, handle_update_error} from '../../actions/user'
+import {updateUser, handle_update_error, reset_update} from '../../actions/user'
 import ComponentLoading from '../../components/loading'
 import ComponentSuccess from '../../components/success'
 import ComponentError from '../../components/error'
@@ -18,8 +18,8 @@ import { connect} from 'react-redux'
 
 class SettingForm extends React.Component {
   state = {
-    hashAvatar: undefined,
-    hashCoverPhoto: undefined,
+    hashAvatar: '',
+    hashCoverPhoto: '',
   };
 
   handleSubmit = e => {
@@ -27,36 +27,15 @@ class SettingForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        const {facebook, youtube, home, avatar, coverPhoto, nickname, userName} = values
-        if(!facebook && !youtube && !home){
-          console.log("1")
-           const data = {
-            avatar,
-            coverPhoto,
-            nickname,
-            userName,
-          }
-          console.log(data)
-          this.props.updateUser(data)
+        this.setState({
+          hashAvatar: '',
+          hashCoverPhoto: ''
+        })
+          this.props.updateUser(values)
+          this.props.form.resetFields()
         }
-        else{
-          console.log("2")
-          const data2 = {
-            otherInfomaion: {
-              facebook,
-              youtube,
-              home,
-            },
-            avatar,
-            coverPhoto,
-            nickname,
-            userName,
-          }
-          this.props.updateUser(data2)
-        }
-        this.props.form.resetFields()
       }
-    });
+    );
   };
 
   normFile = file => {
@@ -82,11 +61,11 @@ class SettingForm extends React.Component {
       return <ComponentLoading />
     }
     if (this.props.userReducer.updateSuccessful){
-      return <ComponentSuccess title="Update user information" subTitle="Successful"/>
+      return <ComponentSuccess title="SUCCESSFUL" subTitle="Update user information successful" goTo='home' func={this.props.reset_update}/>
     }
     if (this.props.userReducer.errorUpdate){
       
-      return <ComponentError handleError={this.props.handle_update_error} title="Update user information Error" subTitle={this.props.userReducer.errorUpdate}/>
+      return <ComponentError func={this.props.handle_update_error} title="ERROR at update user information!" subTitle={this.props.userReducer.errorUpdate} goTo='setting'/>
     }
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -100,7 +79,7 @@ class SettingForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator('nickname')(<Input />)}
+          {getFieldDecorator('nickName')(<Input />)}
         </Form.Item>
 
         <Form.Item
@@ -207,6 +186,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateUser: (data)=>dispatch(updateUser(data)),
   handle_update_error: ()=>dispatch(handle_update_error()),
+  reset_update: ()=>dispatch(reset_update()),
 })
 
 const SettingContent = Form.create({ name: 'validate_other' })(SettingForm);

@@ -28,7 +28,7 @@ module.exports = (req, res) => {
                 })
             ).then(gas=>{
                 if(balance.ETH < ethers.utils.formatEther(gas)){
-                    return response_express.exception(res, "Your ETH balance is not enough!")
+                    return response_express.exception(res,  "Your ETH balance is not enough!")
                 }
         })
         .catch(err => {

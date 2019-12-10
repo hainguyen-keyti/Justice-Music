@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import InfoISO from '../infoISO'
 import InvestISO from '../investISO'
 import {formatThousands} from '../../utils/common'
+import TextText from '../../components/text-text';
 const { Text } = Typography;
 
 class DetailsISO extends React.Component {
@@ -72,20 +73,11 @@ class DetailsISO extends React.Component {
           ]}
         >
           <InfoISO record={record} action={false}/>
-          <div style={{padding: 5, margin: 5}}>
-            <Text >Total Offer Amount: </Text>
-            <Text type="secondary">{formatThousands(record.offerAmount)} HAK</Text>
-            <br />
-            <Text >Total Offer Percent: </Text>
-            <Text type="secondary">{parseFloat(record.offerPercent / 1000).toFixed(3)} %</Text>
-            <br />
-            <Text >Amount Remaining: </Text>
-            <Text type="secondary">{formatThousands(record.amountRemaining)} HAK</Text>
-            <br />
-            <Text >Owner Percent Remaining: </Text>
-            <Text type="secondary">{parseFloat(record.ownerPercent / 1000).toFixed(3)} %</Text>
-            <br />
-          </div>
+          <TextText title='Total Offer Amount' content={formatThousands(record.offerAmount) + ' HAK'}/>
+          <TextText title='Total Offer Percent' content={parseFloat(record.offerPercent / 1000).toFixed(3) + '%'}/>
+          <TextText title='Amount Remaining' content={formatThousands(record.amountRemaining) + ' HAK'}/>
+          <TextText title='Owner Percent Remaining' content={parseFloat(record.ownerPercent / 1000).toFixed(3) + '%'}/>
+          <TextText title='Invest table' content=''/>
           <Table rowKey={(record) => record.idFile} columns={columns} dataSource={record.investListISO} pagination={false}/>
         </Modal>
       </div>

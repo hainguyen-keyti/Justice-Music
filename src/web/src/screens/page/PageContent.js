@@ -35,13 +35,20 @@ class PageContent extends Component {
   render() {
     if (this.props.pageReducer.errorPage) return (<Component404 history={this.props.history} subTitle="Page not found. Please try another link!"></Component404>)
     if (!this.props.pageReducer.userInfoData) return (<ComponentLoading/>)
-    const {follow, phone, otherInfomaion, avatar, nickName, _id, isFollowed} = this.props.pageReducer.userInfoData
+    const {follow, phone, facebook, youtube, home, coverPhoto , avatar, nickName, _id, isFollowed} = this.props.pageReducer.userInfoData
     const operations = <FollowButton ownerSongID={_id} isFollowed={isFollowed} isPage={true}/>
     return (
         <div>
           <Row>
             <Col span={24}>
-                <div className="img-background"/>
+                <div style={{
+                    width: '100%',
+                    height: '300px',
+                    backgroundImage: `url('https://ipfs.fotra.tk/ipfs/${coverPhoto}')`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center center'
+                }}/>
             </Col>
           </Row>
           <Row style={{paddingTop: '15px'}}>
@@ -56,45 +63,28 @@ class PageContent extends Component {
                 </div>
               </div>
               {
-                otherInfomaion ?
-
-                <IconText />
-                // <Button type="link" ghost icon="phone" onClick={this.showModal}>
-                //   <Text>{phone}</Text>
-                // </Button>
-
-              //   <div className="info-icon">
-              //     <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
-              //       <Icon className="icon-style" type="phone"  />
-              //       <Text ellipsis type="secondary">{phone}</Text>
-              //     </a>
-              //     {
-              //       otherInfomaion.youtube ? 
-              //       <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
-              //         <Icon className="icon-style" type="youtube"  />
-              //         <Text ellipsis type="secondary">{otherInfomaion.youtube}</Text>
-              //       </a> :
-              //       null
-              //     }
-              //     {
-              //       otherInfomaion.facebook ? 
-              //       <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
-              //         <Icon className="icon-style" type="facebook"  />
-              //         <Text ellipsis type="secondary">{otherInfomaion.facebook}</Text>
-              //       </a> :
-              //       null
-              //     }
-              //     {
-              //       otherInfomaion.home ?
-              //       <a href="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C" className="line-space">
-              //         <Icon className="icon-style" type="home"  />
-              //         <Text ellipsis type="secondary">{otherInfomaion.home}</Text>
-              //       </a> :
-              //       null
-              //     }
-              // </div> 
-              :
-              null
+                phone ?
+                <IconText icon='phone' link="linkPhone" content={phone} />
+                :
+                null
+              }
+             {
+                youtube ?
+                <IconText icon='youtube' link="linkYoutube" content={youtube} />
+                :
+                null
+              }
+              {
+                facebook ?
+                <IconText icon='facebook' link="linkFacebook" content={facebook} />
+                :
+                null
+              }
+              {
+                home ?
+                <IconText icon='home' link="linkHome" content={home} />
+                :
+                null
               }
             </Col>
               <Col span={18}>

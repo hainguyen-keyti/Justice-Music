@@ -1,23 +1,21 @@
 import React from 'react';
-import { Typography, Button } from 'antd';
+import { Typography, Icon } from 'antd';
 
-const { Paragraph, Text} = Typography;
+const { Paragraph} = Typography;
 
 
-export default class TextText extends React.Component {
+export default class IconText extends React.Component {
   render() {
+    const {icon, link, content} = this.props
     return (
-      <Paragraph ellipsis>
-        {/* <Icon style={{paddingRight: 10, fontSize: 20, color: '#1da1f2'}} type="phone"  />
-            <Text href={"link"} type="secondary">
-              fasdfsssssssss
-            </Text> */}
-          <Button icon="phone" type="link">
-            <Text>
-              alalalalalalaa
-            </Text>
-          </Button>
-      </Paragraph>
+      <div style={{display: 'flex', alignItems: 'center', paddingBottom: 5, marginBottom: 15}}>
+        <Icon type={icon} style={{marginRight: 10,fontSize: 16,  color: '#1da1f2'}}/>
+        <Paragraph style={{marginBottom: 0}} ellipsis>
+          <a href={link} style={{color: '#888888'}}>
+          {content}
+          </a>
+        </Paragraph>
+      </div>
     )
   }
 }

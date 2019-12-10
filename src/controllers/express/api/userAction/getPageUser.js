@@ -14,7 +14,7 @@ module.exports = (req, res) => {
         if(!user){
             return response_express.exception(res, "User not exist!")
         }
-        const {nickName, phone, avatar, addressEthereum, otherInfomaion, _id } = user
+        const {nickName, phone, avatar, addressEthereum, facebook, youtube, home, _id, coverPhoto } = user
         Follow.countDocuments({followedID: _id})
         .then(async count => {
             const isFollowed = await Follow.exists({userID: req.token_info._id})
@@ -26,7 +26,10 @@ module.exports = (req, res) => {
                 addressEthereum, 
                 follow: count,
                 isFollowed,
-                otherInfomaion: otherInfomaion ? otherInfomaion : {}
+                facebook,
+                youtube,
+                home,
+                coverPhoto,
             }
             return response_express.success(res, data)
         }) 

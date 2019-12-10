@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     let userData;
     if (miss){
         console.log("Miss param at Login");
-        return response_express.exception(res, `Miss param at ${miss}`);
+        return response_express.exception(res, `Miss param at ${miss}`)
     }
 
     User.findOne({email: req.body.email})

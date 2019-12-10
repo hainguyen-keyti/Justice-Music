@@ -30,25 +30,19 @@ exports.findMissParams = function(obj, checkProps) {
 };
 
 exports.RemoveObjFieldNull = async function(obj, arrSubObj) {
-
-	console.log(obj)
 	const props = Object.keys(obj);
 	obj=JSON.parse(JSON.stringify(obj));
-
 	await props.forEach(record => {
 		if(!obj[record]){
 			delete obj[record];
 		}
 	})
-
 	if(!Array.isArray(arrSubObj)){
 		arrSubObj = [arrSubObj];
 	}
-
 	for(var i = 0; i < arrSubObj.length; i++ ){
 		if(obj[arrSubObj[i]]){
 			const subProps = Object.keys(obj[arrSubObj[i]]);
-		
 			if(obj[arrSubObj[i]]){
 				if(subProps.length === 0){
 					delete obj[arrSubObj[i]]
@@ -64,10 +58,11 @@ exports.RemoveObjFieldNull = async function(obj, arrSubObj) {
 	}
 	return obj;
 };
+
 exports.checkMissParams = function(res, obj, checkProps) {
 	var missProps=this.findMissParams(obj, checkProps);
 	if(missProps.length>0){
-		response_express.exception(res, "Miss some params: " + missProps.toString());
+		response_express.exception(res, "Miss some params: " + missProps.toString())
 		return true;
 	}
 	return false;
@@ -224,10 +219,14 @@ exports.ModifyFileISO = (tx) => {
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( user => {
+				const follow = await Follow.countDocuments({followedID: songMongo.idMongoUserUpload}),
+				const isFollowed = await Follow.exists({userID: senderID})
 				const data = { 
 					nickName: user.nickName,
 					avatar: user.avatar,
 					addressEthereum: user.addressEthereum,
+					follow,
+					isFollowed
 				}
 				returnObj.user = data
 			})
@@ -239,7 +238,8 @@ exports.ModifyFileISO = (tx) => {
 				const data = { 
 					image: music.image,
 					name: music.name,
-					hash: music.hash
+					hash: music.hash,
+					_id: music._id
 				}
 				returnObj.music = data
 			})

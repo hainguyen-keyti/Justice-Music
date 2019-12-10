@@ -32,6 +32,7 @@ contract FileStruct{
         uint ownerPercent;
         uint numberOfDownload;
         uint week;
+        File ISOFile;
         Invest[] investListISO;
     }
     

@@ -7,7 +7,7 @@ const { Paragraph, Text} = Typography;
 export default class TextText extends React.Component {
   render() {
     return (
-      <Paragraph ellipsis>
+      <Paragraph style={{padding: 5, margin: 5}} ellipsis>
         <Text strong>{this.props.title} : </Text>
         <Text >
            {this.props.link ? 

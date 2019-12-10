@@ -28,11 +28,9 @@ module.exports = (req, res) => {
         return User.create(req.body.user);
     })
     .then(() => {
-        console.log("create successful")
         response_express.success(res);
     })
     .catch(err => {
-        console.log("create fail " + err)
         response_express.exception(res, err);
     })
 } 

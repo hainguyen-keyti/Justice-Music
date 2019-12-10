@@ -28,9 +28,6 @@ class Header extends Component {
       .then((txHash) => {
           showNotificationTransaction(txHash);
       })
-      .then(()=>{
-          this.setState({ amountFaucet: 25000})
-      })
     };
     componentDidMount = () => {
         this.props.getBalance(this.props.userReducer.user.addressEthereum)

@@ -117,6 +117,12 @@ contract UserBehavior is FileStruct, Ownable{
         return tempISO;
     }
     
+    function getFileById(uint _idFile) public view returns(File[] memory){
+        File[] memory tempFile = new File[](1);
+        tempFile[0] = fileStorage.getFileList(_idFile);
+        return tempFile;
+    }
+    
     function getISOList() public view returns(ISO[] memory) {
       ISO[] memory tempISO = fileStorage.getISOListInfo();
       return tempISO;

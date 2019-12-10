@@ -144,7 +144,7 @@ class SongContent extends React.Component {
                   <TextText title='Amount Remaining' content={formatThousands(songData.amountRemaining) + ' HAK'}/>
                   <TextText title='Owner Percent Remaining' content={parseFloat(songData.ownerPercent / 1000).toFixed(3) + '%'}/>
                   <TextText title='Invest table' content=''/>
-                  <Table columns={columns} dataSource={songData.investListISO} pagination={false}/>
+                  <Table rowKey={(record) => record.idFile} columns={columns} dataSource={songData.investListISO} pagination={false}/>
                   </div>
                   :
                   <Text> This song is not using ISO yet. </Text>
