@@ -28,6 +28,42 @@ exports.findMissParams = function(obj, checkProps) {
 	}
 	return missProps;
 };
+
+exports.RemoveObjFieldNull = async function(obj, arrSubObj) {
+
+	console.log(obj)
+	const props = Object.keys(obj);
+	obj=JSON.parse(JSON.stringify(obj));
+
+	await props.forEach(record => {
+		if(!obj[record]){
+			delete obj[record];
+		}
+	})
+
+	if(!Array.isArray(arrSubObj)){
+		arrSubObj = [arrSubObj];
+	}
+
+	for(var i = 0; i < arrSubObj.length; i++ ){
+		if(obj[arrSubObj[i]]){
+			const subProps = Object.keys(obj[arrSubObj[i]]);
+		
+			if(obj[arrSubObj[i]]){
+				if(subProps.length === 0){
+					delete obj[arrSubObj[i]]
+					return 
+				}
+				await subProps.forEach(record => {
+					if(!obj[arrSubObj[i]][record]){
+						delete obj[arrSubObj[i]][record]
+					}
+				})
+			}
+		}
+	}
+	return obj;
+};
 exports.checkMissParams = function(res, obj, checkProps) {
 	var missProps=this.findMissParams(obj, checkProps);
 	if(missProps.length>0){

@@ -101,7 +101,7 @@ class SongContent extends React.Component {
                 <Row style={{padding: 5, margin: 5}}>
                   <TextText title='Singer' content={songData.music.artist}  link='link here'/>
                   <TextText title='Author' content='Nguyễn Hoàng Hải'  link='link here'/>
-                  <TextText title='Release' content={moment(songData.music.blockTime).format('L')}/>
+                  <TextText title='Release' content={moment(songData.music.blockTime * 1000).format('L')}/>
                   <TextText title='View' content={songData.music.view}/>
                   <TextText title='Download Total' content={songData.music.totalDownloader}/>
                   <TextText title='Download Week' content={songData.music.weekDownloader}/>

@@ -9,7 +9,6 @@ import Page from './screens/page'
 import Song from './screens/song'
 import ISO from './screens/iso'
 import Setting from './screens/setting'
-import MusicDetail from './screens/musicDetail'
 import MusicPlayer from './components/musicPlayer'
 import Component404 from './components/404'
 import PrivateRoute from './components/PrivateRoute'
@@ -25,7 +24,6 @@ const Root = () => (
                 <PrivateRoute path="/message" component={Chat} />
                 <PrivateRoute path="/iso" component={ISO} />
                 <PrivateRoute path="/setting" component={Setting} />
-                <PrivateRoute path="/test" component={MusicDetail} />
                 <PrivateRoute path="/page/:userName" component={Page} />
                 <PrivateRoute path="/song/:idMongo" component={Song} />
                 <PrivateRoute component={Component404} />

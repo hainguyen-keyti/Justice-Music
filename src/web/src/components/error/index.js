@@ -1,15 +1,25 @@
 import React from 'react';
-import { Result } from 'antd';
+import { Result, Button } from 'antd';
 import 'antd/dist/antd.css';
+import { withRouter } from 'react-router';
 
-export default class ComponentError extends React.Component {
+class ComponentError extends React.Component {
   render() {
     return (
       <Result
-        status="error"
-        title={this.props.title}
-        subTitle={this.props.subTitle}
-      />
+      status="error"
+      title={this.props.title}
+      subTitle={this.props.subTitle}
+      extra={[
+        <Button type="primary" onClick={()=>{
+          this.props.history.push('/setting')
+          this.props.handleError()
+          }}>
+          Go to setting again!
+        </Button>
+      ]}
+    />
     )
   }
 }
+export default withRouter(ComponentError)

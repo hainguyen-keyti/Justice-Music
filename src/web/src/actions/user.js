@@ -1,4 +1,4 @@
-import { login as loginAPI, createUser as createUserAPI } from '../api/userAPI'
+import { login as loginAPI, createUser as createUserAPI, updateUser as updateUserAPI } from '../api/userAPI'
 import { ethers } from 'ethers';
 import config from '../config';
 
@@ -18,6 +18,49 @@ export function login(email, password){
         });
     }
 }
+
+export function updateUser(data){
+    return (dispatch) => {
+        dispatch(update_start())
+        updateUserAPI(data)
+        .then((userName)=>{
+            dispatch(update_successful(userName))
+        })
+        .catch((err) => {
+            dispatch(update_fail(err))
+        });
+    }
+}
+
+export function update_start(){
+    return {
+        type: 'UPDATE_START',
+    }
+}
+export function update_successful(userName){
+    return {
+        type: 'UPDATE_SUCCESSFUL',
+        userName,
+    }
+}
+export function update_fail(err){
+    return {
+        type: 'UPDATE_FAIL',
+        err: err
+    }
+}
+export function handle_update_error(){
+    return {
+        type: 'HANDLE_UPDATE_ERROR',
+    }
+}
+export function reset_update(){
+    return {
+        type: 'RESET_UPDATE',
+    }
+}
+
+
 
 let isListenHAK = true
 
@@ -53,27 +96,6 @@ export function getBalance(address){
         }
     }
 }
-
-// export function getBalanceHAK(address){
-//     return (dispatch) => {
-//         const {tokenAddress, tokenABI, provider} = config
-//         let contract = new ethers.Contract(tokenAddress, tokenABI, provider);
-//         let filter1 = contract.filters.Transfer(null, address);
-//         contract.on(filter1, (from, to, value) => {
-//             console.log(Number(value))
-//             console.log('I received ' + value.toString() + ' tokens from ' + from);
-//             dispatch(set_hak_add(Number(value)))
-//         });
-
-//         let filter2 = contract.filters.Transfer(address, null);
-//         contract.on(filter2, (from, to, value) => {
-//             console.log(Number(value))
-//             console.log('I sended ' + value.toString() + ' tokens to ' + to);
-//             dispatch(set_hak_sub(Number(value)))
-//         });
-//     }
-// }
-
 
 export function set_user_data(user){
     return {

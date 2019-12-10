@@ -10,11 +10,16 @@ import {
   Icon,
 } from 'antd';
 import Avatar from '../../components/uploadAvatar'
-import {updateUser} from '../../api/userAPI'
+import {updateUser, handle_update_error} from '../../actions/user'
+import ComponentLoading from '../../components/loading'
+import ComponentSuccess from '../../components/success'
+import ComponentError from '../../components/error'
+import { connect} from 'react-redux'
 
 class SettingForm extends React.Component {
   state = {
-    hashAvatar: "",
+    hashAvatar: undefined,
+    hashCoverPhoto: undefined,
   };
 
   handleSubmit = e => {
@@ -22,20 +27,50 @@ class SettingForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        updateUser(values).then((result)=>{
-          alert(result)
-          // this.props.history.push('/home')
-        })
+        const {facebook, youtube, home, avatar, coverPhoto, nickname, userName} = values
+        if(!facebook && !youtube && !home){
+          console.log("1")
+           const data = {
+            avatar,
+            coverPhoto,
+            nickname,
+            userName,
+          }
+          console.log(data)
+          this.props.updateUser(data)
+        }
+        else{
+          console.log("2")
+          const data2 = {
+            otherInfomaion: {
+              facebook,
+              youtube,
+              home,
+            },
+            avatar,
+            coverPhoto,
+            nickname,
+            userName,
+          }
+          this.props.updateUser(data2)
+        }
+        this.props.form.resetFields()
       }
     });
   };
 
   normFile = file => {
-    // console.log(file)
     this.setState({
       hashAvatar: file
     })
   };
+
+  normFile2 = file => {
+    this.setState({
+      hashCoverPhoto: file
+    })
+  };
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -43,9 +78,18 @@ class SettingForm extends React.Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
+    if(this.props.userReducer.isUpdate){
+      return <ComponentLoading />
+    }
+    if (this.props.userReducer.updateSuccessful){
+      return <ComponentSuccess title="Update user information" subTitle="Successful"/>
+    }
+    if (this.props.userReducer.errorUpdate){
+      
+      return <ComponentError handleError={this.props.handle_update_error} title="Update user information Error" subTitle={this.props.userReducer.errorUpdate}/>
+    }
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        
         <Form.Item
           label={
             <span>
@@ -56,9 +100,7 @@ class SettingForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator('nickname', {
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-          })(<Input />)}
+          {getFieldDecorator('nickname')(<Input />)}
         </Form.Item>
 
         <Form.Item
@@ -72,7 +114,7 @@ class SettingForm extends React.Component {
           }
         >
           {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Your input is not valid.', pattern: /^\S{8,16}$/ }],
+            rules: [{ message: 'Your input is not valid.', pattern: /^\S{8,16}$/ }],
           })(<Input />)}
         </Form.Item>
 
@@ -105,19 +147,6 @@ class SettingForm extends React.Component {
         <Form.Item
           label={
             <span>
-              Phone Number&nbsp;
-              <Tooltip title="Write your phone number.">
-                <Icon style={{ fontSize: '15px', color: '#1da1f2', paddingLeft: 5}} type="phone"/>
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('phone')(<Input />)}
-        </Form.Item>
-
-        <Form.Item
-          label={
-            <span>
               Home Address&nbsp;
               <Tooltip title="Write your home address.">
                 <Icon style={{ fontSize: '15px', color: '#1da1f2', paddingLeft: 5}} type="home"/>
@@ -139,10 +168,26 @@ class SettingForm extends React.Component {
           }
         >
           {getFieldDecorator('avatar', {
-            rules: [{ required: true, message: 'Please upload your avatar!'}],
             initialValue: this.state.hashAvatar
           })(
             <Avatar file={(e) => this.normFile(e)}/>
+          )}
+        </Form.Item>
+
+        <Form.Item 
+          label={
+            <span>
+              CoverPhoto&nbsp;
+              <Tooltip title="Upload your cover photo.">
+                <Icon style={{ fontSize: '15px', color: '#1da1f2', paddingLeft: 5}} type="picture"/>
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator('coverPhoto', {
+            initialValue: this.state.hashCoverPhoto
+          })(
+            <Avatar file={(e) => this.normFile2(e)}/>
           )}
         </Form.Item>
 
@@ -155,6 +200,14 @@ class SettingForm extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  userReducer: state.userReducer
+})
 
-export const SettingContent = Form.create({ name: 'validate_other' })(SettingForm);
-          
+const mapDispatchToProps = (dispatch) => ({
+  updateUser: (data)=>dispatch(updateUser(data)),
+  handle_update_error: ()=>dispatch(handle_update_error()),
+})
+
+const SettingContent = Form.create({ name: 'validate_other' })(SettingForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingContent);

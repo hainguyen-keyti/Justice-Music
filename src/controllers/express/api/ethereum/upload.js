@@ -13,13 +13,13 @@ module.exports = async (req, res) => {
             return response_express.exception(res, "User not exist!")
         }
         privateKey = user.privateKey;
+        req.body.server.idMongoUserUpload = req.token_info._id
         return Music.create(req.body.server)
     })
     .then(music => {
         let wallet = new ethers.Wallet(privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
         tempMusicID = music._id;
-        console.log("hahhahahah")
         return contractWithSigner.uploadFile(req.body.ether.hash, req.body.ether.price, 2, music._id.toString())
     })
     .then(tx => {

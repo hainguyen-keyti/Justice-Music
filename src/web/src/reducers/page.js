@@ -17,7 +17,7 @@ const initialState = {
 
 export const pageReducer = ( state = initialState, action) => {
     switch(action.type){
-    case 'SET_IS_FOLLOW':
+    case 'SET_IS_FOLLOW_PAGE':
         return {
             ...state,
             userInfoData: {

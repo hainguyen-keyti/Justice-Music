@@ -31,12 +31,20 @@ class BuyMusic extends React.Component {
 
   render() {
     return (
-
-    <Tooltip title="Buy this song" placement="leftTop">
-      <Button type="primary" ghost icon="download" onClick={()=>{this.handleBuySong(this.props.idFile)}}>
-        <Text>Buy</Text>
-      </Button>
-    </Tooltip>
+      <div>
+        {
+        this.props.circle ? 
+        <Tooltip title="Buy this song" placement="top">
+          <Button shape="circle" type="primary" ghost icon="download" onClick={()=>{this.handleBuySong(this.props.idFile)}}/>
+        </Tooltip>
+        :
+        <Tooltip title="Buy this song" placement="leftTop">
+          <Button type="primary" ghost icon="download" onClick={()=>{this.handleBuySong(this.props.idFile)}}>
+            <Text>Buy</Text>
+          </Button>
+        </Tooltip>
+        }
+      </div>
     );
   }
 }

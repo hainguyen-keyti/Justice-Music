@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Layout from '../../components/layout'
-import {SettingContent} from './SettingContent'
+import SettingContent from './SettingContent'
 
 export default class Setting extends Component {
   render () {

@@ -135,11 +135,17 @@ class UsingISO extends React.Component {
   render() {
     return (
       <div>
-        <Tooltip title="Using ISO this song" placement="leftTop">
-          <Button type="danger" ghost icon="usergroup-add" onClick={this.showModal}>
-            <Text>Using ISO</Text>
-          </Button>
-        </Tooltip>
+        {this.props.circle ? 
+          <Tooltip title="Using ISO this song" placement="top">
+            <Button shape="circle" type="danger" ghost icon="usergroup-add" onClick={this.showModal}/>
+          </Tooltip>
+          :
+          <Tooltip title="Using ISO this song" placement="leftTop">
+            <Button type="danger" ghost icon="usergroup-add" onClick={this.showModal}>
+              <Text>Using ISO</Text>
+            </Button>
+          </Tooltip>
+      }
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
