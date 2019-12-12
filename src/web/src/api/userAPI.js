@@ -261,6 +261,22 @@ export function postLyric(data){
   })
 }
 
+export function postViewMusic(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/users/postViewMusic', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
 export function follow(data){
   return new Promise((resolve, reject)=>{
       return axios.post(config.api_url+ '/actions/follow', data, {headers: getHeaders()})

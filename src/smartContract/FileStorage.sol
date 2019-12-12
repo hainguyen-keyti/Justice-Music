@@ -117,7 +117,7 @@ contract FileStorage is FileStruct{
         }
         ISO[] memory result = new ISO[](count);
         for(uint i = 0; i < tempIDList.length ; i++){
-            if(FileList[tempIDList[i]].IsISO == true){
+            if(FileList[tempIDList[i]].IsISO){
                 ISO memory tempISO = ISOList[tempIDList[i]];
                 result[i] = tempISO;
             }

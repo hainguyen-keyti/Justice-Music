@@ -28,10 +28,7 @@ var MusicSchema = mongoose.Schema({
         type: String,
         require: true,
     },
-    idMongoUserUpload: {
-        type: String,
-        require: true,
-    },
+    userUpload: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     tags: {
         type: [String],
     },

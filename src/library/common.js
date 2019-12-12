@@ -75,7 +75,7 @@ exports.createToken = function(user, expire) {
 var converterToPlainObject = function(obj){
 	return JSON.parse(JSON.stringify(obj));
 };
-exports.deleteSensitiveInfoUser = function(user){
+var deleteSensitiveInfoUser = exports.deleteSensitiveInfoUser = function(user){
 	var userInfo = converterToPlainObject(user);
 	delete userInfo.phone;
 	delete userInfo.is_confirm_email;
@@ -95,13 +95,14 @@ exports.getListMusicBySolidityID = (arr) => {
 	try {
 		let result = [];
 		for(let i = 0; i <= arr.length - 1; i++){
-			await Music.findOne({idSolidity: Number(arr[i].idFile)})
+			await Music.findOne({idSolidity: Number(arr[i].idFile)}).populate('userUpload')
 			.then(async music => {
-				const user = await User.findById(music.idMongoUserUpload)
+				console.log("This is console log music have user in userUpload TEST")
+				console.log(music)
 				const dataUser = { 
-					nickName: user.nickName,
-					avatar: user.avatar,
-					addressEthereum: user.addressEthereum,
+					nickName: music.userUpload.nickName,
+					avatar: music.userUpload.avatar,
+					addressEthereum: music.userUpload.addressEthereum,
 				}
 				const data = {
 					user: dataUser,
@@ -122,45 +123,44 @@ exports.getSongByIdMongo = (idMongo, senderID) => {
 	return new Promise(async (resolve, reject) => {
 	try {
 		let result = {}
-		const songMongo = await Music.findById(idMongo)
+		const songMongo = await Music.findById(idMongo).populate('userUpload')
 		if(!songMongo){
 			return reject("This song is not exist.")
 		}
 		const promises = [
-			User.findById(songMongo.idMongoUserUpload),
 			contractWithSignerUserBehavior.getFileById(songMongo.idSolidity),
 			contractWithSignerUserBehavior.getISOId(songMongo.idSolidity),
-			Follow.countDocuments({followedID: songMongo.idMongoUserUpload}),
+			Follow.countDocuments({followedID: songMongo.userUpload}),
 			Follow.exists({userID: senderID})
 		]
 		const arrData = await Promise.all(promises)
 
 		let musicData = {
-			idFile: Number(arrData[1][0].idFile),
-			price: Number(arrData[1][0].price),
-			totalDownloader: Number(arrData[1][0].totalDownloader),
-			weekDownloader: Number(arrData[1][0].weekDownloader),
-			blockTime: Number(arrData[1][0].blockTime),
-			valid: arrData[1][0].valid,
-			IsISO: arrData[1][0].IsISO,
+			idFile: Number(arrData[0][0].idFile),
+			price: Number(arrData[0][0].price),
+			totalDownloader: Number(arrData[0][0].totalDownloader),
+			weekDownloader: Number(arrData[0][0].weekDownloader),
+			blockTime: Number(arrData[0][0].blockTime),
+			valid: arrData[0][0].valid,
+			IsISO: arrData[0][0].IsISO,
 		}
-		
 		let music = Object.assign({}, musicData, songMongo._doc );
+
 		result.music = music
-		result.user = arrData[0]
-		result.follow= arrData[3]
-		result.isFollowed = arrData[4]
+		result.user = deleteSensitiveInfoUser(songMongo.userUpload)
+		result.follow= arrData[2]
+		result.isFollowed = arrData[3]
 		if(music.IsISO)
 		{
-			result.idFile = Number(arrData[2][0].ISOFile.idFile)
-			result.offerPercent = Number(arrData[2][0].offerPercent)
-			result.offerAmount = Number(arrData[2][0].offerAmount)
-			result.amountRemaining = Number(arrData[2][0].amountRemaining)
-			result.timeExpired = Number(arrData[2][0].timeExpired)
-			result.ownerPercent = Number(arrData[2][0].ownerPercent) 
-			result.numberOfDownload = Number(arrData[2][0].numberOfDownload)
-			result.week = Number(arrData[2][0].week)
-			result.investListISO = arrData[2][0].investListISO.map(e => {
+			result.idFile = Number(arrData[1][0].ISOFile.idFile)
+			result.offerPercent = Number(arrData[1][0].offerPercent)
+			result.offerAmount = Number(arrData[1][0].offerAmount)
+			result.amountRemaining = Number(arrData[1][0].amountRemaining)
+			result.timeExpired = Number(arrData[1][0].timeExpired)
+			result.ownerPercent = Number(arrData[1][0].ownerPercent) 
+			result.numberOfDownload = Number(arrData[1][0].numberOfDownload)
+			result.week = Number(arrData[1][0].week)
+			result.investListISO = arrData[1][0].investListISO.map(e => {
 				let investObj = {}
 				investObj.investor = e.investor
 				investObj.percentage = Number(e.percentage)
@@ -216,9 +216,12 @@ exports.ModifyFileISO = (tx, senderID) => {
 	return new Promise( async (resolve, reject) => {
 	try {
 		return resolve( await Promise.all(tx.map( async record => {
+			console.log("this is userrrrrrrrrrrrrrrr")
+			console.log(tx)
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( async user => {
+
 				const follow = await Follow.countDocuments({followedID: user._id})
 				const isFollowed = await Follow.exists({userID: senderID})
 				const data = { 

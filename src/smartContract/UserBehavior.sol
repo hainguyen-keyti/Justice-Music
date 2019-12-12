@@ -22,7 +22,7 @@ contract UserBehavior is FileStruct, Ownable{
     
     uint public getBalaceOfContract = address(this).balance;
 
-    constructor(address _token, address _fileStorage ) public payable{
+    function setTokenFileStorageAddress(address _token, address _fileStorage ) public onlyOwner{
         token = Token(_token);
         fileStorage = FileStorage(_fileStorage);
     }
@@ -84,7 +84,9 @@ contract UserBehavior is FileStruct, Ownable{
         require(msg.sender == fileStorage.getFileList(_idFile).owner);
         require(fileStorage.getFileList(_idFile).kind == Kind.Music);
         require(!fileStorage.getFileList(_idFile).IsISO);
-        require(_offerPercent <= 50000 &&_offerPercent >= 1000);
+        require(_offerPercent <= 50000 && _offerPercent >= 1000); // 50% >= offerPercent >= 1%
+        require(_offerAmount >= 100); //100 HAK
+        require(_maintain >= 60); //60s
         fileStorage.setISOList(_idFile, 0, _offerPercent);
         fileStorage.setISOList(_idFile, 1, _offerAmount);
         fileStorage.setISOList(_idFile, 2, _offerAmount);
@@ -111,16 +113,16 @@ contract UserBehavior is FileStruct, Ownable{
         emit Log_investISO(msg.sender, _idFile, _investAmount);
     }
     
-    function getISOId(uint _idFile) public view returns(ISO[] memory){
-        ISO[] memory tempISO = new ISO[](1);
-        tempISO[0] = fileStorage.getISOList(_idFile);
-        return tempISO;
-    }
-    
     function getFileById(uint _idFile) public view returns(File[] memory){
         File[] memory tempFile = new File[](1);
         tempFile[0] = fileStorage.getFileList(_idFile);
         return tempFile;
+    }
+    
+    function getISOId(uint _idFile) public view returns(ISO[] memory){
+        ISO[] memory tempISO = new ISO[](1);
+        tempISO[0] = fileStorage.getISOList(_idFile);
+        return tempISO;
     }
     
     function getISOList() public view returns(ISO[] memory) {

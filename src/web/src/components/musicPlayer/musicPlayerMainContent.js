@@ -76,7 +76,7 @@ class MusicPlayerMainContent extends Component {
               <InvestISO idFile={idFile}/>
           </Menu.Item>
           <Menu.Item>
-              <UsingISO disabled={(this.props.appReducer.musicSelected.idMongoUserUpload !== this.props.userReducer.user.id) ? true : false} idFile={idFile}/>
+              <UsingISO disabled={(this.props.appReducer.musicSelected.userUpload !== this.props.userReducer.user.id) ? true : false} idFile={idFile}/>
           </Menu.Item>
       </Menu>
     );

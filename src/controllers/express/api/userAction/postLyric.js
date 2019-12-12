@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
     Music.findById(req.body.idMongo)
     .then(music => {
-        if(!(music.idMongoUserUpload === req.token_info._id)){
+        if(!(music.userUpload === req.token_info._id)){
             return response_express.exception(res, "Can not post lyric. You are not owner!")
         }
         music.lyric = req.body.lyric

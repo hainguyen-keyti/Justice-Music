@@ -58,6 +58,24 @@ exports.userBehaviorABI = [
 		"constant": false,
 		"inputs": [
 			{
+				"name": "_token",
+				"type": "address"
+			},
+			{
+				"name": "_fileStorage",
+				"type": "address"
+			}
+		],
+		"name": "setTokenFileStorageAddress",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
 				"name": "newOwner",
 				"type": "address"
 			}
@@ -133,21 +151,6 @@ exports.userBehaviorABI = [
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"name": "_token",
-				"type": "address"
-			},
-			{
-				"name": "_fileStorage",
-				"type": "address"
-			}
-		],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "constructor"
 	},
 	{
 		"anonymous": false,
@@ -2240,6 +2243,20 @@ exports.rankingABI = [
 		"constant": false,
 		"inputs": [
 			{
+				"name": "_fileStorage",
+				"type": "address"
+			}
+		],
+		"name": "setFileStorage",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
 				"name": "newOwner",
 				"type": "address"
 			}
@@ -2249,17 +2266,6 @@ exports.rankingABI = [
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"name": "_fileStorage",
-				"type": "address"
-			}
-		],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "constructor"
 	},
 	{
 		"anonymous": false,

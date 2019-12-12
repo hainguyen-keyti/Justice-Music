@@ -13,7 +13,9 @@ module.exports = async (req, res) => {
             return response_express.exception(res, "User not exist!")
         }
         privateKey = user.privateKey;
-        req.body.server.idMongoUserUpload = req.token_info._id
+        // temp
+        req.body.server.userUpload = req.token_info._id
+        //
         return Music.create(req.body.server)
     })
     .then(music => {

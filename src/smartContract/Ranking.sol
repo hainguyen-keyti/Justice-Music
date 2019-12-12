@@ -12,8 +12,8 @@ contract Ranking is FileStruct, Ownable{
     
     FileStorage fileStorage;
     
-    constructor(address _fileStorage) public payable{
-        fileStorage = FileStorage(_fileStorage);
+    function setFileStorage(address _fileStorage) public onlyOwner{
+    fileStorage = FileStorage(_fileStorage);
     }
     
     function rankCalculator(Kind _kind) internal{

@@ -11,4 +11,8 @@ userRoutes.get('/find', require('./find'))
 
 userRoutes.post('/upload', require('./uploadFile'))
 
+userRoutes.post('/postViewMusic', require('./songView'))
+
+userRoutes.get('/getHotSongs', require('./getHotSongs'))
+
 module.exports = userRoutes;

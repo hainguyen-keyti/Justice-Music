@@ -31,6 +31,7 @@ import FollowButton from '../../components/followButton'
 import { withRouter } from 'react-router';
 import {formatThousands} from '../../utils/common'
 import Component404 from '../../components/404'
+import {postViewMusic} from '../../api/userAPI'
 
 const { Paragraph, Text, Title} = Typography;
 const { Countdown } = Statistic;
@@ -43,6 +44,7 @@ class SongContent extends React.Component {
   componentDidMount(){
     console.log(this.props.idMongo)
     this.props.getSongByID(this.props.idMongo)
+    postViewMusic({idSongMongo: this.props.idMongo})
   }
 
   render() {
