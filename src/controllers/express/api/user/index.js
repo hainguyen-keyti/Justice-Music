@@ -13,6 +13,5 @@ userRoutes.post('/upload', require('./uploadFile'))
 
 userRoutes.post('/postViewMusic', require('./songView'))
 
-userRoutes.get('/getHomeSongs', require('./getHomeSongs'))
 
 module.exports = userRoutes;

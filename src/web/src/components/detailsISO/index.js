@@ -59,7 +59,7 @@ class DetailsISO extends React.Component {
     return (
       <div>
         <Tooltip title="Show more details of this song" placement="rightTop">
-          <Button type="danger" ghost icon="info-circle" onClick={this.showModal}>
+          <Button type="primary" ghost icon="info-circle" onClick={this.showModal}>
             <Text>Detail ISO</Text>
           </Button>
         </Tooltip>

@@ -8,6 +8,8 @@ import {
   } from 'antd';
 import 'antd/dist/antd.css';
 import { withRouter } from 'react-router';
+import {set_music_selected} from '../../actions/app'
+import { connect} from 'react-redux'
 
 const { Text } = Typography;
 const { Meta } = Card;
@@ -19,13 +21,13 @@ class MusicCard extends React.Component {
       <Card
         hoverable
         size="small"
-        cover={<img className="img-background-music" alt="music background" src={window.$linkIPFS + songInfo.image}/>}
+        cover={<img onClick={() => this.props.history.push(`/song/${songInfo._id}`)} className="img-background-music" alt="music background" src={window.$linkIPFS + songInfo.image}/>}
         bodyStyle={{padding: '10px'}}
         bordered={false}
       >
       <Meta 
         title={
-          <Tooltip style={{display: 'flex', flexDirection: 'column'}} title="Play this song now" placement="top" onClick={() => this.props.history.push(`/song/${songInfo._id}`)} >
+          <Tooltip style={{display: 'flex', flexDirection: 'column'}} title="Play this song now" placement="top" onClick={() =>{this.props.set_music_selected(songInfo)}} >
           <div style={{display: 'flex', flexDirection: 'column'}}>
             <Button style={{textAlign: 'left', padding: 0, fontSize: 13, height: 20,  width: '100%'}}  type="link" >{songInfo.name}</Button>
             <Text style={{fontSize: 13}} type="secondary">{songInfo.artist}</Text>
@@ -44,4 +46,12 @@ class MusicCard extends React.Component {
   }
 }
 
-export default withRouter(MusicCard)
+
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  set_music_selected: (musicSelected)=>dispatch(set_music_selected(musicSelected)),
+})
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MusicCard));

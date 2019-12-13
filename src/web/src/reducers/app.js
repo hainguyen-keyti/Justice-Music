@@ -8,12 +8,19 @@ const initialState = {
     isGetHomeData: false,
     getHomeDataSuccessful: false,
     errorGetHomeData: null,
+
+    hotUserData: null,
     
     error: null,
 }
 
 export const appReducer = ( state = initialState, action) => {
     switch(action.type){
+    case 'GET_HOT_USER_SUCCESSFUL':
+        return {
+            ...state,
+            hotUserData: action.hotUserData
+        }
     case 'GET_HOME_DATA_START':
         return {
             ...state,

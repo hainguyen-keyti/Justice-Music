@@ -13,6 +13,9 @@ userActionRoutes.post('/follow', require('./follow'))
 
 userActionRoutes.post('/postLyric', require('./postLyric'))
 
+userActionRoutes.get('/getHomeSongs', require('./getHomeSongs'))
+
+userActionRoutes.get('/getHotUsers', require('./getHotUsers'))
 
 
 module.exports = userActionRoutes;

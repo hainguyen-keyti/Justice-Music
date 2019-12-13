@@ -324,7 +324,7 @@ export function getRanking(){
 
 export function getHomeSongs(){
   return new Promise((resolve, reject) => {
-    return axios.get(config.api_url+ '/users/getHomeSongs', {
+    return axios.get(config.api_url+ '/actions/getHomeSongs', {
       headers: getHeaders()
     })
     .then( res => {
@@ -335,5 +335,20 @@ export function getHomeSongs(){
     .catch(err => reject(err))
   })
 }
+
+export function getHotUsers(){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/actions/getHotUsers', {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
 
 

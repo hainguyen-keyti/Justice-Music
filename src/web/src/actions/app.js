@@ -1,4 +1,30 @@
-import { getRanking as getRankingAPI, getHomeSongs as getHomeSongsAPI } from '../api/userAPI'
+import { 
+    getRanking as getRankingAPI, 
+    getHomeSongs as getHomeSongsAPI,
+    getHotUsers as getHotUsersAPI
+} from '../api/userAPI'
+
+
+export function getHotUsers(){
+    return (dispatch) => {
+        getHotUsersAPI()
+        .then((hotUserData) => {
+            console.log("fadsfasdfasdfasdfadsfasdfsa")
+            console.log(hotUserData)
+            dispatch(get_hot_user_successful(hotUserData))
+        })
+        .catch((err) => {
+            console.log("Error at get getHotUsersAPI: " + err)
+        });
+    }
+}
+export function get_hot_user_successful(hotUserData){
+    return {
+        type: 'GET_HOT_USER_SUCCESSFUL',
+        hotUserData,
+    }
+}
+
 
 
 export function getHomeSongs(){

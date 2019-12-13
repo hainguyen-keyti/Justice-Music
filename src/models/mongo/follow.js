@@ -1,17 +1,12 @@
 var mongoose = require('mongoose');
 
 var FollowSchema = mongoose.Schema({
-    followedID: {
-        type: String,
-        trim: true,
-    },
-    userID: {
-        type: String,
-        trim: true,
-    },
-    date_created: {
+    followedID: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    date: {
         type: Date,
-        default: Date(Date.now()),
+        // `Date.now()` returns the current unix timestamp as a number
+        default: Date.now
     },
 });
 

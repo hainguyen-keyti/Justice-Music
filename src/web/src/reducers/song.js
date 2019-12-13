@@ -6,7 +6,7 @@ const initialState = {
 
 export const songReducer = ( state = initialState, action) => {
     switch(action.type){
-    case 'SET_IS_FOLLOW':
+    case 'SET_IS_FOLLOW_SONG':
         return {
             ...state,
             songInfo: {

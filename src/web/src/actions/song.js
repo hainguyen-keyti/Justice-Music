@@ -19,9 +19,9 @@ export function getSongByID(idMongo){
     }
 }
 
-export function set_is_follow(setFollow){
+export function set_is_follow_song(setFollow){
     return {
-        type: 'SET_IS_FOLLOW',
+        type: 'SET_IS_FOLLOW_SONG',
         setFollow
     }
 }

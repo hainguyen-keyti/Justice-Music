@@ -5,7 +5,7 @@ import {
 import 'antd/dist/antd.css';
 import UploadModal from '../uploadModal'
 import {follow} from '../../api/userAPI'
-import {set_is_follow} from '../../actions/song'
+import {set_is_follow_song} from '../../actions/song'
 import {set_is_follow_page} from '../../actions/page'
 import { connect} from 'react-redux'
 
@@ -20,7 +20,7 @@ class FollowButton extends React.Component {
         this.props.set_is_follow_page(setFollow)
       }
       else
-        this.props.set_is_follow(setFollow)
+        this.props.set_is_follow_song(setFollow)
     })
   }
   
@@ -40,7 +40,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  set_is_follow: (setFollow)=>dispatch(set_is_follow(setFollow)),
+  set_is_follow_song: (setFollow)=>dispatch(set_is_follow_song(setFollow)),
   set_is_follow_page: (setFollow)=>dispatch(set_is_follow_page(setFollow)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FollowButton);
