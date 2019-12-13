@@ -14,6 +14,7 @@ import InvestISO from '../investISO'
 import {formatThousands} from '../../utils/common'
 import TextText from '../../components/text-text';
 import * as moment from 'moment';
+import { withRouter } from 'react-router';
 const { Text } = Typography;
 
 class DetailsISO extends React.Component {
@@ -41,7 +42,7 @@ class DetailsISO extends React.Component {
         dataIndex: 'investor',
         key: 'address',
         ellipsis: true,
-        render: address => <a href={`/${address}`}>{address}</a>,
+        render: address => <Button style={{textAlign: 'left', padding: 0, fontSize: 14}}  type="link" onClick={() => this.props.history.push(`/page/${address}`)}>{address}</Button>
       },
       {
         title: 'Invest percent',
@@ -94,4 +95,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 
 })
-export default connect(mapStateToProps, mapDispatchToProps)(DetailsISO);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailsISO));

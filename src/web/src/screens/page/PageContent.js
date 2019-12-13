@@ -18,6 +18,7 @@ import {getUserPage, set_is_follow_page} from '../../actions/page'
 import { connect} from 'react-redux'
 import FollowButton from '../../components/followButton'
 import IconText from '../../components/icon-text'
+import {postViewUser} from '../../api/userAPI'
 
 const { TabPane } = Tabs;
 const { Title, Text } = Typography;
@@ -31,6 +32,7 @@ class PageContent extends Component {
 
   componentDidMount(){
     this.props.getUserPage(this.props.userName)
+    postViewUser({userName: this.props.userName})
   }
   render() {
     if (this.props.pageReducer.errorPage) return (<Component404 history={this.props.history} subTitle="Page not found. Please try another link!"></Component404>)

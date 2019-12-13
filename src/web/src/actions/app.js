@@ -9,8 +9,6 @@ export function getHotUsers(){
     return (dispatch) => {
         getHotUsersAPI()
         .then((hotUserData) => {
-            console.log("fadsfasdfasdfasdfadsfasdfsa")
-            console.log(hotUserData)
             dispatch(get_hot_user_successful(hotUserData))
         })
         .catch((err) => {

@@ -23,7 +23,7 @@ class MusicCard extends React.Component {
         <Card
             hoverable
             size="small"
-            cover={<Avatar alt="music background" size={170} src={window.$linkIPFS + user.avatar}/>}
+            cover={<Avatar alt="music background" size={this.props.songPage ? 160 : 170} src={window.$linkIPFS + user.avatar}/>}
             bodyStyle={{padding: '10px', textAlign: 'center'}}
             bordered={false}
             style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}

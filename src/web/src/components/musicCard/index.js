@@ -37,7 +37,7 @@ class MusicCard extends React.Component {
         description={
           <Tooltip style={{display: 'flex'}} title="Go to page of user upload" placement="bottom" onClick={() => this.props.history.push(`/page/${songInfo.userUpload.addressEthereum}`)} >
             <Avatar shape='circle' style={{marginRight: 5}} size='small' src={window.$linkIPFS + songInfo.userUpload.avatar } />   
-            <Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20, width: '80%'}} type="link" ><Text type="warning" style={{alignSelf: 'center'}} >{songInfo.userUpload.nickName}</Text></Button>
+            <Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20, width: '70%', overflow: 'hiden'}} type="link" ><Text type="warning" style={{alignSelf: 'center'}} >{songInfo.userUpload.nickName}</Text></Button>
           </Tooltip>
         }
       />

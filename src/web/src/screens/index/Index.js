@@ -6,29 +6,19 @@ import './Index.css'
 import logo from '../../images/logo.png'
 
 export default class Index extends Component {
-    onClickGoTo = () => {
-        this.props.history.push('/login')
-    }
-    
+
     render() {
         return (
-            <div id="background">
-                <CssBaseline />
-                <div id="wrapper">
-                <Typography variant="h2" style={{color: 'black'}}>
-                    Justice Music
-                </Typography>
-                    <img src={logo} alt="Justice Music" style={{height: '100px', width: '100px', margin: '50px'}}/>
-                    <Typography variant="h4" style={{ marginBottom: '50px', color: '#e0e0e0'}}>
-                        A safe place for all your music Intellectual
-                    </Typography>
-                    <Button variant="contained" color="secondary" style={{padding: "15px", opacity: '0.8'}} onClick={this.onClickGoTo}>
-                        <Typography style={{color: 'white'}}>
-                            Getting started
-                        </Typography>
-                    </Button>
-                </div>
+            <div class="view">
+            <div class="plane main" onClick={()=>this.props.history.push('/login')}>
+              <div class="circle"></div>
+              <div class="circle"></div>
+              <div class="circle"></div>
+              <div class="circle"></div>
+              <div class="circle"></div>
+              <div class="circle"></div>
             </div>
+          </div>
         )
     }
 }

@@ -97,7 +97,7 @@ exports.getListMusicBySolidityID = (arr) => {
 			for(let i = 0; i <= arr.length - 1; i++){
 				const songInfo = await Music.findOne({idSolidity: Number(arr[i].idFile)})
 				.lean()
-				.select('artist image name _id view userUpload tags')
+				.select('artist image name _id view userUpload tags hash')
 				.populate('userUpload', ['nickName', 'avatar', 'addressEthereum', '_id'])
 				let data = {
 					...songInfo,
@@ -209,14 +209,12 @@ exports.ModifyFileISO = (tx, senderID) => {
 	return new Promise( async (resolve, reject) => {
 	try {
 		return resolve( await Promise.all(tx.map( async record => {
-			console.log("this is userrrrrrrrrrrrrrrr")
-			console.log(tx)
 			let returnObj = {}
 			await User.findOne({addressEthereum: record.ISOFile.owner})
 			.then( async user => {
 
 				const follow = await Follow.countDocuments({followedID: user._id})
-				const isFollowed = await Follow.exists({userID: senderID})
+				const isFollowed = await Follow.exists({userID: senderID, followedID: user._id})
 				const data = { 
 					nickName: user.nickName,
 					avatar: user.avatar,

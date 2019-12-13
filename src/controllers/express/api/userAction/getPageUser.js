@@ -5,34 +5,30 @@ const lib_common = require(config.library_dir+'/common');
 const User = require(config.models_dir + '/mongo/user');
 const Follow = require(config.models_dir + '/mongo/follow');
 
-module.exports = (req, res) => {
-    User.findOne({$or: [
-        {userName: req.query.userName},
-        {addressEthereum: req.query.userName}
-    ]})
-    .then(user => {
-        if(!user){
+module.exports = async (req, res) => {
+    try {
+        const userData = await User.findOne({$or: [
+            {userName: req.query.userName},
+            {addressEthereum: req.query.userName}
+        ]})
+        .lean()
+        .select('nickName phone avatar addressEthereum facebook youtube home _id coverPhoto')
+        if(!userData){
             return response_express.exception(res, "User not exist!")
         }
-        const {nickName, phone, avatar, addressEthereum, facebook, youtube, home, _id, coverPhoto } = user
-        Follow.countDocuments({followedID: _id})
-        .then(async count => {
-            const isFollowed = await Follow.exists({userID: req.token_info._id})
-            const data = {
-                _id,
-                nickName, 
-                phone, 
-                avatar, 
-                addressEthereum, 
-                follow: count,
-                isFollowed,
-                facebook,
-                youtube,
-                home,
-                coverPhoto,
-            }
-            return response_express.success(res, data)
-        }) 
-    })
-    .catch(err => response_express.exception(res, err));
+        const followPromises = [
+            Follow.countDocuments({followedID: userData._id}),
+            Follow.exists({userID: req.token_info._id, followedID: userData._id})
+        ]
+        const arrFollowData = await Promise.all(followPromises)
+        const temp = {
+            follow: arrFollowData[0],
+            isFollowed:  arrFollowData[1]
+        }
+        Object.assign(userData, temp)
+        
+        return response_express.success(res, userData)   
+    } catch (error) {
+        return response_express.exception(res, error)
+    }
 }

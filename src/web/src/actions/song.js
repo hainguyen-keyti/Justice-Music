@@ -1,6 +1,46 @@
 import {
     getSongByID as getSongByIDAPI,
+    getSongSameSinger as getSongSameSingerAPI,
+    getRelatedUser as getRelatedUserAPI
 } from '../api/userAPI'
+
+export function getRelatedUser(){
+    return (dispatch) => {
+        getRelatedUserAPI()
+        .then((relatedUserData) => {
+            dispatch(get_related_user_successful(relatedUserData))
+        })
+        .catch((err) => {
+            console.log("Error at get relatedUserData: " + err)
+        });
+    }
+}
+
+export function get_related_user_successful(relatedUserData){
+    return {
+        type: 'GET_RELATED_USER_SUCCESSFUL',
+        relatedUserData,
+    }
+}
+
+export function getSongSameSinger(data){
+    return (dispatch) => {
+        getSongSameSingerAPI(data)
+        .then((songSameSingerData) => {
+            dispatch(get_song_same_singer_successful(songSameSingerData))
+        })
+        .catch((err) => {
+            console.log("Error at get songSameSingerData: " + err)
+        });
+    }
+}
+
+export function get_song_same_singer_successful(songSameSingerData){
+    return {
+        type: 'GET_SONG_SAME_SINGER_SUCCESSFUL',
+        songSameSingerData,
+    }
+}
 
 export function getSongByID(idMongo){
     return (dispatch) => {
@@ -8,6 +48,11 @@ export function getSongByID(idMongo){
         getSongByIDAPI(idMongo)
         .then((songInfo) => {
             dispatch(set_song_data(songInfo))
+            dispatch(getSongSameSinger({
+                idUserUpload: songInfo.userUpload._id,
+                exceptedSongID: songInfo._id,
+              })
+            )
         })
         .then(()=>{
             dispatch(set_loading_song_data(false))

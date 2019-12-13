@@ -10,8 +10,6 @@ export function getISOAddress(address){
         dispatch(set_loading_iso(true))
         getISOAddressAPI(address)
         .then((data) => {
-            console.log("hhuhuhu")
-            console.log(data)
             dispatch(set_user_iso_data(data))
         })
         .then(()=>{

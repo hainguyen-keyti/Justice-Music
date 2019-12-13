@@ -72,7 +72,7 @@ class Header extends Component {
         </Menu>
       );
     return (
-      <div style={{borderBottom: '1px solid #D6DBDF', height: 60, display: 'flex' ,justifyContent: 'center' }}>
+      <div style={{borderBottom: '1px solid #D6DBDF', height: 60, display: 'flex' ,justifyContent: 'center'}}>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center' , width: 1100}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <Tooltip placement="topLeft" title="Justice music" arrowPointAtCenter>

@@ -5,25 +5,20 @@ const Follow = require(config.models_dir + '/mongo/follow');
 
 module.exports = async (req, res) => { 
     try {
-        User.find({}) // get User Hot
-        .limit(4)
+        const count = await User.countDocuments()
+        const random = Math.floor(Math.random() * count);
+        User.find({}) // get User random
+        .skip(random)
+        .limit(3)
         .sort({ view: -1 })
         .lean()
         .select('nickName view avatar addressEthereum _id')
         .then(users => {
             return Promise.all(
                 users.map( async (user) =>  {
-                    const followPromises = [
-                        Follow.countDocuments({followedID: user._id}),
-                        Follow.exists({userID: req.token_info._id, followedID: user._id})
-                    ]
-                    const arrFollowData = await Promise.all(followPromises)
-                    const test = {
-                        follow: arrFollowData[0],
-                        isFollowed:  arrFollowData[1]
-                    }
-                    return Object.assign(user, test)
-                  })
+                    const countFollow = await Follow.countDocuments({followedID: user._id})
+                    return Object.assign(user, {follow: countFollow})
+                })
             )
         })
         .then(result => {

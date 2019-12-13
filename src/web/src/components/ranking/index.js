@@ -8,7 +8,7 @@ import {
   Skeleton,
   Tooltip
  } from 'antd';
- import {getRanking} from '../../actions/app'
+ import {getRanking, set_music_selected} from '../../actions/app'
 import { connect} from 'react-redux'
 import './index.css'
 import { withRouter } from 'react-router';
@@ -48,8 +48,8 @@ class Ranking extends React.Component {
                     <Title level={4} style={{alignSelf: 'center', marginRight: 10}} type={index === 0 ? "danger" : (index === 1 ? "warning" : (index === 2 ? "" : "secondary"))}>{index + 1}</Title>
                   </div>
                   <List.Item.Meta
-                    avatar={<Avatar shape="square" size={70} src={window.$linkIPFS + item.image}/>}
-                    title={<Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20}}  type="link" onClick={() => this.props.history.push(`/song/${item._id}`)}>{item.name}</Button>}
+                    avatar={<Avatar shape="square" size={70} src={window.$linkIPFS + item.image} onClick={() => this.props.history.push(`/song/${item._id}`)}/>}
+                    title={<Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20}}  type="link"  onClick={() =>{this.props.set_music_selected(item)}}>{item.name}</Button>}
                     description={
                     <div>
                       {item.artist}
@@ -80,6 +80,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  set_music_selected: (musicSelected)=>dispatch(set_music_selected(musicSelected)),
   getRanking: () => dispatch(getRanking()),
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Ranking));

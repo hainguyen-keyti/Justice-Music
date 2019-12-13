@@ -10,7 +10,6 @@ module.exports = async (req, res) => {
         console.log("Miss param at 'postlyric'");
         return;
     }
-    console.log(req.token_info)
 
     Music.findById(req.body.idMongo)
     .then(music => {

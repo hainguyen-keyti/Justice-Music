@@ -25,30 +25,38 @@ import InfoISO from '../../components/infoISO';
 import UsingISO from '../../components/usingISO';
 import TextText from '../../components/text-text';
 import InputLyric from '../../components/inputLyric';
-import {getSongByID} from '../../actions/song';
+import {getSongByID, getSongSameSinger, getRelatedUser} from '../../actions/song';
 import ComponentLoading from '../../components/loading'
 import FollowButton from '../../components/followButton'
 import { withRouter } from 'react-router';
 import {formatThousands} from '../../utils/common'
 import Component404 from '../../components/404'
 import {postViewMusic} from '../../api/userAPI'
+import MusicCard from '../../components/musicCard'
+import StyleLoadingCard from '../../components/musicCard/styleLoadingCard'
+import UserHomeCard from '../../components/userHomeCard'
+import StyleLoadingCardUser from '../../components/userHomeCard/styleLoadingCardUser'
 
 const { Paragraph, Text, Title} = Typography;
 const { Countdown } = Statistic;
 const { Meta } = Card;
 const { TabPane } = Tabs;
 class SongContent extends React.Component {
-  state = {
-    hashAvatar: "",
-  };
+
+  componentWillReceiveProps({idMongo}){
+    if (idMongo !== this.props.idMongo) {
+      this.props.getSongByID(idMongo)
+    }
+  }
   componentDidMount(){
     console.log(this.props.idMongo)
     this.props.getSongByID(this.props.idMongo)
+    this.props.getRelatedUser()
     postViewMusic({idSongMongo: this.props.idMongo})
   }
 
   render() {
-    const {songInfo, error} = this.props.songReducer
+    const {songInfo, songSameSingerData, relatedUserData, error} = this.props.songReducer
     if (error) return (<Component404 history={this.props.history} subTitle="Song not found. Please try another link!"></Component404>)
     if (!songInfo) return (<ComponentLoading/>)
     const columns = [
@@ -85,7 +93,11 @@ class SongContent extends React.Component {
                   <Meta 
                     style={{paddingBottom: 10}} 
                     avatar={<Avatar size={59} src={window.$linkIPFS + songInfo.userUpload.avatar}/>}
-                    title={ <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${songInfo.userUpload.addressEthereum}`)}>{songInfo.userUpload.nickName}</Button>} 
+                    title={ 
+                    <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${songInfo.userUpload.addressEthereum}`)}>
+                      <Text style={{fontSize: 18}} type="warning">{songInfo.userUpload.nickName}</Text>
+                    </Button>
+                    } 
                     description={<Text> {formatThousands(songInfo.follow)} Follow </Text>} 
                     />
                 </Row>
@@ -153,38 +165,49 @@ class SongContent extends React.Component {
                 <Row style={{padding: 5, marginTop: 20 }}>
                   <Row >
                     <Button style={{textAlign: 'left', padding: 0, fontSize: '20px'}}  type="link" onClick={() => {}}>
-                      <Title level={4} type="secondary">SONG WITH THE SINGER >>></Title>
+                      <Title level={4} type="secondary">SONG WITH THE SAME SINGER >>></Title>
                     </Button>
                   </Row>
-                  <Row style={{paddingRight: '10px', margin: '5px'}}>
-                    <Col span={8}>
-                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-                    </Col>
-                    <Col span={8}>
-                    <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-                    </Col>
-                    <Col span={8}>
-                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-                    </Col>
+                  <Row gutter={[8, 0]} type="flex" justify="space-around">
+                    {songSameSingerData  ?
+                    (
+                      songSameSingerData.length === 0 ? <Text> This user just have this song! </Text>
+                      :
+                      songSameSingerData.map((record) => {
+                        return <Col key={record._id} span={8} style={{width: 170, marginTop: 20}}><MusicCard songInfo={record}/></Col>
+                      })
+                    )
+                      
+                      :
+                      <React.Fragment>
+                        <Col span={8} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                        <Col span={8} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                        <Col span={8} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                      </React.Fragment>
+                    }
                   </Row>
                 </Row>
                 <Row style={{padding: 5, marginTop: 20 }}>
                   <Row >
                     <Button style={{textAlign: 'left', padding: 0, fontSize: '20px'}}  type="link" onClick={() => {}}>
-                      <Title level={4} type="secondary">RELATED SONGS >>></Title>
+                      <Title level={4} type="secondary">RELATED ARTIST >>></Title>
                     </Button>
                   </Row>
-                  <Row style={{paddingRight: '10px', margin: '5px'}}>
-                    <Col span={8}>
-                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-                    </Col>
-                    <Col span={8}>
-                    <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-                    </Col>
-                    <Col span={8}>
-                      <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-                    </Col>
+
+                  <Row gutter={[8, 0]} type="flex" justify="space-around">
+                    {relatedUserData ?
+                      relatedUserData.map((record) => {
+                        return <Col span={6} style={{width: 170, marginTop: 20}}><UserHomeCard songPage={true} user={record}/></Col>
+                      })
+                      :
+                      <React.Fragment>
+                        <Col span={8} style={{ marginTop: 20}}><StyleLoadingCardUser/></Col>
+                        <Col span={8} style={{ marginTop: 20}}><StyleLoadingCardUser/></Col>
+                        <Col span={8} style={{ marginTop: 20}}><StyleLoadingCardUser/></Col>
+                      </React.Fragment>
+                    }
                   </Row>
+
                 </Row>
               </Col>
             </Row>
@@ -207,5 +230,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getSongByID: (idMongo) => dispatch(getSongByID(idMongo)),
+  getSongSameSinger: (data) => dispatch(getSongSameSinger(data)),
+  getRelatedUser: () => dispatch(getRelatedUser())
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SongContent));

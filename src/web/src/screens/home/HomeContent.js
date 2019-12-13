@@ -54,110 +54,61 @@ class HomeContent extends Component {
         <Col span={17}>
 
             <Row gutter={[8, 0]} style={{marginTop: 20}}>
-              <Title level={4} type="secondary"> NGHE NHIỀU </Title>
+              <Title level={4} type="secondary">THE MOST HEAD SONG</Title>
             </Row>
-
-            <Row gutter={[8, 60]} type="flex" justify="space-between">
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostView[0]}/>
+            <Row gutter={[8, 0]} type="flex" justify="space-around">
+              {appReducer.homeData  ?
+                appReducer.homeData.mostView.map((record) => {
+                  return <Col span={6} style={{width: 190, marginTop: 20}}><MusicCard songInfo={record}/></Col>
+                })
                 :
-                  <StyleLoadingCard/>
-                }
-              </Col>
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostView[1]}/>
-                :
-                  <StyleLoadingCard/>
-                }
-              </Col>
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostView[2]}/>
-                :
-                  <StyleLoadingCard/>
-                }
-              </Col>
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostView[3]}/>
-                :
-                  <StyleLoadingCard/>
-                }
-              </Col>
+                <React.Fragment>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                </React.Fragment>
+              }
             </Row>
 
             <Row gutter={[8, 0]} style={{marginTop: 20}} >
-              <Title level={4} type="secondary"> MỚI PHÁT HÀNH </Title>
+              <Title level={4} type="secondary">NEW RELEASE</Title>
             </Row>
 
-            <Row  gutter={[8, 0]} type="flex" justify="space-between">
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostNew[0]}/>
+            <Row gutter={[8, 0]} type="flex" justify="space-around">
+              {appReducer.homeData  ?
+                appReducer.homeData.mostNew.map((record) => {
+                  return <Col span={6} style={{width: 190, marginTop: 20}}><MusicCard songInfo={record}/></Col>
+                })
                 :
-                  <StyleLoadingCard/>
-                }
-              </Col>
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostNew[1]}/>
-                :
-                  <StyleLoadingCard/>
-                }
-              </Col>
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostNew[2]}/>
-                :
-                  <StyleLoadingCard/>
-                }
-              </Col>
-              <Col span={6} style={{width: 190, marginTop: 20}}>
-                {appReducer.homeData  ?
-                  <MusicCard songInfo={appReducer.homeData.mostNew[3]}/>
-                :
-                  <StyleLoadingCard/>
-                }
-              </Col>
+                <React.Fragment>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCard/></Col>
+                </React.Fragment>
+              }
             </Row>
-
 
             <Row  gutter={[8, 0]} gutter={[8, 0]} style={{marginTop: 20}}>
-              <Title level={4} type="secondary"> CA SĨ NỔI BẬT </Title>
+              <Title level={4} type="secondary">HOT SINGER</Title>
             </Row>
 
-            <Row type="flex" justify="space-between">
-              <Col span={6} style={{width: 180, marginTop: 20}}>
-                {appReducer.hotUserData  ?
-                  <UserHomeCard user={appReducer.hotUserData[0]}/>
+            <Row gutter={[8, 0]} type="flex" justify="space-around">
+              {appReducer.hotUserData  ?
+                appReducer.hotUserData.map((record) => {
+                  return <Col span={6} style={{width: 180, marginTop: 20}}><UserHomeCard user={record}/></Col>
+                })
                 :
-                  <StyleLoadingCardUser/>
-                }
-              </Col>
-              <Col span={6} style={{width: 180, marginTop: 20}}>
-                {appReducer.hotUserData  ?
-                  <UserHomeCard user={appReducer.hotUserData[1]}/>
-                :
-                  <StyleLoadingCardUser/>
-                }
-              </Col>
-              <Col span={6} style={{width: 180, marginTop: 20}}>
-                {appReducer.hotUserData  ?
-                  <UserHomeCard user={appReducer.hotUserData[2]}/>
-                :
-                  <StyleLoadingCardUser/>
-                }
-              </Col>
-              <Col span={6} style={{width: 180, marginTop: 20}}>
-                {appReducer.hotUserData  ?
-                  <UserHomeCard user={appReducer.hotUserData[3]}/>
-                :
-                  <StyleLoadingCardUser/>
-                }
-              </Col>
+                <React.Fragment>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCardUser/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCardUser/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCardUser/></Col>
+                  <Col span={6} style={{ marginTop: 20}}><StyleLoadingCardUser/></Col>
+                </React.Fragment>
+              }
             </Row>
+
         </Col>
         <Col span={7}>
           <Ranking/>

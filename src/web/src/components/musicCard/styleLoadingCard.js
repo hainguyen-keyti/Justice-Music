@@ -10,7 +10,7 @@ export default class StyleLoadingCard extends React.Component {
             <Skeleton
                 active
                 title={false}
-                avatar={{shape: 'square', size: 180}}
+                avatar={{shape: 'square', size: 160}}
                 paragraph={false}
             />
             

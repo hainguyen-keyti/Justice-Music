@@ -277,6 +277,22 @@ export function postViewMusic(data){
   })
 }
 
+export function postViewUser(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/users/postViewUser', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
 export function follow(data){
   return new Promise((resolve, reject)=>{
       return axios.post(config.api_url+ '/actions/follow', data, {headers: getHeaders()})
@@ -349,6 +365,35 @@ export function getHotUsers(){
     .catch(err => reject(err))
   })
 }
+
+export function getRelatedUser(){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/actions/getRelatedUser', {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
+export function getSongSameSinger(data){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ `/actions/getSongSameSinger/?idUserUpload=${data.idUserUpload}&exceptedSongID=${data.exceptedSongID}`, {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
 
 
 

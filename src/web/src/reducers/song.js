@@ -1,11 +1,23 @@
 const initialState = {
     songInfo: null,
+    songSameSingerData: null,
+    relatedUserData: null,
     isLoading: false,
     error: null,
 }
 
 export const songReducer = ( state = initialState, action) => {
     switch(action.type){
+    case 'GET_RELATED_USER_SUCCESSFUL':
+        return {
+            ...state,
+            relatedUserData: action.relatedUserData
+        }
+    case 'GET_SONG_SAME_SINGER_SUCCESSFUL':
+        return {
+            ...state,
+            songSameSingerData: action.songSameSingerData
+        }
     case 'SET_IS_FOLLOW_SONG':
         return {
             ...state,

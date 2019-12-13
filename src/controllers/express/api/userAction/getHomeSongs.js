@@ -29,8 +29,6 @@ module.exports = async (req, res) => {
             mostView: arrData[0],
             mostNew: arrData[1],
         }
-        console.log("this is resuslt neneenenenen")
-        console.log(result)
     return response_express.success(res, result)
     } catch (error) {
         return response_express.exception(res, error)

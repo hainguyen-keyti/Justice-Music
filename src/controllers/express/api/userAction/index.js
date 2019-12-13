@@ -17,5 +17,9 @@ userActionRoutes.get('/getHomeSongs', require('./getHomeSongs'))
 
 userActionRoutes.get('/getHotUsers', require('./getHotUsers'))
 
+userActionRoutes.get('/getSongSameSinger', require('./getSongSameSinger'))
+
+userActionRoutes.get('/getRelatedUser', require('./getRelatedUser'))
+
 
 module.exports = userActionRoutes;
