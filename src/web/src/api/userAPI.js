@@ -322,3 +322,18 @@ export function getRanking(){
   })
 }
 
+export function getHomeSongs(){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/users/getHomeSongs', {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
+

@@ -16,8 +16,6 @@ module.exports = (req, res) => {
         if(!song)
             return Promise.reject("Song not found");
         song.view++;
-        console.log("this is console log of view song add")
-        console.log(song)
         song.save();
         
         return response_express.success(res, "Success")

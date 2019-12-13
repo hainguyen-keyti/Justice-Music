@@ -6,10 +6,8 @@ export function getSongByID(idMongo){
     return (dispatch) => {
         dispatch(set_loading_song_data(true))
         getSongByIDAPI(idMongo)
-        .then((data) => {
-            console.log("hhuhuhu")
-            console.log(data)
-            dispatch(set_song_data(data))
+        .then((songInfo) => {
+            dispatch(set_song_data(songInfo))
         })
         .then(()=>{
             dispatch(set_loading_song_data(false))
@@ -27,10 +25,10 @@ export function set_is_follow(setFollow){
         setFollow
     }
 }
-export function set_song_data(songData){
+export function set_song_data(songInfo){
     return {
         type: 'SET_SONG_DATA',
-        songData
+        songInfo
     }
 }
 

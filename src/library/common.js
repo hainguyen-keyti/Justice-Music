@@ -92,45 +92,39 @@ var deleteSensitiveInfoUser = exports.deleteSensitiveInfoUser = function(user){
 
 exports.getListMusicBySolidityID = (arr) => {
 	return new Promise(async (resolve, reject) => {
-	try {
-		let result = [];
-		for(let i = 0; i <= arr.length - 1; i++){
-			await Music.findOne({idSolidity: Number(arr[i].idFile)}).populate('userUpload')
-			.then(async music => {
-				console.log("This is console log music have user in userUpload TEST")
-				console.log(music)
-				const dataUser = { 
-					nickName: music.userUpload.nickName,
-					avatar: music.userUpload.avatar,
-					addressEthereum: music.userUpload.addressEthereum,
-				}
-				const data = {
-					user: dataUser,
-					music,
+		try {
+			let result = [];
+			for(let i = 0; i <= arr.length - 1; i++){
+				const songInfo = await Music.findOne({idSolidity: Number(arr[i].idFile)})
+				.lean()
+				.select('artist image name _id view userUpload tags')
+				.populate('userUpload', ['nickName', 'avatar', 'addressEthereum', '_id'])
+				let data = {
+					...songInfo,
 					downloadWeekRanking: Number(arr[i].lastWeekDownloader),
 				}
 				result.push(data);
-			})
+			}
+			return resolve(result)	
+		} catch (error) {
+			return reject(error)
 		}
-		return resolve(result)	
-	} catch (error) {
-		return reject(error)
-	}
 	})
 }
 
 exports.getSongByIdMongo = (idMongo, senderID) => {
 	return new Promise(async (resolve, reject) => {
 	try {
-		let result = {}
-		const songMongo = await Music.findById(idMongo).populate('userUpload')
+		const songMongo = await Music.findById(idMongo)
+		.lean().
+		populate('userUpload', ['nickName', 'avatar', 'addressEthereum', '_id'])
 		if(!songMongo){
 			return reject("This song is not exist.")
 		}
 		const promises = [
 			contractWithSignerUserBehavior.getFileById(songMongo.idSolidity),
 			contractWithSignerUserBehavior.getISOId(songMongo.idSolidity),
-			Follow.countDocuments({followedID: songMongo.userUpload}),
+			Follow.countDocuments({followedID: songMongo.userUpload._id}),
 			Follow.exists({userID: senderID})
 		]
 		const arrData = await Promise.all(promises)
@@ -144,23 +138,24 @@ exports.getSongByIdMongo = (idMongo, senderID) => {
 			valid: arrData[0][0].valid,
 			IsISO: arrData[0][0].IsISO,
 		}
-		let music = Object.assign({}, musicData, songMongo._doc );
+		let temp = Object.assign({}, musicData, songMongo);
+		let songInfo = {
+			...temp,
+			follow: arrData[2],
+			isFollowed: arrData[3],
+		}
 
-		result.music = music
-		result.user = deleteSensitiveInfoUser(songMongo.userUpload)
-		result.follow= arrData[2]
-		result.isFollowed = arrData[3]
-		if(music.IsISO)
+		if(songInfo.IsISO)
 		{
-			result.idFile = Number(arrData[1][0].ISOFile.idFile)
-			result.offerPercent = Number(arrData[1][0].offerPercent)
-			result.offerAmount = Number(arrData[1][0].offerAmount)
-			result.amountRemaining = Number(arrData[1][0].amountRemaining)
-			result.timeExpired = Number(arrData[1][0].timeExpired)
-			result.ownerPercent = Number(arrData[1][0].ownerPercent) 
-			result.numberOfDownload = Number(arrData[1][0].numberOfDownload)
-			result.week = Number(arrData[1][0].week)
-			result.investListISO = arrData[1][0].investListISO.map(e => {
+			songInfo.idFile = Number(arrData[1][0].ISOFile.idFile)
+			songInfo.offerPercent = Number(arrData[1][0].offerPercent)
+			songInfo.offerAmount = Number(arrData[1][0].offerAmount)
+			songInfo.amountRemaining = Number(arrData[1][0].amountRemaining)
+			songInfo.timeExpired = Number(arrData[1][0].timeExpired)
+			songInfo.ownerPercent = Number(arrData[1][0].ownerPercent) 
+			songInfo.numberOfDownload = Number(arrData[1][0].numberOfDownload)
+			songInfo.week = Number(arrData[1][0].week)
+			songInfo.investListISO = arrData[1][0].investListISO.map(e => {
 				let investObj = {}
 				investObj.investor = e.investor
 				investObj.percentage = Number(e.percentage)
@@ -168,9 +163,7 @@ exports.getSongByIdMongo = (idMongo, senderID) => {
 				return investObj
 			})
 		}
-
-
-		return resolve(result)
+		return resolve(songInfo)
 	} catch (error) {
 		return reject(error)
 	}

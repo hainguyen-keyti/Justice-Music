@@ -1,5 +1,5 @@
 const initialState = {
-    songData: null,
+    songInfo: null,
     isLoading: false,
     error: null,
 }
@@ -9,16 +9,16 @@ export const songReducer = ( state = initialState, action) => {
     case 'SET_IS_FOLLOW':
         return {
             ...state,
-            songData: {
-                ...state.songData,
+            songInfo: {
+                ...state.songInfo,
                 isFollowed: action.setFollow,
-                follow: action.setFollow ? (state.songData.follow + 1) : (state.songData.follow - 1) 
+                follow: action.setFollow ? (state.songInfo.follow++) : (state.songInfo.follow--) 
             },
     }
     case 'SET_SONG_DATA':
         return {
             ...state,
-            songData: action.songData
+            songInfo: action.songInfo
         }
 
     case 'SET_ERROR_GET_SONG_DATA':

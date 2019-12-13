@@ -9,16 +9,24 @@ import {
   Typography,
   Card,
   Button,
-  Tooltip
+  Tooltip,
+  Skeleton
  } from 'antd';
 import {connect} from 'react-redux';
 import Ranking from '../../components/ranking'
+import MusicCard from '../../components/musicCard'
+import StyleLoadingCard from '../../components/musicCard/styleLoadingCard'
+import {set_music_selected, getHomeSongs} from '../../actions/app'
 
 const { Text, Title } = Typography;
 const { Meta } = Card;
 
 class HomeContent extends Component {
+  componentDidMount(){
+    this.props.getHomeSongs()
+  }
   render() {
+    const {appReducer} = this.props
     return (
     <div >
       <Row gutter={[8, 32]}>
@@ -42,95 +50,38 @@ class HomeContent extends Component {
       <Row gutter={[8, 32]} style={{marginTop: 20}}>
         <Col span={17}>
 
-        <Row gutter={[8, 32]}>
-          <Title level={4} type="secondary"> NỔI BẬT TRONG TUẦN </Title>
-        </Row>
-
-        <Row gutter={[8, 32]}>
-          <Col span={6}>
-                  <Card
-                    hoverable
-                    onClick={()=> alert("hiihihi")}
-                    size="small"
-                    // style={{ width: 250, display: 'flex', margin: 15, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}
-                    cover={<img className="img-background-music" alt="music background" src={window.$linkIPFS + "Qmc1qzzq83TfQQcLNtAbEGThQiBqP4EFgmtuotndbVZ8T1"}/>}
-                    bodyStyle={{padding: '10px'}}
-                    bordered={false}
-                  >
-                  <Meta 
-                    title={
-                      <Tooltip style={{display: 'flex', flexDirection: 'column'}} title="Name song" placement="top" onClick={() => this.props.history.push(`/page/hai.keyti.97`)} >
-                      <div style={{display: 'flex', flexDirection: 'column'}}>
-                        <Button style={{textAlign: 'left', padding: 0, fontSize: 13, height: 20,  width: '100%'}}  type="link" >VÌ YÊU CỨ ĐÂM ĐẦU, ĐÂM ĐẦU, ĐÂM ĐẦU</Button>
-                        <Text style={{fontSize: 13}} type="secondary"> Keyti Nguyễn </Text>
-                      </div>
-                      </Tooltip>
-                      }
-                    description={
-                      <Tooltip style={{display: 'flex'}} title="temppppp" placement="bottom" onClick={() => this.props.history.push(`/page/hai.keyti.97`)} >
-                        <Avatar shape='circle' style={{marginRight: 5}} size='small' src={window.$linkIPFS + "QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"} />
-                        
-                        <Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20, width: '80%'}} type="link" ><Text type="warning" style={{alignSelf: 'center'}} >Keyti Nguyễn</Text></Button>
-                      </Tooltip>
-                    }
-                  />
-                </Card>
-              </Col>
-              <Col span={6}>
-              
-              <Card
-                    hoverable
-                    onClick={()=> alert("hiihihi")}
-                    size="small"
-                    // style={{ width: 250, display: 'flex', margin: 15, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}
-                    cover={<img className="img-background-music" alt="music background" src={window.$linkIPFS + "QmXwaYPZnNpjMYh8UhiHmp7XWhtXH62tfiR5rAHpPxhqpb"}/>}
-                    bodyStyle={{padding: '10px'}}
-                    bordered={false}
-                  >
-                  <Meta 
-                    title={
-                      <Tooltip style={{display: 'flex', flexDirection: 'column'}} title="Name song" placement="top" onClick={() => this.props.history.push(`/page/hai.keyti.97`)} >
-                      <div style={{display: 'flex', flexDirection: 'column'}}>
-                        <Button style={{textAlign: 'left', padding: 0, fontSize: 13, height: 20,  width: '100%'}}  type="link" >VÌ YÊU CỨ ĐÂM ĐẦU, ĐÂM ĐẦU, ĐÂM ĐẦU</Button>
-                        <Text style={{fontSize: 13}} type="secondary"> Keyti Nguyễn </Text>
-                      </div>
-                      </Tooltip>
-                      }
-                    description={
-                      <Tooltip style={{display: 'flex'}} title="temppppp" placement="bottom" onClick={() => this.props.history.push(`/page/hai.keyti.97`)} >
-                        <Avatar shape='circle' style={{marginRight: 5}} size='small' src={window.$linkIPFS + "QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"} />
-                        
-                        <Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20, width: '80%'}} type="link" ><Text type="warning" style={{alignSelf: 'center'}} >Keyti Nguyễn</Text></Button>
-                      </Tooltip>
-                    }
-                  />
-                </Card>
-
-              </Col>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-              </Col>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
-              </Col>
-            </Row>
-
             <Row gutter={[8, 32]}>
               <Title level={4} type="secondary"> NGHE NHIỀU </Title>
             </Row>
 
             <Row gutter={[8, 32]}>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostView[0]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
-              <Col span={6}>
-              <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostView[1]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostView[2]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostView[3]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
             </Row>
 
@@ -139,19 +90,36 @@ class HomeContent extends Component {
             </Row>
 
             <Row gutter={[8, 32]}>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostNew[0]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
-              <Col span={6}>
-              <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostNew[1]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostNew[2]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
-              <Col span={6}>
-                <Avatar shape="square" size={160} src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+              <Col span={6} style={{width: 190}}>
+                {appReducer.homeData  ?
+                  <MusicCard songInfo={appReducer.homeData.mostNew[3]}/>
+                :
+                  <StyleLoadingCard/>
+                }
               </Col>
             </Row>
+
 
             <Row gutter={[8, 32]}>
               <Title level={4} type="secondary"> CÁC CA SĨ NỔI BẬT </Title>
@@ -183,10 +151,11 @@ class HomeContent extends Component {
 
 
 const mapStateToProps = (state) => ({
-  
+  appReducer: state.appReducer,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  
+  set_music_selected: (musicSelected)=>dispatch(set_music_selected(musicSelected)),
+  getHomeSongs: ()=>dispatch(getHomeSongs())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContent);

@@ -48,9 +48,9 @@ class SongContent extends React.Component {
   }
 
   render() {
-    const {songData, error} = this.props.songReducer
+    const {songInfo, error} = this.props.songReducer
     if (error) return (<Component404 history={this.props.history} subTitle="Song not found. Please try another link!"></Component404>)
-    if (!songData) return (<ComponentLoading/>)
+    if (!songInfo) return (<ComponentLoading/>)
     const columns = [
       {
         title: 'Address',
@@ -77,76 +77,74 @@ class SongContent extends React.Component {
         <Row gutter={[0, 32]}>
           <Col span={18}>
             <Row>
-              <MusicPlayerMainContent musicHash={songData.music.hash} imageHash={songData.music.image} isDetail/>
+              <MusicPlayerMainContent musicHash={songInfo.hash} imageHash={songInfo.image} isDetail/>
             </Row>
             <Row style={{padding: 5, margin: 5}}>
               <Col span={8}>
                 <Row>
                   <Meta 
                     style={{paddingBottom: 10}} 
-                    avatar={<Avatar size={59} 
-                    src={window.$linkIPFS + songData.user.avatar} 
-                    alt={songData.user.email}/>} 
-                    title={ <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${songData.user.addressEthereum}`)}>{songData.user.nickName}</Button>} 
-                    description={<Text> {formatThousands(songData.follow)} Follow </Text>} 
+                    avatar={<Avatar size={59} src={window.$linkIPFS + songInfo.userUpload.avatar}/>}
+                    title={ <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${songInfo.userUpload.addressEthereum}`)}>{songInfo.userUpload.nickName}</Button>} 
+                    description={<Text> {formatThousands(songInfo.follow)} Follow </Text>} 
                     />
                 </Row>
                 <Row style={{padding: 5, margin: 5}}>
-                  <Avatar shape='square' size={220} src={'https://ipfs.fotra.tk/ipfs/' + songData.music.image} alt="Music photo"/>
-                  <Tooltip title={songData.music.name} placement="leftTop">
+                  <Avatar shape='square' size={220} src={'https://ipfs.fotra.tk/ipfs/' + songInfo.image} alt="Music photo"/>
+                  <Tooltip title={songInfo.name} placement="leftTop">
                     <Paragraph strong style={{fontSize: '20px', margin: '15px'}} ellipsis={{ rows: 2}}>
-                      {songData.music.name}
+                      {songInfo.name}
                     </Paragraph>
                   </Tooltip>
 
                 </Row>
                 <Row style={{padding: 5, margin: 5}}>
-                  <TextText title='Singer' content={songData.music.artist}  link='link here'/>
+                  <TextText title='Singer' content={songInfo.artist}  link='link here'/>
                   <TextText title='Author' content='Nguyễn Hoàng Hải'  link='link here'/>
-                  <TextText title='Release' content={moment(songData.music.blockTime * 1000).format('L')}/>
-                  <TextText title='View' content={songData.music.view}/>
-                  <TextText title='Download Total' content={songData.music.totalDownloader}/>
-                  <TextText title='Download Week' content={songData.music.weekDownloader}/>
-                  <TextText title='Contract Permission' content={songData.music.contractPermission ? 'Allow' : 'Not Allow' }/>
-                  <TextText title='ISO' content={!songData.music.IsISO ? 'Not Use' : (moment().unix() >= songData.timeExpired ? 'Used' : 'Now Using')} link='link here'/>
+                  <TextText title='Release' content={moment(songInfo.blockTime * 1000).format('L')}/>
+                  <TextText title='View' content={songInfo.view}/>
+                  <TextText title='Download Total' content={songInfo.totalDownloader}/>
+                  <TextText title='Download Week' content={songInfo.weekDownloader}/>
+                  <TextText title='Contract Permission' content={songInfo.contractPermission ? 'Allow' : 'Not Allow' }/>
+                  <TextText title='ISO' content={!songInfo.IsISO ? 'Not Use' : (moment().unix() >= songInfo.timeExpired ? 'Used' : 'Now Using')} link='link here'/>
                 </Row>
               </Col>
               <Col span={16}>
                 <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'space-around', marginBottom: 10, paddingBottom: 10}}>
-                    <FollowButton ownerSongID={songData.user._id} isFollowed={songData.isFollowed}/>
-                    <UsingISO disabled={(this.props.userReducer.user.id !== songData.user._id) ? true : false} idFile={songData.idFile}/> 
-                    <InputLyric disabled={(this.props.userReducer.user.id !== songData.user._id) ? true : false} idMongo={this.props.idMongo}/>
-                    <InvestISO disabled={(moment().unix() >= songData.timeExpired) ? true : false} idFile={songData.idFile}/>
-                    <BuyMusic idFile={songData.idFile}/>
+                    <FollowButton ownerSongID={songInfo.userUpload._id} isFollowed={songInfo.isFollowed}/>
+                    <UsingISO disabled={(this.props.userReducer.user.id !== songInfo.userUpload._id) ? true : false} idFile={songInfo.idFile}/> 
+                    <InputLyric disabled={(this.props.userReducer.user.id !== songInfo.userUpload._id) ? true : false} idMongo={this.props.idMongo}/>
+                    <InvestISO disabled={(moment().unix() >= songInfo.timeExpired) ? true : false} idFile={songInfo.idFile}/>
+                    <BuyMusic idFile={songInfo.idFile}/>
                 </Row>
                 <Row style={{padding: 5, marginTop: 20 }}>
                   <Title level={4} type="secondary"> LYRIC  </Title>
                   <div style={{width: '100%', maxHeight: 250, backgroundColor: 'rgb(239, 242, 245)', overflow: 'auto'}}>
-                    <div style={{padding: 5, margin: 5}} dangerouslySetInnerHTML={{__html: songData.music.lyric}} />
+                    <div style={{padding: 5, margin: 5}} dangerouslySetInnerHTML={{__html: songInfo.lyric}} />
                   </div>
                 </Row>
                 <Row style={{padding: 3, marginTop: 20}}>
                   <Title level={4} type="secondary"> INITIAL SONG OFFERING (ISO) INFOMATION </Title>
-                  {songData.music.IsISO ? 
+                  {songInfo.IsISO ? 
                   <div>
-                  <Countdown valueStyle={{fontSize: '17px', textAlign: 'center', margin: '5px'}} value={songData.timeExpired * 1000} format="D Ngày H Giờ m Phút s" />
+                  <Countdown valueStyle={{fontSize: '17px', textAlign: 'center', margin: '5px'}} value={songInfo.timeExpired * 1000} format="D Ngày H Giờ m Phút s" />
                   <Progress
                     style={{paddingRight: '10px', margin: '5px'}}
                     strokeColor={{
                       from: '#108ee9',
                       to: '#FF5733',
                     }}
-                    percent={Number(parseFloat(100 - (songData.amountRemaining * 100 / songData.offerAmount)).toFixed(1))}
+                    percent={Number(parseFloat(100 - (songInfo.amountRemaining * 100 / songInfo.offerAmount)).toFixed(1))}
                     status="active"
                     showInfo
                   />
-                  <TextText title='Progress' content={formatThousands(songData.offerAmount - songData.amountRemaining) + ' / ' + formatThousands(songData.offerAmount) + ' HAK'}/>
-                  <TextText title='Total Offer Amount' content={formatThousands(songData.offerAmount) + ' HAK'}/>
-                  <TextText title='Total Offer Percent' content={parseFloat(songData.offerPercent / 1000).toFixed(3) + '%'}/>
-                  <TextText title='Amount Remaining' content={formatThousands(songData.amountRemaining) + ' HAK'}/>
-                  <TextText title='Owner Percent Remaining' content={parseFloat(songData.ownerPercent / 1000).toFixed(3) + '%'}/>
+                  <TextText title='Progress' content={formatThousands(songInfo.offerAmount - songInfo.amountRemaining) + ' / ' + formatThousands(songInfo.offerAmount) + ' HAK'}/>
+                  <TextText title='Total Offer Amount' content={formatThousands(songInfo.offerAmount) + ' HAK'}/>
+                  <TextText title='Total Offer Percent' content={parseFloat(songInfo.offerPercent / 1000).toFixed(3) + '%'}/>
+                  <TextText title='Amount Remaining' content={formatThousands(songInfo.amountRemaining) + ' HAK'}/>
+                  <TextText title='Owner Percent Remaining' content={parseFloat(songInfo.ownerPercent / 1000).toFixed(3) + '%'}/>
                   <TextText title='Invest table' content=''/>
-                  <Table rowKey={(record) => record.idFile} columns={columns} dataSource={songData.investListISO} pagination={false}/>
+                  <Table rowKey={(record) => record.idFile} columns={columns} dataSource={songInfo.investListISO} pagination={false}/>
                   </div>
                   :
                   <Text> This song is not using ISO yet. </Text>

@@ -32,8 +32,7 @@ export const userReducer = ( state = initialState, action) => {
             ...state.user,
             userName: action.userName
         }
-
-        }
+    }
     case 'UPDATE_FAIL':
         return {
         ...state,
@@ -53,6 +52,8 @@ export const userReducer = ( state = initialState, action) => {
         errorUpdate: null,
     }
 
+
+    
     case 'SET_HAK_ADD':
         return {
             ...state,
