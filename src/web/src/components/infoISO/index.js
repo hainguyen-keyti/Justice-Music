@@ -29,19 +29,19 @@ class InfoISO extends React.Component {
     >
       <Meta 
         style={{paddingBottom: 10}} 
-        avatar={<Avatar size={59} 
-        src={window.$linkIPFS + record.user.avatar} 
-        alt={record.user.nickName}/>} 
-        title={ <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${record.user.addressEthereum}`)}>{record.user.nickName}</Button>} 
+        avatar={<Avatar size={59} src={window.$linkIPFS + record.user.avatar} alt={record.user.nickName}/>} 
+        title={ 
+        <Button style={{textAlign: 'left', padding: 0, fontSize: 16}}  type="link" onClick={() => this.props.history.push(`/page/${record.user.addressEthereum}`)}>
+          <Text style={{fontSize: 16}} type="warning">{record.user.nickName}</Text>
+        </Button>
+        } 
         description={<Text> {formatThousands(record.user.follow)} Follow </Text>} 
         />
       
       <Button  style={{textAlign: 'center', padding: 0, fontSize: 14, height: 20}}  type="link" onClick={()=> this.props.history.push(`/song/${record.music._id}`)}>{record.music.name}</Button>
-      {/* <Text>
-          <a href={this.props.link}>{record.music.name}</a>
-      </Text> */}
+
       <br />
-      <Text type="warning" style={{marginTop: "10px"}}>Percent</Text>
+      <Text type="secondary" style={{marginTop: "10px"}}>Percent</Text>
       <Progress
       style={{paddingRight: '10px'}}
         strokeColor={{
@@ -55,9 +55,9 @@ class InfoISO extends React.Component {
       {
         (moment().unix() >= record.timeExpired) ? 
         <div>
-            <Text type="secondary">Ant Design</Text>
+            <Text type="secondary">Time Remaining</Text>
             <br />
-            <Text style={{fontSize: 18}} type='danger'> Out of time</Text> 
+            <Text style={{fontSize: 18}} type='danger'>Expired</Text> 
         </div>
         :
         <Countdown title="Time Remaining" valueStyle={{fontSize: '16px'}} value={record.timeExpired * 1000} format="D Ngày H Giờ m Phút s" /> 

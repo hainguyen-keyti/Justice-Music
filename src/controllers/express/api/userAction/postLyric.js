@@ -12,13 +12,14 @@ module.exports = async (req, res) => {
     }
 
     Music.findById(req.body.idMongo)
+    .select('userUpload')
     .then(music => {
-        if(!(music.userUpload === req.token_info._id)){
-            return response_express.exception(res, "Can not post lyric. You are not owner!")
+        if(music.userUpload == req.token_info._id){
+            music.lyric = req.body.lyric
+            music.save();
+            return response_express.success(res, "Update lyric success!")
         }
-        music.lyric = req.body.lyric
-        music.save();
-        return response_express.success(res, "Update lyric success!")
+        return response_express.exception(res, "Can not post lyric. You are not owner!")
     })
     .catch(err => {
         return response_express.exception(res, err);

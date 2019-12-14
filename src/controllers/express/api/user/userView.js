@@ -12,8 +12,8 @@ module.exports = (req, res) => {
     }
 
     User.findOne({$or: [
-        {userName: req.query.userName},
-        {addressEthereum: req.query.userName}
+        {userName: req.body.userName},
+        {addressEthereum: req.body.userName}
     ]})
     .then ( user => {
         if(!user)

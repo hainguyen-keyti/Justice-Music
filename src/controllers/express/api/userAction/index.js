@@ -21,5 +21,6 @@ userActionRoutes.get('/getSongSameSinger', require('./getSongSameSinger'))
 
 userActionRoutes.get('/getRelatedUser', require('./getRelatedUser'))
 
+userActionRoutes.post('/createTemplateContract', require('./createTemplateContract'))
 
 module.exports = userActionRoutes;
