@@ -5,13 +5,13 @@ const response_express = require(config.library_dir + '/response').response_expr
 module.exports = (req, res) => {
     try {
         if(!req.files) {
-            response_express.exception(res, "File cannot upload")
+            return response_express.exception(res, "File cannot upload")
         } else {
         getHashIPFS(req.files.file.data)
         .then( hash => {
-            response_express.success(res, hash)
+            return response_express.success(res, hash)
         })}
     } catch (err) {
-        response_express.exception(res, err || err.message)
+        return response_express.exception(res, err || err.message)
     }
 }

@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
         contractWithSigner.usingISO(idFile, offerPercent, offerAmount, maintain) //Nên kiểm tra input chổ này 
         .then(tx => {
             if(!tx)
-                return Promise.reject("Field to excute transaction");
+                return Promise.reject("Field to execute transaction");
             response_express.success(res, tx.hash)
             // Create a model about ISO to storage some field like, imageMusic, time, ....
             // ISO.create(req.body.server)

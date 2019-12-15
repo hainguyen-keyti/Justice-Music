@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     .then(tx => {
         console.log(tx)
         if(!tx)
-            return Promise.reject("Fail to excute transaction");
+            return Promise.reject("Fail to execute transaction");
         config.provider.waitForTransaction(tx.hash).then(() => {
             return response_express.success(res, `Success at transaction ${tx.hash}`) 
         });

@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     contractWithSigner.transfer(req.body.address, req.body.amount)
     .then(tx => {
         if(!tx)
-            return Promise.reject("Fail to excute transaction");
+            return Promise.reject("Fail to execute transaction");
         response_express.success(res, tx.hash)
     })
     .catch(err => response_express.exception(res, err));

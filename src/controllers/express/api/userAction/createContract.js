@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
         const ownerID = await Music.findById(req.body.songID)
         .lean()
         .select('userUpload')
-        req.body.ownerID = ownerID._id
+        req.body.ownerID = ownerID.userUpload._id
         req.body.signerID = req.token_info._id
         const reqBodyModifydata = await lib_common.RemoveObjFieldNull(req.body) // this function to remove all field that null, empyty or undefine 
         if(Object.entries(reqBodyModifydata).length === 0){

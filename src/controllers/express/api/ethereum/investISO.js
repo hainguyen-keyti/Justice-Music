@@ -20,7 +20,7 @@ module.exports = (req, res) => {
                 contractWithSigner.investISO(req.body.idFile, req.body.investAmount)
                 .then(tx => {
                     if(!tx)
-                        return response_express.exception(res, "Field to excute transaction! Tx is not found!")
+                        return response_express.exception(res, "Field to execute transaction! Tx is not found!")
                     return response_express.success(res, tx.hash)
                 })
                 .catch(err => {

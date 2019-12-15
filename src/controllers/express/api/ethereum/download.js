@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
     })
     .then(tx => {
         if(!tx)
-            return Promise.reject("Field to excute transaction");
+            return Promise.reject("Field to execute transaction");
         response_express.success(res, tx.hash)
     })
     .catch(err => {response_express.exception(res, JSON.parse(err.responseText).error.message)

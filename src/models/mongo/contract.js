@@ -24,7 +24,6 @@ var ContractSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
-
     date_created: {
         type: Date,
         default: Date(Date.now()),

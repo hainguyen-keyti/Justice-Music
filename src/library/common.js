@@ -203,7 +203,30 @@ exports.ModifyMusicFile = (tx) => {
 	})
 }
 
-
+exports.BigNumberToNumber = async (tx) => {
+	return new Promise( async (resolve, reject) => {
+	try {
+		let result = []
+		await Promise.all(tx.map( async record => {
+			let data = {}
+			await  Promise.all(Object.getOwnPropertyNames(record).map(key=>{
+				if(Number.isNaN(Number(key))){
+					if(typeof(record[key]) === "object"){
+						data[key] = Number(record[key])
+					}
+					else{
+						data[key] = record[key]
+					}
+				}
+			}))
+			result.push(data)
+		}))
+		return resolve(result)
+	} catch (error) {
+		return reject(error)
+	}
+	})
+}
 
 exports.ModifyFileISO = (tx, senderID) => {
 	return new Promise( async (resolve, reject) => {

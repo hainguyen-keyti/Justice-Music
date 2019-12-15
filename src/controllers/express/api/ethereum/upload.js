@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     })
     .then(tx => {
         if(!tx)
-            return Promise.reject("Field to excute transaction");
+            return Promise.reject("Field to execute transaction");
         response_express.success(res, tx.hash)
         tx.wait().then((getID)=>{
             let numb = parseInt(getID.logs[0].data.slice(130), 16) // Get Id from event uploadFile
