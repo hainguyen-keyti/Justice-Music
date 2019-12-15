@@ -4,10 +4,7 @@ const response_express = require(config.library_dir + '/response').response_expr
 const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => {
-    if(!req.token_info || req.token_info === undefined){
-        return response_express.exception(res, 'Failed to authenticate token.')
-    }
-
+    
     const data = await lib_common.RemoveObjFieldNull(req.body) // this function to remove all field that null, empyty or undefine 
     if(Object.entries(data).length === 0){
         return response_express.exception(res, "Please input field that you want update!")

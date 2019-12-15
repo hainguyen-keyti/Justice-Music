@@ -1,13 +1,12 @@
 var mongoose = require('mongoose');
 
 var ContractSchema = mongoose.Schema({
-    songID : { type: mongoose.Schema.Types.ObjectId, ref: 'Music' },
+    songID : { type: mongoose.Schema.Types.ObjectId, require: true, ref: 'Music' },
     contractMoney: {
         type: Number,
         default: 0,
     },
-
-    ownerID: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    ownerID: { type: mongoose.Schema.Types.ObjectId, require: true, ref: 'User' },
     ownerApproved: {
         type: Boolean,
         default: false,
@@ -16,13 +15,12 @@ var ContractSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
-
-    signContractorID: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    signContractorApproved: {
+    signerID: { type: mongoose.Schema.Types.ObjectId, require: true, ref: 'User' },
+    signerApproved: {
         type: Boolean,
         default: false,
     },
-    signContractorCompensationAmount: {
+    signerCompensationAmount: {
         type: Number,
         default: 0,
     },
@@ -37,14 +35,22 @@ var ContractSchema = mongoose.Schema({
     },
     content: {
         type: String,
+        require: true,
     },
-    public: {
+    isPublic: {
+        type: Boolean,
+        default: true,
+    },
+    timeExpired: {
+        type: Number
+    },
+    isCancel: {
         type: Boolean,
         default: false,
     },
 });
 
-userSchema.pre('save', next => {
+ContractSchema.pre('save', next => {
     if(this.isNew || this.isModified) {
         this.date_updated = Date(Date.now());
     }

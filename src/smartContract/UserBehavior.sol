@@ -135,6 +135,86 @@ contract UserBehavior is FileStruct, Ownable{
       return tempISO;
     }
     
+    
+    function createContract(
+        uint _idFile,
+        string memory _idContractMongo,
+        
+        string memory _songHash, 
+        string memory _contentHash,
+        uint _contractMoney,
+        
+        address _owner,
+        uint _ownerCompensationAmount,
+        
+        address _signer,
+        uint _signerCompensationAmount,
+        
+        uint _timeExpired
+        ) public {
+            require(msg.sender == _owner || msg.sender == _signer );
+            require(_owner == fileStorage.getFileList(_idFile).owner);
+            bool _ownerApproved;
+            bool _signerApproved;
+            if(msg.sender == _owner){
+                _ownerApproved = true;
+                _signerApproved = false;
+            }
+            if(msg.sender == _signer){
+                _ownerApproved = false;
+                _signerApproved = true;
+            }
+            SongContract memory tempSongContract = SongContract(
+                _idFile,
+                _songHash, 
+                _contentHash, 
+                _contractMoney, 
+                _owner, 
+                _ownerCompensationAmount, 
+                _ownerApproved, 
+                _signer, 
+                _signerCompensationAmount, 
+                _signerApproved,
+                _timeExpired,
+                false
+                );
+            fileStorage.setSongContract(_idContractMongo, tempSongContract);
+            fileStorage.setUserContract(_idContractMongo, _owner, _signer);
+        }
+    function setApproved(string memory _idContractMongo) public{
+        fileStorage.setApproved(_idContractMongo, msg.sender);
+        token.TransferFromTo(fileStorage.getSongContract(_idContractMongo).signer, fileStorage.getSongContract(_idContractMongo).owner, fileStorage.getSongContract(_idContractMongo).contractMoney);
+    }
+    
+    function cancelContract(string memory _idContractMongo) public{
+        require(fileStorage.getSongContract(_idContractMongo).isCancel == false);
+        require(fileStorage.getSongContract(_idContractMongo).ownerApproved == true && fileStorage.getSongContract(_idContractMongo).signerApproved == true );
+        fileStorage.setCancelContract(_idContractMongo, msg.sender);
+        if(msg.sender == fileStorage.getSongContract(_idContractMongo).owner){
+            token.TransferFromTo(msg.sender, fileStorage.getSongContract(_idContractMongo).signer, fileStorage.getSongContract(_idContractMongo).ownerCompensationAmount);
+        }
+        if(msg.sender == fileStorage.getSongContract(_idContractMongo).signer){
+            token.TransferFromTo(msg.sender, fileStorage.getSongContract(_idContractMongo).owner, fileStorage.getSongContract(_idContractMongo).signerCompensationAmount);
+        }
+    }
+    
+    
+    function getSongContract(string memory _idContractMongo) public view returns(SongContract[] memory) {
+        SongContract[] memory tempSongContract = new SongContract[](1);
+        tempSongContract[0] = fileStorage.getSongContract(_idContractMongo);
+        return tempSongContract;
+    }
+    
+    function getOwnerContractList(address _add) public view returns(string[] memory) {
+        string[] memory tempData = fileStorage.getOwnerContractList(_add);
+        return tempData;
+    }
+    
+    function getSignerContractList(address _add) public view returns(string[] memory) {
+        string[] memory tempData = fileStorage.getSignerContractList(_add);
+        return tempData;
+    }
+
     //-------------Example about Oraclize Schedule--------------------------
     
     // function __callback(bytes32 myid, string memory result) public {

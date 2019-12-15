@@ -5,6 +5,21 @@ contract FileStruct{
     
     enum Kind {Unidentified, Image, Music}
 
+    struct SongContract{
+        uint idFile; // smartcontract song id
+        string songHash;
+        string contentHash;
+        uint contractMoney;
+        address owner;
+        uint ownerCompensationAmount; // So tien owner phai boi thuong
+        bool ownerApproved;
+        address signer;
+        uint signerCompensationAmount; // So tien signer phai boi thuong
+        bool signerApproved;
+        uint timeExpired;
+        bool isCancel;
+    }
+
     struct File{
         uint idFile;
         string idMongoose;

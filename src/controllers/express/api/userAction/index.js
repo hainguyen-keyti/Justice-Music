@@ -23,4 +23,7 @@ userActionRoutes.get('/getRelatedUser', require('./getRelatedUser'))
 
 userActionRoutes.post('/createTemplateContract', require('./createTemplateContract'))
 
+userActionRoutes.post('/createContract', require('./createContract'))
+
+
 module.exports = userActionRoutes;

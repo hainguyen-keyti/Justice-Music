@@ -13,10 +13,6 @@ var templateContractSchema = mongoose.Schema({
     content: {
         type: String,
     },
-    public: {
-        type: Boolean,
-        default: false,
-    },
 });
 
 templateContractSchema.pre('save', next => {
