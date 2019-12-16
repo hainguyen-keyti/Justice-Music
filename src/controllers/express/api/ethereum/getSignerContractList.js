@@ -9,26 +9,30 @@ const moment = require('moment');
 
 module.exports = async (req, res) => {
     try {
-        console.log(req.params.idContractMongo)
-        let miss = lib_common.checkMissParams(res, req.params, ["idContractMongo"])
-        if (miss){
-            console.log("Miss param at execute contract");
-            return;
-        }
         const user = await User.findById(req.token_info._id)
         .lean()
-        .select('privateKey')
+        .select('privateKey addressEthereum')
         if(!user){
             return response_express.exception(res, "User not exist!")
         }
+        console.log(user.addressEthereum)
         let wallet = new ethers.Wallet(user.privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
-        const transaction = await contractWithSigner.getSongContract(req.params.idContractMongo)
+        const transaction = await contractWithSigner.getSignerContractList(user.addressEthereum)
         if(!transaction){
             return Promise.reject("Fail to execute transaction")
         }
-
-        const result = await lib_common.BigNumberToNumber(transaction)
+        const arrTemp = Array.from(new Set(transaction));
+        let result = []
+        
+        await Promise.all(arrTemp.map( async record => {
+            const temp = await contractWithSigner.getSongContract(record)
+            if(!temp){
+                return Promise.reject("Fail to get contract!")
+            }
+            const data = await lib_common.BigNumberToNumber(temp)
+            result.push(data)
+        }))
         return response_express.success(res, result)
     } catch (error) {
         return response_express.exception(res, "Error at execute contract " + error);

@@ -35,6 +35,10 @@ ethereumRoutes.get('/getTimeRanking', require('./getTimeRanking'))
 
 ethereumRoutes.get('/getSongContract/:idContractMongo', require('./getSongContract'))
 
+ethereumRoutes.get('/getOwnerContractList', require('./getOwnerContractList'))
+
+ethereumRoutes.get('/getSignerContractList', require('./getSignerContractList'))
+
 
 
 module.exports = ethereumRoutes;
