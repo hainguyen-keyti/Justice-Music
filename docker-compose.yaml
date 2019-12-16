@@ -1,14 +1,7 @@
 version: "3.7"
 services:
   justice-music:
-    image: keytikontum/justice-music-keyti
+    image: jumu7:latest
     restart: always
     ports:
-    - 9999:6969
-
-  mongo:
-    image: mongo:4.1.12-bionic
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: Haiktvn1.
+    - 6969:6969

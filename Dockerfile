@@ -1,9 +1,12 @@
 FROM node:11
 WORKDIR /usr/src/app
 
-COPY . .
+COPY package.json .
+COPY package-lock.json .
 
-RUN npm install
+RUN npm install && npm cache clean -f
+
+COPY . .
 
 EXPOSE 6969
 

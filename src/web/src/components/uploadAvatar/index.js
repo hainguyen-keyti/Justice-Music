@@ -3,6 +3,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
 import { Upload, Icon, message } from 'antd';
+import config from '../../config';
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -57,7 +58,7 @@ export default class Avatar extends React.Component {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="http://localhost:6969/api/users/upload"
+        action={config.api_url + "/users/upload"}
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >

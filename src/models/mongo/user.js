@@ -24,6 +24,7 @@ var userSchema = mongoose.Schema({
         trim: true,
         index: {
             unique: true,
+            sparse: true
         },
     },
     phone: {

@@ -152,7 +152,7 @@ class extends React.Component {
           })(
             <Upload
             name="file"
-            action="http://localhost:6969/api/users/upload"
+            action={config.api_url + "/users/upload"}
             listType="picture"
             >
               <Button>
@@ -168,7 +168,7 @@ class extends React.Component {
             getValueFromEvent: this.normFileMusic,
             rules: [{ required: true}],
           })(
-            <Upload.Dragger action='http://localhost:6969/api/users/upload'>
+            <Upload.Dragger action={config.api_url + "/users/upload"}>
               <p className="ant-upload-drag-icon" >
                 <Icon type="inbox" />
               </p>
