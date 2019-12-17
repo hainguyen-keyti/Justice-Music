@@ -47,6 +47,9 @@ var ContractSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    nameContractForm: {
+        type: String,
+    }
 });
 
 ContractSchema.pre('save', next => {

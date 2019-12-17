@@ -3,7 +3,7 @@ import { Typography, Button, Tooltip, Modal } from 'antd';
 import ReactQuill from 'react-quill';
 import {postLyric} from '../../api/userAPI'
 import 'react-quill/dist/quill.snow.css'; // ES6
-const { Paragraph, Text} = Typography;
+const { Text} = Typography;
 
 
 export default class InputLyric extends React.Component {

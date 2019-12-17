@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
-import { Button, Slider, Avatar, Dropdown, Tooltip, Menu } from 'antd';
+import { Button, Slider, Avatar, Dropdown, Tooltip } from 'antd';
 import './index.css'
 import Duration from './duration'
 import Typography from 'antd/lib/typography/Typography';
-import BuyMusic from '../buyMusic';
-import InvestISO from '../investISO';
-import UsingISO from '../usingISO';
 import { connect} from 'react-redux'
 
 
@@ -66,20 +63,20 @@ class MusicPlayerMainContent extends Component {
   }
   render () {
     const { totalSeconds, playing, loop, playingIcon, loopIcon, loadingInfo, volume } = this.state;
-    const { isDetail, imageHash, musicHash, idFile } = this.props
-    const menu = (
-      <Menu>
-          <Menu.Item>
-              <BuyMusic idFile={idFile}/>
-          </Menu.Item>
-          <Menu.Item>
-              <InvestISO idFile={idFile}/>
-          </Menu.Item>
-          <Menu.Item>
-              <UsingISO disabled={(this.props.appReducer.musicSelected.userUpload !== this.props.userReducer.user.id) ? true : false} idFile={idFile}/>
-          </Menu.Item>
-      </Menu>
-    );
+    const { isDetail, imageHash, musicHash } = this.props
+    // const menu = (
+    //   <Menu>
+    //       <Menu.Item>
+    //           <BuyMusic idFile={idFile}/>
+    //       </Menu.Item>
+    //       <Menu.Item>
+    //           <InvestISO idFile={idFile}/>
+    //       </Menu.Item>
+    //       <Menu.Item>
+    //           <UsingISO disabled={(this.props.appReducer.musicSelected.userUpload !== this.props.userReducer.user.id) ? true : false} idFile={idFile}/>
+    //       </Menu.Item>
+    //   </Menu>
+    // );
     return (
         <div className={isDetail ? "detailPlayer" : "nowPlayer"}>
             <ReactPlayer

@@ -18,7 +18,7 @@ class MusicCard extends React.Component {
   render() {
     const {songInfo} = this.props
     return (
-      <Tooltip title={songInfo.view + 'view song'} placement="top">
+      <Tooltip title={songInfo.view + ' view song'} placement="top">
         <Card
           hoverable
           size="small"
@@ -28,7 +28,7 @@ class MusicCard extends React.Component {
         >
         <Meta 
           title={
-            <Tooltip style={{display: 'flex', flexDirection: 'column'}} title="Play this song now" placement="top" onClick={() =>{this.props.set_music_selected(songInfo)}} >
+            <Tooltip style={{display: 'flex', flexDirection: 'column'}} title={songInfo.name} placement="top" onClick={() =>{this.props.set_music_selected(songInfo)}} >
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <Button style={{textAlign: 'left', padding: 0, fontSize: 13, height: 20,  width: '100%'}}  type="link" >{songInfo.name}</Button>
               <Text style={{fontSize: 13}} type="secondary">{songInfo.artist}</Text>
@@ -36,7 +36,7 @@ class MusicCard extends React.Component {
             </Tooltip>
             }
           description={
-            <Tooltip style={{display: 'flex'}} title="Go to page of user upload" placement="bottom" onClick={() => this.props.history.push(`/page/${songInfo.userUpload.addressEthereum}`)} >
+            <Tooltip style={{display: 'flex'}} title={songInfo.userUpload.nickName} placement="bottom" onClick={() => this.props.history.push(`/page/${songInfo.userUpload.addressEthereum}`)} >
               <Avatar shape='circle' style={{marginRight: 5}} size='small' src={window.$linkIPFS + songInfo.userUpload.avatar } />   
               <Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20, width: '70%', overflow: 'hiden'}} type="link" ><Text type="warning" style={{alignSelf: 'center'}} >{songInfo.userUpload.nickName}</Text></Button>
             </Tooltip>

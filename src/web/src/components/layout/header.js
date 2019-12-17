@@ -47,7 +47,7 @@ class Header extends Component {
                 <Text>{this.props.userReducer.balanceETH} ETH</Text>
             </Menu.Item>
             <Menu.Divider />
-          <Menu.Item onClick={()=> this.props.history.push('/ContractFormManager')}>
+          <Menu.Item onClick={()=> this.props.history.push('/contractFormManager')}>
             <Icon type="solution" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
             <Text>Contract form manager</Text>
           </Menu.Item>

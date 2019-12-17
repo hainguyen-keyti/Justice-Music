@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
             .limit(4)
             .sort({ date: -1 })
             .lean()
-            .select('artist image hash name _id userUpload tags date')
+            .select('artist image hash name _id userUpload tags date, view')
             .populate('userUpload', ['nickName', 'avatar', 'addressEthereum']),
 
         ]

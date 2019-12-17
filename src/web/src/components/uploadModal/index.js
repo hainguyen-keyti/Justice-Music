@@ -202,10 +202,14 @@ class UploadModal extends React.Component {
       if(err){
         return message.error('please fill out all fields');
       }
-      this.openUploadNotification(values)
+      if(values.Music[0].status == "uploading" || values.Image[0].status == "uploading" )
+        return Modal.error({
+          title: 'Please waiting for music or image upload!',
+      })
       form.resetFields();
-      this.child.resetUSD()
+      this.child.resetUSD();
       this.setState({ visible: false });
+      this.openUploadNotification(values)
     });
   };
 

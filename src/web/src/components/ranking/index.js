@@ -47,22 +47,24 @@ class Ranking extends React.Component {
                   <div style={{  display: 'flex', flexDirection: 'column' ,alignItems: 'center'}}>
                     <Title level={4} style={{alignSelf: 'center', marginRight: 10}} type={index === 0 ? "danger" : (index === 1 ? "warning" : (index === 2 ? "" : "secondary"))}>{index + 1}</Title>
                   </div>
-                  <List.Item.Meta
-                    avatar={<Avatar shape="square" size={70} src={window.$linkIPFS + item.image} onClick={() => this.props.history.push(`/song/${item._id}`)}/>}
-                    title={<Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20}}  type="link"  onClick={() =>{this.props.set_music_selected(item)}}>{item.name}</Button>}
-                    description={
-                    <div>
-                      {item.artist}
-                      <br/>
-                      <div className="row-space-between">
-                        <Tooltip title={item.userUpload.nickName} placement="leftTop">
-                          <Avatar shape='circle' size='small' src={window.$linkIPFS + item.userUpload.avatar} onClick={() => this.props.history.push(`/page/${item.userUpload.addressEthereum}`)} />
-                        </Tooltip>
-                        <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking} Downloads</Text>
+                  <Tooltip title={item.view + " view"} placement="leftTop">
+                    <List.Item.Meta
+                      avatar={<Avatar shape="square" size={70} src={window.$linkIPFS + item.image} onClick={() => this.props.history.push(`/song/${item._id}`)}/>}
+                      title={<Button style={{textAlign: 'left', padding: 0, fontSize: 14, height: 20}}  type="link"  onClick={() =>{this.props.set_music_selected(item)}}>{item.name}</Button>}
+                      description={
+                      <div>
+                        {item.artist}
+                        <br/>
+                        <div className="row-space-between">
+                          <Tooltip title={item.userUpload.nickName} placement="leftTop">
+                            <Avatar shape='circle' size='small' src={window.$linkIPFS + item.userUpload.avatar} onClick={() => this.props.history.push(`/page/${item.userUpload.addressEthereum}`)} />
+                          </Tooltip>
+                          <Text style={{alignSelf: 'center'}} code>{item.downloadWeekRanking} Downloads</Text>
+                        </div>
                       </div>
-                    </div>
-                    }
-                  />
+                      }
+                    />
+                  </Tooltip>
                 </List.Item>
                 :
                 null

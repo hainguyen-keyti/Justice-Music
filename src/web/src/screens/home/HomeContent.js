@@ -5,12 +5,7 @@ import {
   Row,
   Col,
   Carousel,
-  Avatar,
   Typography,
-  Card,
-  Button,
-  Tooltip,
-  Skeleton
  } from 'antd';
 import {connect} from 'react-redux';
 import Ranking from '../../components/ranking'
@@ -20,8 +15,7 @@ import MusicCard from '../../components/musicCard'
 import StyleLoadingCard from '../../components/musicCard/styleLoadingCard'
 import { getHomeSongs, getHotUsers} from '../../actions/app'
 
-const { Text, Title } = Typography;
-const { Meta } = Card;
+const { Title } = Typography;
 
 class HomeContent extends Component {
   componentDidMount(){
@@ -59,7 +53,7 @@ class HomeContent extends Component {
             <Row gutter={[8, 0]} type="flex" justify="space-around">
               {appReducer.homeData  ?
                 appReducer.homeData.mostView.map((record) => {
-                  return <Col span={6} style={{width: 190, marginTop: 20}}><MusicCard songInfo={record}/></Col>
+                  return <Col key={record._id} span={6} style={{width: 190, marginTop: 20}}><MusicCard songInfo={record}/></Col>
                 })
                 :
                 <React.Fragment>
@@ -78,7 +72,7 @@ class HomeContent extends Component {
             <Row gutter={[8, 0]} type="flex" justify="space-around">
               {appReducer.homeData  ?
                 appReducer.homeData.mostNew.map((record) => {
-                  return <Col span={6} style={{width: 190, marginTop: 20}}><MusicCard songInfo={record}/></Col>
+                  return <Col key={record._id} span={6} style={{width: 190, marginTop: 20}}><MusicCard songInfo={record}/></Col>
                 })
                 :
                 <React.Fragment>
@@ -90,14 +84,14 @@ class HomeContent extends Component {
               }
             </Row>
 
-            <Row  gutter={[8, 0]} gutter={[8, 0]} style={{marginTop: 20}}>
+            <Row  gutter={[8, 0]} style={{marginTop: 20}}>
               <Title level={4} type="secondary">HOT SINGER</Title>
             </Row>
 
             <Row gutter={[8, 0]} type="flex" justify="space-around">
-              {appReducer.hotUserData  ?
+              {(appReducer.hotUserData) ?
                 appReducer.hotUserData.map((record) => {
-                  return <Col span={6} style={{width: 180, marginTop: 20}}><UserHomeCard user={record}/></Col>
+                  return <Col key={record._id} span={6} style={{width: 180, marginTop: 20}}><UserHomeCard user={record}/></Col>
                 })
                 :
                 <React.Fragment>

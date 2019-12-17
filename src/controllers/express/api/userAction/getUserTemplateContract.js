@@ -9,7 +9,6 @@ module.exports = async (req, res) => {
             .sort({ date_updated: -1 })
             .lean()
             .select('-ownerID')
-        console.log(arrTempContract)
     return response_express.success(res, arrTempContract)
     } catch (error) {
         return response_express.exception(res, error)

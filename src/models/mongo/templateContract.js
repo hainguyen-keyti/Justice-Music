@@ -13,6 +13,9 @@ var templateContractSchema = mongoose.Schema({
     content: {
         type: String,
     },
+    nameContractForm: {
+        type: String,
+    }
 });
 
 templateContractSchema.pre('save', next => {

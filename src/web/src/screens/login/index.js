@@ -2,16 +2,21 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Modal, Typography } from 'antd';
 import {connect} from 'react-redux';
 import { login, signin_fail_handle} from '../../actions/user'
+const { Text } = Typography;
 
 class LoginForm extends React.Component {
+  state = {
+    isloading: false,
+  };
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.setState({isloading: true})
         this.props.login(values.email, values.password)
       }
     });
@@ -20,6 +25,7 @@ class LoginForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     if(this.props.userReducer.error){
+      this.setState({isloading: false})
       Modal.error({
         title: 'Login error message ',
         content: this.props.userReducer.error,
@@ -27,9 +33,19 @@ class LoginForm extends React.Component {
       this.props.signin_fail_handle();
     }
     if(this.props.userReducer.signinSuccessful){
+      this.props.history.push('/home')
       Modal.success({
-        content: 'Login success.',
-        title: this.props.history.push('/home'),
+        title: 'Sinh Viên thực hiện khoá luận',
+        content:
+        (
+          <div>
+            <Text >Nguyễn Hoàng Hải</Text>
+            <Text code>15520186</Text>
+            <br />
+            <Text >Nguyễn Xuân Tú</Text>
+            <Text code>15520961</Text>
+          </div>
+        )
       });
       
     }
@@ -62,10 +78,10 @@ class LoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot">
+          <a href='' className="login-form-forgot">
             Forgot password
           </a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button loading={this.state.isloading} type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button> 
           Or<Button onClick={()=>this.props.history.push('/register')} type="link">register now!</Button>

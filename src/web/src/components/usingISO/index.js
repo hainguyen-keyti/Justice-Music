@@ -14,11 +14,15 @@ import {showNotificationTransaction, showNotificationLoading, showNotificationFa
 import config from '../../config'
 import {getISOAddress} from '../../actions/page'
 import {connect} from 'react-redux';
+import * as moment from 'moment';
 
 const { Text } = Typography;
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
   class extends React.Component {
+    state = {
+      date: 86400,
+    };
       render() {
         const { visible, onCancel, onCreate, form } = this.props;
         const { getFieldDecorator } = form;
@@ -35,11 +39,11 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
               <Form.Item label="Offer Percent">
                 {getFieldDecorator('offerPercent', {
                   rules: [{ required: true, message: 'Please input cost of this song!'}],
-                  initialValue: 0
+                  initialValue: 5000
                 })(
                   <InputNumber 
                     min={1}
-                    max={100000}
+                    max={50000}
                     step={1}
                     style={{width: 150}}
                     formatter={value => `${value}%`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -50,7 +54,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
               <Form.Item label="Offer Amount">
                 {getFieldDecorator('offerAmount', {
                   rules: [{ required: true, message: 'Please input cost of this song!'}],
-                  initialValue: 0
+                  initialValue: 1000000
                 })(
                   <InputNumber
                     min={0}
@@ -64,16 +68,19 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
               <Form.Item label="Offer Maintain">
                 {getFieldDecorator('maintain', {
                   rules: [{ required: true, message: 'Please input cost of this song!'}],
-                  initialValue: 0
-                })(
-                  <InputNumber
-                    min={0}
-                    max={2592000} //30 days
-                    style={{width: 150}}
-                    formatter={value => `🕗 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    parser={value => value.replace(/🕗\s?|(,*)/g, '')}
-                  />
-                )}
+                  initialValue: this.state.date,
+                  onChange: (e) => {this.setState({date: e})}
+                  })(
+                    <InputNumber
+                      min={0}
+                      max={2592000} //30 days
+                      style={{width: 150}}
+                      formatter={value => `🕗 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      parser={value => value.replace(/🕗\s?|(,*)/g, '')}
+                    />
+                  )}
+                {/* <span className="ant-form-text"> second</span>
+                <span className="ant-form-text">➜ {moment(moment.duration(this.state.date, 'seconds')).format("YYYY-MM-DD hh:mm:ss")}</span> */}
               </Form.Item>
               
             </Form>

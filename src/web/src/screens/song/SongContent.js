@@ -3,8 +3,6 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
 import {
-  Icon,
-  Tabs,
   Button,
   Tooltip,
   Row,
@@ -21,7 +19,6 @@ import MusicPlayerMainContent from '../../components/musicPlayer/musicPlayerMain
 import {connect} from 'react-redux';
 import BuyMusic from '../../components/buyMusic';
 import InvestISO from '../../components/investISO';
-import InfoISO from '../../components/infoISO';
 import UsingISO from '../../components/usingISO';
 import TextText from '../../components/text-text';
 import InputLyric from '../../components/inputLyric';
@@ -40,7 +37,6 @@ import StyleLoadingCardUser from '../../components/userHomeCard/styleLoadingCard
 const { Paragraph, Text, Title} = Typography;
 const { Countdown } = Statistic;
 const { Meta } = Card;
-const { TabPane } = Tabs;
 class SongContent extends React.Component {
 
   componentWillReceiveProps({idMongo}){

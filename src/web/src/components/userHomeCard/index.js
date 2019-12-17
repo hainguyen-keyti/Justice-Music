@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    Button,
     Card,
     Tooltip,
     Typography,
@@ -9,7 +8,6 @@ import {
 import 'antd/dist/antd.css';
 import { withRouter } from 'react-router';
 import {set_music_selected} from '../../actions/app'
-import FollowButton from '../followButton'
 import { connect} from 'react-redux'
 
 const { Text } = Typography;

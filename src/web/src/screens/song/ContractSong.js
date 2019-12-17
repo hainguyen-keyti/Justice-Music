@@ -19,7 +19,7 @@ const { TabPane } = Tabs;
 
 
 
-class ContractContent extends React.Component {
+class ContractSong extends React.Component {
 
   state = { 
     text: '',
@@ -34,6 +34,7 @@ class ContractContent extends React.Component {
   //   }
   // }
   componentDidMount(){
+    console.log(this.props.match.params.idMongo)
     // console.log(this.props.idContract)
     // this.props.getSongByID(this.props.idContract)
     // this.props.getRelatedUser()
@@ -111,8 +112,8 @@ class ContractContent extends React.Component {
             theme="snow"
             value={this.state.text}
             onChange={this.handleChange}
-            modules={ContractContent.modules}
-            formats={ContractContent.formats}
+            modules={ContractSong.modules}
+            formats={ContractSong.formats}
             placeholder="Write something..."
             style={{width: '100%', height: '500px',marginBottom: '50px'}}
             />
@@ -123,7 +124,7 @@ class ContractContent extends React.Component {
 }
 
 
-ContractContent.modules = {
+ContractSong.modules = {
   toolbar: [
     [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
     [{size: []}],
@@ -139,7 +140,7 @@ ContractContent.modules = {
   }
 }
 
-ContractContent.formats = [
+ContractSong.formats = [
   'header', 'font', 'size',
   'bold', 'italic', 'underline', 'strike', 'blockquote',
   'list', 'bullet', 'indent',
@@ -158,5 +159,5 @@ const mapDispatchToProps = (dispatch) => ({
   // getSongSameSinger: (data) => dispatch(getSongSameSinger(data)),
   // getRelatedUser: () => dispatch(getRelatedUser())
 })
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ContractContent));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ContractSong));
 

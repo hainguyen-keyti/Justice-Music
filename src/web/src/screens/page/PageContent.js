@@ -5,8 +5,6 @@ import {
   Avatar,
   Typography,
   Tabs,
-  Icon,
-  Button
  } from 'antd';
 import 'antd/dist/antd.css';
 import './index.css'
@@ -25,7 +23,7 @@ const { Title, Text } = Typography;
 
 class PageContent extends Component {
   componentWillReceiveProps({userName}){
-    if (userName != this.props.userName) {
+    if (userName !== this.props.userName) {
       this.props.getUserPage(userName)
     }
   }

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Typography, Button, Tooltip, Modal, Card } from 'antd';
+import { Typography, Button, Modal, Card } from 'antd';
 import ReactQuill from 'react-quill';
-import {postLyric} from '../../api/userAPI'
 import 'react-quill/dist/quill.snow.css'; // ES6
 import {createTemplateContract} from '../../api/userAPI'
-import ComponentSuccess from '../success'
-const { Paragraph, Text} = Typography;
+import * as moment from 'moment';
+const {Text} = Typography;
 
 
 export default class ContractForm extends React.Component {
@@ -53,7 +52,7 @@ export default class ContractForm extends React.Component {
     return (
       <Card
       bordered={false}
-      title={<Text code >Contract Form {this.props.number}</Text>} 
+      title={<Text code > Last updated: {moment(this.props.date).format('L')}</Text>} 
       extra={<Button 
         onClick={this.handleOk}
         type="danger">Submit</Button>} 
@@ -66,7 +65,7 @@ export default class ContractForm extends React.Component {
         modules={ContractForm.modules}
         formats={ContractForm.formats}
         placeholder="Write something..."
-        style={{width: '100%', height: '500px'}}
+        style={{width: '100%', height: '1000px'}}
         />
     </Card>
     )

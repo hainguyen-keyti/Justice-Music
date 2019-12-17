@@ -28,6 +28,7 @@ module.exports = async (req, res) => {
         const data = {
             content: req.body.content,
             ownerID: req.token_info._id,
+            nameContractForm: req.body.nameContractForm,
         }
         
         const tempData = await TemplateContract.create(data)
