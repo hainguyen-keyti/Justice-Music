@@ -2,12 +2,14 @@ import React from 'react';
 import { Typography, Button, Modal, Card } from 'antd';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import {createTemplateContract} from '../../api/userAPI'
+import {createTemplateContract, createContract} from '../../api/userAPI'
 import * as moment from 'moment';
+import { withRouter } from 'react-router';
+
 const {Text} = Typography;
 
 
-export default class ContractForm extends React.Component {
+class ContractForm extends React.Component {
   state = { 
     text: '',
    };
@@ -19,26 +21,48 @@ export default class ContractForm extends React.Component {
   }
   
   handleOk = () => {
-    const data = {
-      tempContractID: this.props.idMongo,
-      content: this.state.text,
-    }
+    if(this.props.mainContract){
+      const data = {
+        songID: this.props.songID,
+        content: this.state.text,
+        nameContractForm: this.props.nameContractForm
+      }
     console.log(data)
-
-    console.log(data)
-    createTemplateContract(data).then((result) => {
-      console.log(result)
-      return Modal.success({
-        content: 'Update Success!',
+      createContract(data).then((result) => {
+        console.log(result)
+        this.props.history.push('/home')
+        return Modal.success({
+          content: 'Create a contract to owner success!',
+        })
       })
-    })
-    .catch (error => {
-      this.setState({text: this.props.content})
-      return Modal.error({
-        title: 'Update Failed!',
-        content: error,
-      });
-    })
+      .catch (error => {
+        this.setState({text: this.props.content})
+        return Modal.error({
+          title: 'Create a contract to owner failed!',
+          content: error,
+        });
+      })
+    }
+    else{
+      const data = {
+        tempContractID: this.props.idMongo,
+        content: this.state.text,
+      }
+    console.log(data)
+      createTemplateContract(data).then((result) => {
+        console.log(result)
+        return Modal.success({
+          content: 'Update Success!',
+        })
+      })
+      .catch (error => {
+        this.setState({text: this.props.content})
+        return Modal.error({
+          title: 'Update Failed!',
+          content: error,
+        });
+      })
+    }
   };
 
   handleCancel = e => {
@@ -52,11 +76,27 @@ export default class ContractForm extends React.Component {
     return (
       <Card
       bordered={false}
-      title={<Text code > Last updated: {moment(this.props.date).format('L')}</Text>} 
-      extra={<Button 
+      title={
+        <div style={{display: 'flex', justifyContent: 'space-between', marginRight: 20}}>
+            <Text code > Last updated: {moment(this.props.date).format('LLLL')}</Text>
+            {
+              this.props.mainContract ? 
+              <Button 
+                onClick={this.handleOk}
+                type="primary">Go to main contract
+              </Button>
+              :
+              null
+            }
+        </div>
+    } 
+      extra={
+      <Button 
         onClick={this.handleOk}
-        type="danger">Submit</Button>} 
-      style={{ width: '100%' }}
+        type="danger">{this.props.mainContract ? "Use this form" : "Update"}
+        </Button>} 
+      style={{ width: '100%' }
+    }
       >
       <ReactQuill
         theme="snow"
@@ -95,3 +135,5 @@ ContractForm.formats = [
   'list', 'bullet', 'indent',
   'link', 'image', 'video'
 ]
+
+export default withRouter(ContractForm)

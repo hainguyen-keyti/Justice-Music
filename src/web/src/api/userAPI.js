@@ -278,6 +278,22 @@ export function createTemplateContract(data){
   })
 }
 
+export function createContract(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/actions/createContract', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
 
 export function postViewMusic(data){
   return new Promise((resolve, reject)=>{
@@ -413,9 +429,9 @@ export function getSongSameSinger(data){
 }
 
 
-export function getUserTemplateContract(){
+export function getUserTemplateContract(data){
   return new Promise((resolve, reject) => {
-    return axios.get(config.api_url+ '/actions/getUserTemplateContract', {
+    return axios.get(config.api_url+ '/actions/getUserTemplateContract/?idMongo=' + data, {
       headers: getHeaders()
     })
     .then( res => {

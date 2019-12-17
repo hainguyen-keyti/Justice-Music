@@ -1,5 +1,5 @@
 const config = require('../../../../config');
-const TemplateContract = require(config.models_dir + '/mongo/templateContract');
+const Contract = require(config.models_dir + '/mongo/contract');
 const Music = require(config.models_dir + '/mongo/music');
 const response_express = require(config.library_dir + '/response').response_express;
 const lib_common = require(config.library_dir+'/common');
@@ -7,13 +7,14 @@ const lib_common = require(config.library_dir+'/common');
 module.exports = async (req, res) => { 
     try {
         console.log(req.query.idMongo)
-        if(req.query.idMongo && req.query.idMongo !== 'undefined'){
+        if(req.query.idMongo === undefined){
             const music = await Music.findById(req.query.idMongo)
             .lean()
             .select('userUpload')
         const arrTempContract = await TemplateContract.find({ownerID: music.userUpload})
             .sort({ date_updated: -1 })
             .lean()
+            .select('-ownerID')
 
         return response_express.success(res, arrTempContract)
         }
@@ -21,6 +22,7 @@ module.exports = async (req, res) => {
             const arrTempContract = await TemplateContract.find({ownerID: req.token_info._id})
             .sort({ date_updated: -1 })
             .lean()
+            .select('-ownerID')
 
         return response_express.success(res, arrTempContract)
         }

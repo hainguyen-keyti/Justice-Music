@@ -1,6 +1,5 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import './index.css';
 import {
   Input,
   Tabs,
@@ -11,7 +10,7 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import {createTemplateContract, getUserTemplateContract} from '../../api/userAPI'
+import {createContract, getUserTemplateContract} from '../../api/userAPI'
 import ContractForm from '../../components/contractForm'
 
 
@@ -19,7 +18,7 @@ const { TabPane } = Tabs;
 
 
 
-class ContractSong extends React.Component {
+class UseContractContent extends React.Component {
 
   state = { 
     text: '',
@@ -34,12 +33,11 @@ class ContractSong extends React.Component {
   //   }
   // }
   componentDidMount(){
-    console.log(this.props.match.params.idMongo)
     // console.log(this.props.idContract)
     // this.props.getSongByID(this.props.idContract)
     // this.props.getRelatedUser()
     // postViewMusic({idSongMongo: this.props.idContract})
-    getUserTemplateContract().then(data => {
+    getUserTemplateContract(this.props.idMongo).then(data => {
       this.setState({tempContractData: data})
       console.log(data)
     })
@@ -63,19 +61,17 @@ class ContractSong extends React.Component {
     if(this.state.text && this.state.nameContractForm){
       const data = {
         content: this.state.text,
-        nameContractForm: this.state.nameContractForm
+        nameContractForm: this.state.nameContractForm,
+        songID: this.props.idMongo
       }
       console.log(data)
-      createTemplateContract(data).then((result) => {
+      createContract(data).then((result) => {
         console.log(result)
         this.setState({
           text: '',
           showCreateForm: false,
         });
-        getUserTemplateContract().then(data => {
-          this.setState({tempContractData: data})
-          console.log(data)
-        })
+        this.props.history.push('/home')
         return Modal.success({
           title: 'Update Success!',
         })
@@ -96,7 +92,7 @@ class ContractSong extends React.Component {
           {this.state.tempContractData.map( (record, index) => {
             return (
               <TabPane tab={record.nameContractForm} key={index}>
-                <ContractForm content={record.content} idMongo={record._id} date={record.date_updated}/>
+                <ContractForm mainContract={true} nameContractForm={record.nameContractForm} songID={this.props.idMongo} content={record.content} idMongo={record._id} date={record.date_updated}/>
               </TabPane>
             )
           })}
@@ -112,8 +108,8 @@ class ContractSong extends React.Component {
             theme="snow"
             value={this.state.text}
             onChange={this.handleChange}
-            modules={ContractSong.modules}
-            formats={ContractSong.formats}
+            modules={UseContractContent.modules}
+            formats={UseContractContent.formats}
             placeholder="Write something..."
             style={{width: '100%', height: '500px',marginBottom: '50px'}}
             />
@@ -124,7 +120,7 @@ class ContractSong extends React.Component {
 }
 
 
-ContractSong.modules = {
+UseContractContent.modules = {
   toolbar: [
     [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
     [{size: []}],
@@ -140,7 +136,7 @@ ContractSong.modules = {
   }
 }
 
-ContractSong.formats = [
+UseContractContent.formats = [
   'header', 'font', 'size',
   'bold', 'italic', 'underline', 'strike', 'blockquote',
   'list', 'bullet', 'indent',
@@ -151,7 +147,7 @@ ContractSong.formats = [
 
 const mapStateToProps = (state) => ({
   // songReducer: state.songReducer,
-  // userReducer: state.userReducer,
+  userReducer: state.userReducer,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -159,5 +155,5 @@ const mapDispatchToProps = (dispatch) => ({
   // getSongSameSinger: (data) => dispatch(getSongSameSinger(data)),
   // getRelatedUser: () => dispatch(getRelatedUser())
 })
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ContractSong));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UseContractContent));
 
