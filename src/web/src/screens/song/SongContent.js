@@ -123,7 +123,7 @@ class SongContent extends React.Component {
               </Col>
               <Col span={16}>
                 <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'space-around', marginBottom: 10, paddingBottom: 10}}>
-                    <FollowButton ownerSongID={songInfo.userUpload._id} isFollowed={songInfo.isFollowed}/>
+                    <FollowButton ownerSongID={songInfo.userUpload._id} isFollowed={songInfo.isFollowed}/> 
                     <UsingISO disabled={(this.props.userReducer.user.id !== songInfo.userUpload._id) ? true : false} idFile={songInfo.idFile}/> 
                     <InputLyric disabled={(this.props.userReducer.user.id !== songInfo.userUpload._id) ? true : false} idMongo={this.props.idMongo}/>
                     <InvestISO disabled={(moment().unix() >= songInfo.timeExpired) ? true : false} idFile={songInfo.idFile}/>

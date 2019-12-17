@@ -19,8 +19,11 @@ class FollowButton extends React.Component {
       if(this.props.isPage){
         this.props.set_is_follow_page(setFollow)
       }
-      else
+      else{
+        console.log("this is console log is page")
+        console.log(this.props.isPage)
         this.props.set_is_follow_song(setFollow)
+      }
     })
   }
   

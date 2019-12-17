@@ -11,14 +11,15 @@ class ComponentSuccess extends React.Component {
       status="success"
       title={title}
       subTitle={subTitle}
-      extra={[
+      extra={
         <Button type="primary" onClick={()=>{
           this.props.history.push(`/${goTo}`)
-          func() // Normally reset function in redux
+          if(func)
+            func() // Normally reset function in redux
         }}>
           Go to {goTo}
         </Button>
-      ]}
+      }
     />
     )
   }

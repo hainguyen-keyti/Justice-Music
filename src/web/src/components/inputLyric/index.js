@@ -23,14 +23,15 @@ export default class InputLyric extends React.Component {
   };
 
   handleOk = e => {
-    this.setState({
-      visible: false,
-      text: '',
-    });
+
     const data = {
       idMongo: this.props.idMongo,
       lyric: this.state.text,
     }
+    this.setState({
+      visible: false,
+      text: '',
+    });
     console.log(data)
     postLyric(data).then((result) => {
       console.log(result)

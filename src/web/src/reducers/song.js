@@ -24,7 +24,7 @@ export const songReducer = ( state = initialState, action) => {
             songInfo: {
                 ...state.songInfo,
                 isFollowed: action.setFollow,
-                follow: action.setFollow ? (state.songInfo.follow++) : (state.songInfo.follow--) 
+                follow: action.setFollow ? (state.songInfo.follow + 1) : (state.songInfo.follow -1 ) 
             },
     }
     case 'SET_SONG_DATA':

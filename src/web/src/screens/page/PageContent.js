@@ -38,7 +38,7 @@ class PageContent extends Component {
     if (this.props.pageReducer.errorPage) return (<Component404 history={this.props.history} subTitle="Page not found. Please try another link!"></Component404>)
     if (!this.props.pageReducer.userInfoData) return (<ComponentLoading/>)
     const {follow, phone, facebook, youtube, home, coverPhoto , avatar, nickName, _id, isFollowed} = this.props.pageReducer.userInfoData
-    const operations = <FollowButton ownerSongID={_id} isFollowed={isFollowed} isPage={true}/>
+    const operations = <FollowButton ownerSongID={_id} isFollowed={isFollowed} isPage={true}/> 
     return (
         <div>
           <Row>
