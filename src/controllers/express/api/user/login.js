@@ -32,12 +32,12 @@ module.exports = (req, res) => {
     .then(result => {
         let isMatchPassword = result[0];
         let accessToken = result[1];
-        let {refreshToken, id, email, addressEthereum, userName} = userData;
+        let {refreshToken, id, email, addressEthereum, userName, avatar} = userData;
         if(!isMatchPassword){
             return Promise.reject("Password not match")
         }
         lib_common.getBalance(addressEthereum).then( balance => {
-            response_express.success(res, {accessToken, refreshToken, id, email, userName, addressEthereum, HAK: balance.HAK})
+            response_express.success(res, {accessToken, refreshToken, avatar, id, email, userName, addressEthereum, HAK: balance.HAK})
             console.log("login successfull")
         })
     })

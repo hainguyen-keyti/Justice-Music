@@ -413,5 +413,18 @@ export function getSongSameSinger(data){
 }
 
 
+export function getUserTemplateContract(){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/actions/getUserTemplateContract', {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
 
 

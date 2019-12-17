@@ -38,35 +38,50 @@ import UserHomeCard from '../../components/userHomeCard'
 import StyleLoadingCardUser from '../../components/userHomeCard/styleLoadingCardUser'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import {createTemplateContract} from '../../api/userAPI'
+import {createTemplateContract, getUserTemplateContract} from '../../api/userAPI'
 import ComponentSuccess from '../../components/success'
+import ContractForm from '../../components/contractForm'
 
 
 const { Paragraph, Text, Title} = Typography;
 const { Countdown } = Statistic;
 const { Meta } = Card;
 const { TabPane } = Tabs;
+
+
+
 class ContractContent extends React.Component {
+
+  state = { 
+    text: '',
+    showCreateForm: false,
+    isSuccess: false,
+    tempContractData: [],
+   };
 
   // componentWillReceiveProps({idContract}){
   //   if (idContract !== this.props.idContract) {
   //     this.props.getSongByID(idContract)
   //   }
   // }
-  // componentDidMount(){
-  //   console.log(this.props.idContract)
-  //   this.props.getSongByID(this.props.idContract)
-  //   this.props.getRelatedUser()
-  //   postViewMusic({idSongMongo: this.props.idContract})
-  // }
+  componentDidMount(){
+    // console.log(this.props.idContract)
+    // this.props.getSongByID(this.props.idContract)
+    // this.props.getRelatedUser()
+    // postViewMusic({idSongMongo: this.props.idContract})
+    getUserTemplateContract().then(data => {
+      this.setState({tempContractData: data})
+      console.log(data)
+    })
+  }
 
-  state = { 
-    text: '',
-    isSuccess: false
-   };
 
   handleChange = (value) => {
     this.setState({ text: value })
+  }
+
+  handleClickBtnCreate = (value) => {
+    this.setState({showCreateForm: value})
   }
 
   handleOk = () => {
@@ -79,7 +94,8 @@ class ContractContent extends React.Component {
       console.log(result)
       this.setState({
         text: '',
-        isSuccess: true
+        isSuccess: true,
+        showCreateForm: false,
       });
     })
   };
@@ -88,25 +104,34 @@ class ContractContent extends React.Component {
     if(this.state.isSuccess){
       return <ComponentSuccess title="SUCCESSFUL" subTitle="Create contract form successful" goTo='home'/>
     }
+    const operations = <Button type="primary" onClick={() => this.handleClickBtnCreate(true)}>Create Form</Button>;
     return (
-      <Card
-      bordered={false}
-      title={<Title style={{alignContent: 'center'}} level={4}>CREATE NEW CONTRACT FORM</Title>} 
-      extra={<Button 
-        onClick={this.handleOk}
-        type="primary">Submit</Button>} 
-      style={{ width: '100%' }}
-      >
-      <ReactQuill
-        theme="snow"
-        value={this.state.text}
-        onChange={this.handleChange}
-        modules={ContractContent.modules}
-        formats={ContractContent.formats}
-        placeholder="Write something..."
-        style={{width: '100%', height: '500px'}}
-        />
-    </Card>
+      <div>
+        <Tabs tabBarExtraContent={operations}>
+          {this.state.tempContractData.map( (record, index) => {
+            return <TabPane tab={'Template ' + (index + 1)} key={index}>
+                      <ContractForm content={record.content} idMongo={record._id} number={index + 1}/>
+                  </TabPane>
+          })}
+        </Tabs>
+        <Modal
+        title="CREATE NEW CONTRACT FORM"
+        style={{ top: 20 }}
+        visible={this.state.showCreateForm}
+        onOk={this.handleOk}
+        onCancel={() => this.handleClickBtnCreate(false)}
+        >
+          <ReactQuill
+            theme="snow"
+            value={this.state.text}
+            onChange={this.handleChange}
+            modules={ContractContent.modules}
+            formats={ContractContent.formats}
+            placeholder="Write something..."
+            style={{width: '100%', height: '500px',marginBottom: '50px'}}
+            />
+        </Modal>
+      </div>
     )
   }
 }

@@ -21,6 +21,9 @@ userActionRoutes.get('/getSongSameSinger', require('./getSongSameSinger'))
 
 userActionRoutes.get('/getRelatedUser', require('./getRelatedUser'))
 
+userActionRoutes.get('/getUserTemplateContract', require('./getUserTemplateContract'))
+
+
 userActionRoutes.post('/createTemplateContract', require('./createTemplateContract'))
 
 userActionRoutes.post('/createContract', require('./createContract'))

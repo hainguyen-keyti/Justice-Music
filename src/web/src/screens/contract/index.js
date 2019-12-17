@@ -5,7 +5,7 @@ import ContractContent from './ContractContent'
 export default class Contract extends Component {
   render () {
     return (
-        <Layout main={<ContractContent idContract={this.props.match.params.idContract}/>} history={this.props.history}/>
+        <Layout main={<ContractContent/>} history={this.props.history}/>
     )
   }
 }

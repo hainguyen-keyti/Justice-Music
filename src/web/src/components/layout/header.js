@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal } from 'antd';
+import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal, Avatar } from 'antd';
 import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading} from '../../utils/common'
@@ -47,14 +47,9 @@ class Header extends Component {
                 <Text>{this.props.userReducer.balanceETH} ETH</Text>
             </Menu.Item>
             <Menu.Divider />
-          <Menu.Item onClick={()=> {
-            this.props.userReducer.user.userName ?
-            this.props.history.push(`/page/${this.props.userReducer.user.userName}`) :
-            this.props.history.push(`/page/${this.props.userReducer.user.addressEthereum}`)
-          }
-          }>
-            <Icon type="user" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
-            <Text>Home Page</Text>
+          <Menu.Item onClick={()=> this.props.history.push('/ContractFormManager')}>
+            <Icon type="solution" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
+            <Text>Contract form manager</Text>
           </Menu.Item>
           <Menu.Item onClick={()=> this.props.history.push('/setting')}>
             <Icon type="setting" style={{ color: '#1da1f2', fontSize: 15, margin: 5}}/>
@@ -98,7 +93,19 @@ class Header extends Component {
                     <Input suffix={<Icon type="search"  className="certain-category-icon" />} />
                 </AutoComplete>
             </div>
-            <div>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <Tooltip placement="topLeft" title="Home Page" arrowPointAtCenter>
+                      <Avatar 
+                      shape='circle'
+                      size={35} 
+                      src={window.$linkIPFS + this.props.userReducer.user.avatar}
+                      onClick={()=> {
+                        this.props.userReducer.user.userName ?
+                        this.props.history.push(`/page/${this.props.userReducer.user.userName}`) :
+                        this.props.history.push(`/page/${this.props.userReducer.user.addressEthereum}`)
+                      }}
+                      />   
+                </Tooltip>
                 <Tooltip placement="topLeft" title="Notification" arrowPointAtCenter>
                     <Badge count={1234}>
                         <Icon type="bell" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />

@@ -1,7 +1,10 @@
 const ethers = require('ethers');
 const config = {
-    api_url: "https://fotra.ml/api",
-    url:"https://fotra.ml/chat",
+    // api_url: "https://fotra.ml/api",
+    // url:"https://fotra.ml/chat",
+
+    api_url: "http://localhost:6969/api",
+    url:"http://localhost:6969/chat",
 
     provider: ethers.getDefaultProvider('kovan'),
     tokenAddress: '0x84C470e05128A2d1FfFF6132801182Aa4CeD9F89',
