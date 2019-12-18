@@ -70,6 +70,8 @@ class ContractContent extends React.Component {
         this.setState({
           text: '',
           showCreateForm: false,
+          tempContractData: [],
+          nameContractForm: '',
         });
         getUserTemplateContract().then(data => {
           this.setState({tempContractData: data})
@@ -101,7 +103,7 @@ class ContractContent extends React.Component {
           })}
         </Tabs>
         <Modal
-        title={<Input style={{width: '400px'}} placeholder="Input name of this contract form" onChange={this.handleChangeName} />}
+        title={<Input value={this.state.nameContractForm} style={{width: '400px'}} placeholder="Input name of this contract form" onChange={this.handleChangeName} />}
         style={{ top: 20 }}
         visible={this.state.showCreateForm}
         onOk={this.handleOk}
