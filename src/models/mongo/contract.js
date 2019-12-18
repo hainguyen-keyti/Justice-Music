@@ -49,6 +49,10 @@ var ContractSchema = mongoose.Schema({
     },
     nameContractForm: {
         type: String,
+    },
+    isExecuteContract: {
+        type: Boolean,
+        default: false,
     }
 });
 

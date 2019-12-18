@@ -45,7 +45,7 @@ class ContractForm extends React.Component {
     }
     else{
       const data = {
-        tempContractID: this.props.idMongo,
+        tempContractID: this.props.idTempContract,
         content: this.state.text,
       }
     console.log(data)

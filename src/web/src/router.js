@@ -27,8 +27,8 @@ const Root = () => (
                 <PrivateRoute path="/message" component={Chat} />
                 <PrivateRoute path="/iso" component={ISO} />
                 <PrivateRoute path="/setting" component={Setting} />
-                <PrivateRoute path="/contract/:idMongo"component={UseContractContent}/>
-                <PrivateRoute path="/mainContract/:idMongo"component={MainContract}/>
+                <PrivateRoute path="/contract/:idTempContract"component={UseContractContent}/>
+                <PrivateRoute path="/mainContract/:idContract"component={MainContract}/>
                 <PrivateRoute path="/contractFormManager"component={ContractContent}/>
                 <PrivateRoute path="/page/:userName" component={Page} />
                 <PrivateRoute path="/song/:idMongo" component={Song} />

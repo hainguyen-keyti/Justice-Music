@@ -37,7 +37,7 @@ class UseContractContent extends React.Component {
     // this.props.getSongByID(this.props.idContract)
     // this.props.getRelatedUser()
     // postViewMusic({idSongMongo: this.props.idContract})
-    getUserTemplateContract(this.props.idMongo).then(data => {
+    getUserTemplateContract(this.props.idTempContract).then(data => {
       this.setState({tempContractData: data})
       console.log(data)
     })
@@ -62,7 +62,7 @@ class UseContractContent extends React.Component {
       const data = {
         content: this.state.text,
         nameContractForm: this.state.nameContractForm,
-        songID: this.props.idMongo
+        songID: this.props.idTempContract
       }
       console.log(data)
       createContract(data).then((result) => {
@@ -92,7 +92,7 @@ class UseContractContent extends React.Component {
           {this.state.tempContractData.map( (record, index) => {
             return (
               <TabPane tab={record.nameContractForm} key={index}>
-                <ContractForm mainContract={true} nameContractForm={record.nameContractForm} songID={this.props.idMongo} content={record.content} idMongo={record._id} date={record.date_updated}/>
+                <ContractForm mainContract={true} nameContractForm={record.nameContractForm} songID={this.props.idTempContract} content={record.content} idTempContract={record._id} date={record.date_updated}/>
               </TabPane>
             )
           })}

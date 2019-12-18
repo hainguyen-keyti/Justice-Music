@@ -5,7 +5,7 @@ import MainContractContent from './MainContractContent';
 export default class MainContract extends Component {
   render () {
     return (
-        <Layout main={<MainContractContent idMongo={this.props.match.params.idMongo}/>} history={this.props.history}/>
+        <Layout main={<MainContractContent idContract={this.props.match.params.idContract}/>} history={this.props.history}/>
     )
   }
 }

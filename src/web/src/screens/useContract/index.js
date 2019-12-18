@@ -5,7 +5,7 @@ import UseContractContent from './UseContractContent'
 export default class UseContract extends Component {
   render () {
     return (
-        <Layout main={<UseContractContent idMongo={this.props.match.params.idMongo}/>} history={this.props.history}/>
+        <Layout main={<UseContractContent idTempContract={this.props.match.params.idTempContract}/>} history={this.props.history}/>
     )
   }
 }

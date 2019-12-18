@@ -444,3 +444,17 @@ export function getUserTemplateContract(data){
 }
 
 
+export function getContract(data){
+  return new Promise((resolve, reject) => {
+    return axios.get(config.api_url+ '/actions/getContract/' + data, {
+      headers: getHeaders()
+    })
+    .then( res => {
+      if (res.data.status === 0)
+        return reject(res.data.error.message)
+      resolve(res.data.result)
+    })
+    .catch(err => reject(err))
+  })
+}
+
