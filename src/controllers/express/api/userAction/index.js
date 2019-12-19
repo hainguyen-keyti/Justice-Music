@@ -31,5 +31,8 @@ userActionRoutes.post('/createTemplateContract', require('./createTemplateContra
 
 userActionRoutes.post('/createContract', require('./createContract'))
 
+userActionRoutes.post('/setApprovedContract', require('./setApprovedContract'))
+
+
 
 module.exports = userActionRoutes;

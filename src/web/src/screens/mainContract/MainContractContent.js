@@ -20,10 +20,11 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import {getContract} from '../../api/userAPI'
+import {getContract, createContract, setApprovedContract, executeContract} from '../../api/userAPI'
 import ComponentLoading from '../../components/loading'
 import IconText from '../../components/icon-text';
 import {formatThousands} from '../../utils/common'
+import NumericInput from '../../components/numericInput'
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
@@ -40,11 +41,17 @@ class extends React.Component {
         costUSD: 23000,
       }
     componentDidMount() {
-    this.props.onRef(this)
+      this.props.onRef(this)
+      this.setState({
+        contractMoney: this.props.contractMoney/this.state.costUSD,
+        OwnerCA: this.props.ownerCompensationAmount/this.state.costUSD,
+        SignerCA: this.props.signerCompensationAmount/this.state.costUSD,
+      })
     }
     componentWillUnmount() {
     this.props.onRef(undefined)
     }
+
     render() {
       const { nameContractForm, contractMoney, ownerCompensationAmount, signerCompensationAmount, isPublic, form } = this.props;
       const { getFieldDecorator } = form;
@@ -62,9 +69,15 @@ class extends React.Component {
             {getFieldDecorator('contractMoney', {
               rules: [{ required: true, message: 'Please input contract money of this song!'}], 
               initialValue: contractMoney, 
-              onChange: (e) => {
-              this.setState({contractMoney: e/this.state.costUSD})
-              }})(<InputNumber placeholder="9.000.000" style={{width: 200}} min={0} />)}
+              onChange: (e) => {this.setState({contractMoney: e/this.state.costUSD})}
+            })(
+                <InputNumber
+                      style={{width: 200}}
+                      min={0}
+                      formatter={value => formatThousands(value)}
+                      maxLength={25}
+                />
+              )}
             <span className="ant-form-text"> HAK</span>
             <span className="ant-form-text">➜   {this.state.contractMoney} USD</span>
           </Form.Item>
@@ -75,7 +88,14 @@ class extends React.Component {
               initialValue: ownerCompensationAmount, 
               onChange: (e) => {
               this.setState({OwnerCA: e/this.state.costUSD})
-              }})(<InputNumber placeholder="6.000.000"  style={{width: 200}} min={0} />)}
+              }})(
+                <InputNumber
+                  style={{width: 200}}
+                  min={0}
+                  formatter={value => formatThousands(value)}
+                  maxLength={25}
+                />
+              )}
             <span className="ant-form-text"> HAK</span>
             <span className="ant-form-text">➜   {this.state.OwnerCA} USD</span>
           </Form.Item>
@@ -86,7 +106,14 @@ class extends React.Component {
               initialValue: signerCompensationAmount, 
               onChange: (e) => {
               this.setState({SignerCA: e/this.state.costUSD})
-              }})(<InputNumber placeholder="10.000.000" style={{width: 200}} min={0} />)}
+              }})(
+                <InputNumber
+                  style={{width: 200}}
+                  min={0}
+                  formatter={value => formatThousands(value)}
+                  maxLength={25}
+                />
+              )}
             <span className="ant-form-text"> HAK</span>
             <span className="ant-form-text">➜   {this.state.SignerCA} USD</span>
           </Form.Item>
@@ -135,17 +162,66 @@ class MainContractContent extends React.Component {
     this.setState({ text: value })
   }
 
+  hanldeExecuteContract = () => {
+    executeContract({idContractMongo: this.props.idContract}).then(() => {
+      this.setState({contract: null, text: ''})
+      getContract(this.props.idContract).then((data) => {
+        console.log(data)
+        this.setState({contract: data, text: data.content})
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      return Modal.success({
+        title: 'Update contract success!',
+      })
+    })
+    .catch(error => {
+      return Modal.error({
+        title: `Error: ${error}`,
+      })
+    })
+  }
+
   hanldeUpdateContract = () => {
     const { form } = this.formRef.props;
     form.validateFields((err, values) => {
+      
       if(err){
         return message.error('please fill out all fields');
       }
-      form.resetFields();
-      this.child.resetUSD();
-      //goi api
+      Object.assign(values, {idContract: this.props.idContract, content: this.state.text})
+      createContract(values).then((result) => {
+        if(this.props.userReducer.user.id === this.state.contract.ownerID._id && this.state.contract.signerApproved){
+          this.setState({contract: {...this.state.contract, signerApproved: false}})
+        }
+        if(this.props.userReducer.user.id === this.state.contract.signerID._id && this.state.contract.ownerApproved){
+          this.setState({contract: {...this.state.contract, ownerApproved: false}})
+        }
+        return Modal.success({
+          title: 'Update contract success!',
+        })
+      })
+      .catch(error => {
+        return Modal.error({
+          title: `Error: ${error}`,
+        });
+      })
     });
   };
+
+  onApproved = (value) => {
+    const data = {
+      approved: value,
+      idContract: this.props.idContract
+    }
+    setApprovedContract(data)
+    .catch(error => {
+      return Modal.error({
+        title: `Error: ${error}`
+      })
+    })
+  }
 
   saveFormRef = formRef => {
     this.formRef = formRef;
@@ -177,12 +253,22 @@ class MainContractContent extends React.Component {
                   <Text type="danger">Owner</Text>
                   <div style={{display: 'flex', justifyContent: 'center', marginTop: 10}}>
                     <Text type="secondary">Approved : </Text>
+                    {this.props.userReducer.user.id === ownerID._id ?
                     <Switch
-                      disabled={this.props.userReducer.user.id === ownerID._id ? false : true }
+                      onChange={value => this.onApproved(value)}
+                      disabled={false}
                       defaultChecked={ownerApproved}
                       checkedChildren={<Icon type="check" />}
                       unCheckedChildren={<Icon type="close" />}
                     />
+                    :
+                    <Switch
+                      disabled={true}
+                      checked={ownerApproved}
+                      checkedChildren={<Icon type="check" />}
+                      unCheckedChildren={<Icon type="close" />}
+                    />
+                    }
                   </div>
                 </div>
               </div>
@@ -206,9 +292,21 @@ class MainContractContent extends React.Component {
               isPublic={isPublic}
             />
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
-              <Button disabled={(signerApproved && ownerApproved && !isExecuteContract) ? false : true} type="danger"> Execute Transaction</Button>
-              <Button disabled={(isExecuteContract) ? true : false} type="primary"> Update Contract</Button>
-              <Button disabled={(signerApproved && ownerApproved && isExecuteContract) ? false : true} type="danger"> Confirm Transaction</Button>
+              <Button 
+                disabled={(signerApproved && ownerApproved && !isExecuteContract) ? false : true} 
+                type="danger"
+                onClick={() => this.hanldeExecuteContract()}
+                > Execute Transaction</Button>
+              <Button 
+                disabled={(isExecuteContract) ? true : false} 
+                type="primary"
+                onClick={() => this.hanldeUpdateContract()}
+                > Update Contract</Button>
+              <Button 
+                disabled={(signerApproved && ownerApproved && isExecuteContract) ? false : true} 
+                type="danger"
+
+                > Confirm Transaction</Button>
             </div>
           </Col>
 
@@ -225,12 +323,22 @@ class MainContractContent extends React.Component {
                   <Text type="warning">Signer</Text>
                   <div style={{display: 'flex', justifyContent: 'center', marginTop: 10}}>
                     <Text type="secondary">Approved : </Text>
+                    {this.props.userReducer.user.id === signerID._id ?
                     <Switch
-                      disabled={this.props.userReducer.user.id === signerID._id ? false : true }
+                      onChange={value => this.onApproved(value)}
+                      disabled={false}
                       defaultChecked={signerApproved}
                       checkedChildren={<Icon type="check" />}
                       unCheckedChildren={<Icon type="close" />}
                     />
+                    :
+                    <Switch
+                      disabled={true}
+                      checked={signerApproved}
+                      checkedChildren={<Icon type="check" />}
+                      unCheckedChildren={<Icon type="close" />}
+                    />
+                    }
                   </div>
                 </div>
               </div>

@@ -53,6 +53,9 @@ var ContractSchema = mongoose.Schema({
     isExecuteContract: {
         type: Boolean,
         default: false,
+    },
+    contentHash: {
+        type: String,
     }
 });
 

@@ -458,3 +458,34 @@ export function getContract(data){
   })
 }
 
+export function setApprovedContract(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/actions/setApprovedContract', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}
+
+export function executeContract(data){
+  return new Promise((resolve, reject)=>{
+      return axios.post(config.api_url+ '/ethereums/executeContract', data, {headers: getHeaders()})
+        .then(res => {
+          if (res.data.status === 0) {
+            console.log(res.data.error.message)
+              return reject(res.data.error.message)
+          }
+          resolve(res.data.result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+  })
+}

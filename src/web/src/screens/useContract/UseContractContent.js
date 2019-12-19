@@ -71,10 +71,15 @@ class UseContractContent extends React.Component {
           text: '',
           showCreateForm: false,
         });
-        this.props.history.push('/home')
+        this.props.history.push('/mainContract/' + result.idContract)
         return Modal.success({
-          title: 'Update Success!',
+          title: 'Create new contract to this song success!',
         })
+      })
+      .catch(error => {
+        return Modal.error({
+          title: `Error: ${error}`,
+        });
       })
     }
     else{

@@ -30,15 +30,15 @@ class ContractForm extends React.Component {
     console.log(data)
       createContract(data).then((result) => {
         console.log(result)
-        this.props.history.push('/home')
+        this.props.history.push('/mainContract/' + result.idContract)
         return Modal.success({
-          content: 'Create a contract to owner success!',
+          content: 'Create a contract to this song success!',
         })
       })
       .catch (error => {
         this.setState({text: this.props.content})
         return Modal.error({
-          title: 'Create a contract to owner failed!',
+          title: 'Create a contract to this song failed!',
           content: error,
         });
       })

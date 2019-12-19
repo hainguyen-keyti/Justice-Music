@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
         }
 
         const contractInfo = await Contract.findById(req.body.idContractMongo)
-        .lean()
         .select('songID _id content contractMoney ownerID ownerCompensationAmount signerID signerCompensationAmount timeExpired ownerApproved signerApproved')
         .populate('ownerID', ['addressEthereum'])
         .populate('signerID', ['addressEthereum'])
@@ -51,6 +50,8 @@ module.exports = async (req, res) => {
         if(!transaction){
             return Promise.reject("Fail to execute transaction")
         }
+        Object.assign(contractInfo, {contentHash, isExecuteContract: true})
+        contractInfo.save()
         return response_express.success(res, transaction.hash)
 
     } catch (error) {
