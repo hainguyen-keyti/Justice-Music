@@ -6,7 +6,6 @@ const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => { 
     try {
-        console.log(req.query.idMongo)
         if(req.query.idMongo === undefined){
             const music = await Music.findById(req.query.idMongo)
             .lean()

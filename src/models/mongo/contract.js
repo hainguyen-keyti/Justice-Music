@@ -36,12 +36,19 @@ var ContractSchema = mongoose.Schema({
         type: String,
         require: true,
     },
+    whoExecuted: {
+        type: String,
+    },
     isPublic: {
         type: Boolean,
-        default: true,
+        default: false,
     },
     timeExpired: {
-        type: Number
+        type: Number,
+    },
+    timeAmount: {
+        type: Number,
+        default: 2629743 //30days
     },
     isCancel: {
         type: Boolean,
@@ -51,6 +58,10 @@ var ContractSchema = mongoose.Schema({
         type: String,
     },
     isExecuteContract: {
+        type: Boolean,
+        default: false,
+    },
+    isConfirmContract: {
         type: Boolean,
         default: false,
     },

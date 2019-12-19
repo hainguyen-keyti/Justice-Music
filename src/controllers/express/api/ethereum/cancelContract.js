@@ -14,6 +14,13 @@ module.exports = async (req, res) => {
             console.log("Miss param at execute contract");
             return;
         }
+
+        const contractInfo = await Contract.findById(req.body.idContractMongo)
+        .select('ownerID signerID')
+
+        if(!(req.token_info._id === contractInfo.ownerID.toString() || req.token_info._id === contractInfo.signerID.toString())){
+            return Promise.reject("You can not execute this transaction!")
+        }
         const user = await User.findById(req.token_info._id)
         .lean()
         .select('privateKey')
@@ -26,6 +33,9 @@ module.exports = async (req, res) => {
         if(!transaction){
             return Promise.reject("Fail to execute transaction")
         }
+
+        Object.assign(contractInfo, {isCancel: true})
+        contractInfo.save()
         return response_express.success(res, transaction.hash)
 
     } catch (error) {

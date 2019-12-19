@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal, Avatar } from 'antd';
 import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
-import {showNotificationTransaction, showNotificationLoading} from '../../utils/common'
+import {showNotificationTransaction, showNotificationLoading, formatThousands} from '../../utils/common'
 import { connect} from 'react-redux'
-import { getBalance } from '../../actions/user'
+import { getBalance } from '../../actions/user' 
 
 const { Text } = Typography;
 class Header extends Component {
@@ -40,7 +40,7 @@ class Header extends Component {
         <Menu>
             <Menu.Item onClick={()=> this.props.history.push('/HAK')}>
                 <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />
-                <Text>{this.props.userReducer.user.HAK} HAK</Text>
+                <Text>{formatThousands(this.props.userReducer.user.HAK)} HAK</Text>
             </Menu.Item>
             <Menu.Item onClick={()=> this.props.history.push('/ETH')}>
                 <Icon type="dollar" style={{ color: '#1da1f2', fontSize: 15, margin: 5}} />

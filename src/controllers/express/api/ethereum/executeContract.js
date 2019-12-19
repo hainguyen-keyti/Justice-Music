@@ -16,11 +16,13 @@ module.exports = async (req, res) => {
         }
 
         const contractInfo = await Contract.findById(req.body.idContractMongo)
-        .select('songID _id content contractMoney ownerID ownerCompensationAmount signerID signerCompensationAmount timeExpired ownerApproved signerApproved')
+        .select('songID _id content contractMoney ownerID ownerCompensationAmount signerID signerCompensationAmount timeAmount ownerApproved signerApproved')
         .populate('ownerID', ['addressEthereum'])
         .populate('signerID', ['addressEthereum'])
         .populate('songID', ['idSolidity', 'hash'])
-
+        if(!(req.token_info._id === contractInfo.ownerID._id.toString() || req.token_info._id === contractInfo.signerID._id.toString())){
+            return Promise.reject("You can not execute this transaction!")
+        }
         if(!(contractInfo.ownerApproved && contractInfo.signerApproved)){
             return Promise.reject("Error. Both of them must be Approve!")
         }
@@ -32,7 +34,7 @@ module.exports = async (req, res) => {
         if(!user){
             return response_express.exception(res, "User not exist!")
         }
-        const _timeExpired = moment().unix() + contractInfo.timeExpired;
+        const _timeExpired = moment().unix() + contractInfo.timeAmount;
         let wallet = new ethers.Wallet(user.privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
         const transaction = await contractWithSigner.createContract(
@@ -50,7 +52,7 @@ module.exports = async (req, res) => {
         if(!transaction){
             return Promise.reject("Fail to execute transaction")
         }
-        Object.assign(contractInfo, {contentHash, isExecuteContract: true})
+        Object.assign(contractInfo, {contentHash, isExecuteContract: true, timeExpired: _timeExpired, whoExecuted: req.token_info._id})
         contractInfo.save()
         return response_express.success(res, transaction.hash)
 

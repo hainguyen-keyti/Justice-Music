@@ -20,11 +20,11 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // ES6
-import {getContract, createContract, setApprovedContract, executeContract} from '../../api/userAPI'
+import {getContract, createContract, setApprovedContract, executeContract, setApprove, cancelContract} from '../../api/userAPI'
 import ComponentLoading from '../../components/loading'
 import IconText from '../../components/icon-text';
-import {formatThousands} from '../../utils/common'
-import NumericInput from '../../components/numericInput'
+import {formatThousands, estimatedTime} from '../../utils/common'
+import {showNotificationTransaction, showNotificationLoading, showNotificationFail} from '../../utils/common'
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
@@ -39,6 +39,7 @@ class extends React.Component {
         OwnerCA: 0,
         SignerCA: 0,
         costUSD: 23000,
+        estimatedTime: '',
       }
     componentDidMount() {
       this.props.onRef(this)
@@ -46,6 +47,7 @@ class extends React.Component {
         contractMoney: this.props.contractMoney/this.state.costUSD,
         OwnerCA: this.props.ownerCompensationAmount/this.state.costUSD,
         SignerCA: this.props.signerCompensationAmount/this.state.costUSD,
+        estimatedTime:  estimatedTime(this.props.timeAmount),
       })
     }
     componentWillUnmount() {
@@ -53,7 +55,7 @@ class extends React.Component {
     }
 
     render() {
-      const { nameContractForm, contractMoney, ownerCompensationAmount, signerCompensationAmount, isPublic, form } = this.props;
+      const { nameContractForm, contractMoney, ownerCompensationAmount, signerCompensationAmount, isPublic, timeAmount, form } = this.props;
       const { getFieldDecorator } = form;
       return (
         <Form layout="vertical">
@@ -118,6 +120,22 @@ class extends React.Component {
             <span className="ant-form-text">➜   {this.state.SignerCA} USD</span>
           </Form.Item>
 
+          <Form.Item label="Time Amount">
+            {getFieldDecorator('timeAmount', {
+              rules: [{ required: true, message: 'Please input Time Amount!'}], 
+              initialValue: timeAmount, 
+              onChange: (e) => {
+              this.setState({estimatedTime: estimatedTime(e)})
+              }})(
+                <InputNumber
+                  style={{width: 200}}
+                  min={0}
+                  maxLength={15}
+                />
+              )}
+            <span className="ant-form-text">➜   {this.state.estimatedTime}</span>
+          </Form.Item>
+
           <Form.Item label="Public Permission">
             {getFieldDecorator('isPublic', {
               rules: [{ required: true, message: 'Please choose this field!'}], 
@@ -163,7 +181,51 @@ class MainContractContent extends React.Component {
   }
 
   hanldeExecuteContract = () => {
-    executeContract({idContractMongo: this.props.idContract}).then(() => {
+    showNotificationLoading("Executing to Ethereum ...")
+    executeContract({idContractMongo: this.props.idContract}).then((result) => {
+      showNotificationTransaction(result);
+      this.setState({contract: null, text: ''})
+      getContract(this.props.idContract).then((data) => {
+        console.log(data)
+        this.setState({contract: data, text: data.content})
+      })
+      return Modal.success({
+        title: 'Update contract success!',
+      })
+    })
+    .catch(error => {
+      showNotificationFail('Can not execute transaction, Please try again!')
+      return Modal.error({
+        title: `Error: ${error}`,
+      })
+    })
+  }
+
+  hanldeCancelContract = () => {
+    showNotificationLoading("Executing to Ethereum ...")
+    cancelContract({idContractMongo: this.props.idContract}).then((result) => {
+      showNotificationTransaction(result);
+      this.setState({contract: null, text: ''})
+      getContract(this.props.idContract).then((data) => {
+        console.log(data)
+        this.setState({contract: data, text: data.content})
+      })
+      return Modal.success({
+        title: 'Update contract success!',
+      })
+    })
+    .catch(error => {
+      showNotificationFail('Can not execute transaction, Please try again!')
+      return Modal.error({
+        title: `Error: ${error}`,
+      })
+    })
+  }
+
+  hanldeApproveContract = () => {
+    showNotificationLoading("Executing to Ethereum ...")
+    setApprove({idContractMongo: this.props.idContract}).then((result) => {
+      showNotificationTransaction(result);
       this.setState({contract: null, text: ''})
       getContract(this.props.idContract).then((data) => {
         console.log(data)
@@ -173,10 +235,11 @@ class MainContractContent extends React.Component {
         console.log(error)
       })
       return Modal.success({
-        title: 'Update contract success!',
+        title: 'Confirm contract success!',
       })
     })
     .catch(error => {
+      showNotificationFail(`Can not execute transaction, Please try again!  ${error}`)
       return Modal.error({
         title: `Error: ${error}`,
       })
@@ -184,6 +247,7 @@ class MainContractContent extends React.Component {
   }
 
   hanldeUpdateContract = () => {
+
     const { form } = this.formRef.props;
     form.validateFields((err, values) => {
       
@@ -192,17 +256,18 @@ class MainContractContent extends React.Component {
       }
       Object.assign(values, {idContract: this.props.idContract, content: this.state.text})
       createContract(values).then((result) => {
-        if(this.props.userReducer.user.id === this.state.contract.ownerID._id && this.state.contract.signerApproved){
-          this.setState({contract: {...this.state.contract, signerApproved: false}})
-        }
-        if(this.props.userReducer.user.id === this.state.contract.signerID._id && this.state.contract.ownerApproved){
-          this.setState({contract: {...this.state.contract, ownerApproved: false}})
-        }
+        this.setState({contract: null, text: ''})
+        getContract(this.props.idContract).then((data) => {
+          console.log(data)
+          this.setState({contract: data, text: data.content})
+        })
+        
         return Modal.success({
           title: 'Update contract success!',
         })
       })
       .catch(error => {
+
         return Modal.error({
           title: `Error: ${error}`,
         });
@@ -231,12 +296,41 @@ class MainContractContent extends React.Component {
     if(!this.state.contract){
       return <ComponentLoading />
     }
-    const {songID, isExecuteContract, ownerID, ownerFollow, ownerApproved, signerID, signerApproved, signerFollow, nameContractForm, contractMoney, ownerCompensationAmount, signerCompensationAmount, isPublic } = this.state.contract
+    const {
+      songID,
+      timeAmount, 
+      isExecuteContract, 
+      ownerID, 
+      ownerFollow, 
+      ownerApproved, 
+      signerID, 
+      signerApproved, 
+      signerFollow, 
+      nameContractForm, 
+      contractMoney, 
+      ownerCompensationAmount, 
+      signerCompensationAmount, 
+      isPublic,
+      whoExecuted,
+      isConfirmContract,
+      isCancel
+    } = this.state.contract
+
+    const isConfirmBtn = () => {
+      if(isConfirmContract){
+        return true
+      }
+      if(isExecuteContract && this.props.userReducer.user.id !== whoExecuted ) {
+        return false
+      }
+      return true
+    }
+
     return (
       <div style={{}}>
 
         <Row  style={{display: 'flex', justifyContent: 'center', padding: 5, margin: 5}}>
-          <Title level={4}>{songID.name}</Title>
+          <Title level={4}>{songID.name} {isCancel ? '(Canceled)' : null }</Title>
         </Row>
 
         <Row gutter={[32, 32]}>
@@ -290,6 +384,7 @@ class MainContractContent extends React.Component {
               ownerCompensationAmount={ownerCompensationAmount}
               signerCompensationAmount={signerCompensationAmount}
               isPublic={isPublic}
+              timeAmount={timeAmount}
             />
             <div style={{display: 'flex', justifyContent: 'space-around'}}>
               <Button 
@@ -297,15 +392,23 @@ class MainContractContent extends React.Component {
                 type="danger"
                 onClick={() => this.hanldeExecuteContract()}
                 > Execute Transaction</Button>
+                {!isConfirmContract ?
+                <Button 
+                  disabled={(isExecuteContract) ? true : false} 
+                  type="primary"
+                  onClick={() => this.hanldeUpdateContract()}
+                > Update Contract</Button> 
+                  :
+                <Button 
+                  disabled={isCancel ? true : false} 
+                  type="danger"
+                  onClick={() => this.hanldeCancelContract()}
+                > Cancel Contract</Button>
+              }
               <Button 
-                disabled={(isExecuteContract) ? true : false} 
-                type="primary"
-                onClick={() => this.hanldeUpdateContract()}
-                > Update Contract</Button>
-              <Button 
-                disabled={(signerApproved && ownerApproved && isExecuteContract) ? false : true} 
+                disabled={isConfirmBtn()}
                 type="danger"
-
+                onClick={() => this.hanldeApproveContract()}
                 > Confirm Transaction</Button>
             </div>
           </Col>
@@ -357,7 +460,7 @@ class MainContractContent extends React.Component {
               modules={MainContractContent.modules}
               formats={MainContractContent.formats}
               placeholder="Write something..."
-              style={{width: '100%', height: '1000px',marginBottom: '50px'}}
+              style={{width: '100%', height: '1000px',marginBottom: '50px', marginTop: '50px'}}
               />
         </Row>
       </div>
