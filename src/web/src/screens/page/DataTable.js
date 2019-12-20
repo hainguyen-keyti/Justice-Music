@@ -87,7 +87,7 @@ class DataTable extends React.Component {
               <Divider type="vertical" style={{height: '30px'}}/>
               
               <Tooltip title="Get a contract" placement="top"> 
-                <Button type="primary" shape="circle" icon="solution" ghost onClick={()=> this.props.history.push(`${(record.music.userUpload == this.props.userReducer.user.id) ? '/contractFormManager' : `/contract/${record.music._id}` }`)}/>
+                <Button type="primary" shape="circle" icon="solution" ghost onClick={()=> this.props.history.push(`${(record.music.userUpload == this.props.userReducer.user.id) ? '/contractFormManager' : `/tempContract/${record.music._id}` }`)}/>
               </Tooltip>
 
               <Divider type="vertical" style={{height: '30px'}}/>

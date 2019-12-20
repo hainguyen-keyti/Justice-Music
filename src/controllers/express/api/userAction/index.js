@@ -25,6 +25,9 @@ userActionRoutes.get('/getUserTemplateContract', require('./getUserTemplateContr
 
 userActionRoutes.get('/getContract/:idContract', require('./getContract'))
 
+userActionRoutes.get('/getUserContract', require('./getUserContract'))
+
+
 
 
 userActionRoutes.post('/createTemplateContract', require('./createTemplateContract'))

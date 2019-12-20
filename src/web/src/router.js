@@ -15,6 +15,7 @@ import PrivateRoute from './components/PrivateRoute'
 import ContractContent from './screens/contract'
 import UseContractContent from './screens/useContract'
 import MainContract from './screens/mainContract'
+import UserContractInfo from './screens/userContractInfo'
 
 const Root = () => (
     <Router>
@@ -27,9 +28,10 @@ const Root = () => (
                 <PrivateRoute path="/message" component={Chat} />
                 <PrivateRoute path="/iso" component={ISO} />
                 <PrivateRoute path="/setting" component={Setting} />
-                <PrivateRoute path="/contract/:idTempContract"component={UseContractContent}/>
-                <PrivateRoute path="/mainContract/:idContract"component={MainContract}/>
                 <PrivateRoute path="/contractFormManager"component={ContractContent}/>
+                <PrivateRoute path="/contract"component={UserContractInfo}/>
+                <PrivateRoute path="/tempContract/:idTempContract"component={UseContractContent}/>
+                <PrivateRoute path="/mainContract/:idContract"component={MainContract}/>
                 <PrivateRoute path="/page/:userName" component={Page} />
                 <PrivateRoute path="/song/:idMongo" component={Song} />
                 <PrivateRoute component={Component404} />

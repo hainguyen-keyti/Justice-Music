@@ -16,13 +16,13 @@ const { Meta } = Card;
 
 class MusicCard extends React.Component {
   render() {
-    const {songInfo} = this.props
+    const {songInfo, contract} = this.props
     return (
       <Tooltip title={songInfo.view + ' view song'} placement="top">
         <Card
           hoverable
           size="small"
-          cover={<img onClick={() => this.props.history.push(`/song/${songInfo._id}`)} className="img-background-music" alt="music background" src={window.$linkIPFS + songInfo.image}/>}
+          cover={<img onClick={() => this.props.history.push(contract ? `/mainContract/${contract}` : `/song/${ songInfo._id}`)} className="img-background-music" alt="music background" src={window.$linkIPFS + songInfo.image}/>}
           bodyStyle={{padding: '10px'}}
           bordered={false}
         >

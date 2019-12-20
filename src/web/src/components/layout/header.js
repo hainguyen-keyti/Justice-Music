@@ -71,7 +71,7 @@ class Header extends Component {
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center' , width: 1100}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <Tooltip placement="topLeft" title="Justice music" arrowPointAtCenter>
-                    <img src={logo} onClick={()=> this.props.history.push('/home')} alt="Justice music" style={{ width: "35px", height: "30px"}} />
+                    <img src={logo} onClick={()=> this.props.history.push('/home')} alt="Justice music" style={{ width: "40px", height: "40px"}} />
                     {/* <Text strong style={{fontSize: 20}}>Justice Music</Text> */}
                 </Tooltip>
             </div>
@@ -81,7 +81,7 @@ class Header extends Component {
                 <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/iso')} >ISO</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} >RANKING</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} >EVENTS</Button>
-                <Button ghost style={{color: '#424242', marginLeft: 5}} >CONTRACTS</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/contract')} >CONTRACTS</Button>
                 <AutoComplete
                     style={{ width: 200 }}
                     dataSource={dataSource}

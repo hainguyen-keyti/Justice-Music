@@ -56,12 +56,12 @@ var userSchema = mongoose.Schema({
     avatar: {
         type: String,
         trim: true,
-        default: "QmNNb8tD5ofB9hUwrfMg6qWejz9XACByWN3EvSw1rrs6cV"
+        default: "QmYkHh3Q7sRYWnY4sGo2Q2C3UGPgqdGn8fPcFz4ouLT8KL"
     },
     coverPhoto: {
         type: String,
         trim: true,
-        default: "QmRyc4pEvpETmyN6hZ9DGSCDQGkTEWgjfuSseLjQbt6NhE"
+        default: "QmVQYPAWpvPKrvhqREYJeTc4FgXL3Q6BpBUvNb4sMWw5uM"
     },
     birthday: {
         type: Date,
