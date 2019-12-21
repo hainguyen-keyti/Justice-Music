@@ -164,7 +164,7 @@ class RegistrationForm extends React.Component {
           }
         >
           {getFieldDecorator('nickName', {
-            rules: [{ required: true, message: 'Your input is not valid.', pattern: /^\S{8,16}$/ }],
+            rules: [{ required: true, message: 'Your input is not valid.'}],
           })(<Input />)}
         </Form.Item>
 

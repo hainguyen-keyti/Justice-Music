@@ -44,26 +44,26 @@ export function showNotificationFail(errorMessage){
 }
 
 export function showNotificationTransaction(txHash){
-    config.provider.waitForTransaction(txHash)
-    .then(() => {
-        notification.success({
-            key,
-            message: "Sucess Transaction",
-            description: "Transaction has been successful",
-            duration: 0,
-            placement: "bottomLeft",
-            style: {width: 350}
-        });
-    })
-    .catch((err) => {
-        notification.error({
+  config.provider.waitForTransaction(txHash)
+  .then(() => {
+      notification.success({
           key,
-          message: "Error Transaction",
-          description: "This is error message: " + err,
+          message: "Sucess Transaction",
+          description: "Transaction has been successful",
           duration: 0,
-          placement: "bottomLeft"
-        });
-    })
+          placement: "bottomLeft",
+          style: {width: 350}
+      });
+  })
+  .catch((err) => {
+      notification.error({
+        key,
+        message: "Error Transaction",
+        description: "This is error message: " + err,
+        duration: 0,
+        placement: "bottomLeft"
+      });
+  })
 }
 
 export function formatThousands(n, dp) {

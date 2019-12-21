@@ -10,7 +10,7 @@ const { Text } = Typography;
 class Header extends Component {
     state = { 
         visible: false,
-        amountFaucet: 25000,
+        amountFaucet: 5000000,
      };
     onClickLogOut = () => {
         this.props.logOut();
@@ -135,15 +135,26 @@ class Header extends Component {
             >
             <InputNumber
                 defaultValue={amountFaucet}
-                min={1000}
-                max={1000000}
-                style={{width: 150}}
+                min={1000000}
+                max={10000000}
+                style={{width: 150, marginBottom: 20,marginRight: 10}}
                 formatter={value =>
                 `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
                 parser={value => value.replace(/\$\s?|(,*)/g, "")}
                 onChange={e => {this.setState({ amountFaucet: e })}}
             />
+            <span className="ant-form-text"> HAK</span>
+            <InputNumber
+                style={{marginRight: 10}} 
+                disabled 
+                defaultValue={0.1}
+                formatter={value =>
+                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                 />
+            <span className="ant-form-text"> ETH</span>
         </Modal>
       </div>
     )

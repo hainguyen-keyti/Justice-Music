@@ -240,11 +240,17 @@ class UploadModal extends React.Component {
       config.provider.waitForTransaction(txHash)
       .then(()=>{
         this.props.getUserUpload(this.props.userReducer.user.addressEthereum)
+        return Modal.success({
+          title: 'Update contract success!',
+        })
       })
     })
     .catch((error) => {
-      showNotificationFail(error)
-    })  
+      showNotificationFail("Please check your balance and upload again!")
+      return Modal.error({
+        title: `Error: "Please check your balance and upload again!"`,
+      })
+    })
   }
   render() {
     return (

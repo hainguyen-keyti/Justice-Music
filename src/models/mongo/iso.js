@@ -12,6 +12,7 @@ var ISOSchema = mongoose.Schema({
     image: {
         type: String,
         trim: true,
+        default: "QmYkHh3Q7sRYWnY4sGo2Q2C3UGPgqdGn8fPcFz4ouLT8KL"
     },
     view: {
         type: Number,

@@ -20,7 +20,7 @@ var main_config = {
             tokenAddress: '0x84C470e05128A2d1FfFF6132801182Aa4CeD9F89',
             tokenABI: abi.tokenABI,
 
-            fileStorageAddress: '0xe03BC7B857058ac4477549FEc6628b40B2968A8a',
+            fileStorageAddress: '0x638A7856D2F54f22587FdDc4f1c289680BaA527C',
             fileStorageABI: abi.fileStorageABI,
 
             rankingAddress: '0xd5510C35DA1F17E921B58869C45631753055C0c5',
