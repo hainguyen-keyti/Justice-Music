@@ -1,10 +1,10 @@
 const ethers = require('ethers');
 const config = {
-    api_url: "https://jumu.tk/api",
-    url:"https://jumu.tk/chat",
+    // api_url: "https://jumu.tk/api",
+    // url:"https://jumu.tk/chat",
 
-    // api_url: "http://localhost:6969/api",
-    // url:"http://localhost:6969/chat",
+    api_url: "http://localhost:6969/api",
+    url:"http://localhost:6969/chat",
 
     provider: ethers.getDefaultProvider('kovan'),
     tokenAddress: '0x84C470e05128A2d1FfFF6132801182Aa4CeD9F89',
