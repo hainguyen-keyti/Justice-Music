@@ -55,7 +55,7 @@ class PageContent extends Component {
             <Col span={6}>
               <div className="logo-name">
                 <div style={{padding: '15px'}}>
-                  <Avatar size={160} src={window.$linkIPFS + avatar} alt="Avatar photo"/>
+                  <Avatar style={{  boxShadow: '0 0 60px 2px #f29f99'}} size={160} src={window.$linkIPFS + avatar} alt="Avatar photo"/>
                 </div>
                 <div>
                   <Title level={4}>{nickName}</Title>

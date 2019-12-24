@@ -107,17 +107,17 @@ class Header extends Component {
                       />   
                 </Tooltip>
                 <Tooltip placement="topLeft" title="Notification" arrowPointAtCenter>
-                    <Badge count={1234}>
+                    <Badge count={0}>
                         <Icon type="bell" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
                     </Badge>
                 </Tooltip>
                 <Tooltip placement="topLeft" title="Message" arrowPointAtCenter>
-                    <Badge count={20}>
+                    <Badge count={0}>
                         <Icon type="message" onClick={()=> this.props.history.push('/message')} style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
                     </Badge>
                 </Tooltip>
                 <Tooltip placement="topLeft" title="Contract" arrowPointAtCenter>
-                    <Badge count={5}>
+                    <Badge count={0}>
                         <Icon type="profile" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
                     </Badge>
                 </Tooltip>

@@ -11,17 +11,27 @@ module.exports = async (req, res) => {
     console.log(ethers.utils.parseEther('0.1'))
     contractWithSigner.transfer(req.body.address, req.body.amount)
     .then(async tx => {
-        if(!tx)
+        console.log(tx.hash)
+        if(!tx){
             return Promise.reject("Fail to execute transaction");
+        }
+        config.provider.waitForTransaction(tx.hash).then( async(receipt) => {
+
+        console.log(receipt);
+
         let transaction = {
             to: req.body.address,
-            value: ethers.utils.parseEther('1.0')
+            value: ethers.utils.parseEther('0.1')
         };
         const temp = await wallet.sendTransaction(transaction)
         console.log(temp)
         if(temp){
-            return response_express.success(res, tx.hash)
+            return response_express.success(res, temp.hash)
         }
+        });
     })
-    .catch(err => response_express.exception(res, err));
+    .catch(err => {
+        console.log(err)
+        response_express.exception(res, err)
+    });
 }

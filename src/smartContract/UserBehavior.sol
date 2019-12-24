@@ -135,7 +135,7 @@ contract UserBehavior is FileStruct, Ownable{
       return tempISO;
     }
     
-    
+    // User co the tao duoc nhieu lan, nen la ham nay nen for kiem la id do ha co execute hay chua
     function createContract(
         uint _idFile,
         string memory _idContractMongo,
