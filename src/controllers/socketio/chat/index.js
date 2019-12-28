@@ -1,6 +1,7 @@
 const config = require('../../../config');
 const Chat = require(config.models_dir + '/mongo/chat');
 const User = require(config.models_dir + '/mongo/user');
+const History = require(config.models_dir + '/mongo/history');
 const response_socketio = require(config.library_dir + '/response').response_socketio;
 
 module.exports = (io) => {
@@ -139,5 +140,13 @@ module.exports = (io) => {
             .catch(err => response_socketio(socket, err))
             console.log(decoded_token.email + " has been disconnected ")
         });
+
+        socket.on('notification_seen', data => {
+            History.findById(data.id).then( history => {
+                history.isSeen = true;
+                history.save();
+            })
+            .catch(err => response_socketio(socket, err))
+        })
     })
 }

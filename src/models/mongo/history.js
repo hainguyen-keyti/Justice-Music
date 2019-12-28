@@ -15,7 +15,11 @@ var HistorySchema = mongoose.Schema({
         ref: 'Music',
         require: true,
     },
-    content: {
+    contentSender: {
+        type: String,
+        require: true,
+    },
+    contentReceiver: {
         type: String,
         require: true,
     },

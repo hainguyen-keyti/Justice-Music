@@ -1,24 +1,26 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client'
 import config from '../../config'
-import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal, Avatar } from 'antd';
+import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal, Avatar, Result } from 'antd';
 import logo from '../../images/logo.png'
-import {getFaucet} from '../../api/userAPI'
+import {getFaucet, getNotification} from '../../api/userAPI'
 import {showNotificationTransaction, showNotificationLoading, formatThousands} from '../../utils/common'
 import { connect} from 'react-redux'
 import { getBalance } from '../../actions/user' 
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 class Header extends Component {
     state = { 
         visible: false,
         amountFaucet: 5000000,
-     };
+        notificationData: [],
+        notificationCount: 0
+    };
     onClickLogOut = () => {
         this.props.logOut();
         localStorage.clear();
         this.props.history.push('/login')
-      }
+    }
     handleOk = () => {
       this.setState({visible: false});
       showNotificationLoading("Faucet HAK loading ...")
@@ -33,18 +35,43 @@ class Header extends Component {
     };
     componentDidMount = () => {
         this.props.getBalance(this.props.userReducer.user.addressEthereum)
-        let token = this.props.userReducer.user.accessToken
+        if(this.state.notificationData.length === 0){
+          getNotification().then(result => {
+            this.setState({
+              notificationData: result.data,
+              notificationCount: result.countFalse
+            })
+          })
+        }
     }
+    handleClickSeen = (id, index) => {
+      window.$socket.emit('notification_seen', {id})
+      if(!this.state.notificationData[index].isSeen){
+        const temp = this.state.notificationData
+        temp[index].isSeen = true
+        this.setState({
+          notificationData: temp,
+          notificationCount: this.state.notificationCount - 1
+        })
+      }
+    }
+
     componentWillMount = () => {
       const token = this.props.userReducer.user.accessToken
       if(!window.$socket){
         console.log("hihihihihihihihihihihihihihihihihihihihihihihihihih")
         window.$socket = io(config.url + '/chat', {'query':{'token':token}});
       }
-  
-      window.$socket.on('download notification', data => {
+
+      window.$socket.on('notification', data => {
+        const temp = this.state.notificationData;
+        temp.unshift(data);
+        this.setState({
+          notificationCount: this.state.notificationCount + 1,
+          notificationData: temp,
+        })
+        // this.setState({notificationData: this.state.notificationData.push(data)})
         // alert('socket notification' + data);
-        // console.log("leuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
       })
   
       // this.socket.on('chat message', data => {
@@ -88,8 +115,24 @@ class Header extends Component {
     }
 
   render () {
-    const { visible, amountFaucet } = this.state
+    const { visible, amountFaucet, notificationCount, notificationData } = this.state
     const dataSource = ['Burns Bay Road', 'Downing Street', 'Wall Street'];
+    let menuNotification = (
+      <Menu>
+        {notificationData.map((record, index) => 
+            this.props.userReducer.user.id === record.senderID.toString() ? 
+              <Menu.Item style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
+                <Icon type="bell" style={{ color: '#1da1f2', fontSize: 15}} />
+                <Paragraph style={{marginLeft: 10, margin: 5}} ellipsis={{ rows: 4}}>{record.contentSender}</Paragraph>
+             </Menu.Item>
+            :
+            <Menu.Item style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
+              <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15}} />
+              <Paragraph style={{marginLeft: 10, margin: 5}} ellipsis={{ rows: 4}}>{record.contentReceiver}</Paragraph>
+          </Menu.Item>
+          )}
+      </Menu>
+    )
     const menu = (
         <Menu>
             <Menu.Item onClick={()=> this.props.history.push('/HAK')}>
@@ -161,9 +204,11 @@ class Header extends Component {
                       />   
                 </Tooltip>
                 <Tooltip placement="topLeft" title="Notification" arrowPointAtCenter>
-                    <Badge count={0}>
+                  <Dropdown placement="bottomCenter" trigger={['click']} overlay={menuNotification} overlayStyle={{width:500 }}>
+                    <Badge count={notificationCount}>
                         <Icon type="bell" style={{ color: '#1da1f2', fontSize: 25, paddingLeft: 17 }} />
                     </Badge>
+                  </Dropdown>
                 </Tooltip>
                 <Tooltip placement="topLeft" title="Message" arrowPointAtCenter>
                     <Badge count={0}>

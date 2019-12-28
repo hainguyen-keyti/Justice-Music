@@ -27,6 +27,8 @@ userActionRoutes.get('/getContract/:idContract', require('./getContract'))
 
 userActionRoutes.get('/getUserContract', require('./getUserContract'))
 
+userActionRoutes.get('/getNotification', require('./getNotification'))
+
 
 
 

@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
         }
         const userData = await User.findById(req.token_info._id)
         .lean()
-        .select('privateKey socketID')
+        .select('privateKey socketID nickName')
         if(!userData){
             return response_express.exception(res, "User not exist!")
         }
@@ -30,23 +30,28 @@ module.exports = async (req, res) => {
             return response_express.exception(res, "Receipt not exist!");
         }
         response_express.success(res, receipt.transactionHash)
-        console.log(userData.socketID)
         const songData = await Music.findOne({idSolidity: req.body._idFile})
         .lean()
-        .select('userUpload')
+        .select('userUpload name')
+        .populate('userUpload', ['socketID', 'nickName'])
         if(!songData){
             return response_express.exception(res, "Song not exist!");
         }
+        const cost = parseInt(receipt.logs[0].data, 16); 
         const historyData = {
             senderID: req.token_info._id,
-            receiverID: songData.userUpload,
+            receiverID: songData.userUpload._id,
             songID: songData._id,
-            content: "Legally registered use of a musical work",
+            contentSender: `Đăng ký tác quyền bài \"${songData.name}\" của \"${songData.userUpload.nickName}\" bị trừ ${cost} HAK`,
+            contentReceiver: `\"${userData.nickName}\" đã đăng ký tác quyền bài \"${songData.name}\" được cộng ${cost} HAK`,
             type: 2,
-            money: parseInt(receipt.logs[0].data, 16),
+            money: cost
         }
         const newHistory = await History.create(historyData)
-        socket.to(userData.socketID).emit('download notification', newHistory);
+        console.log(userData.socketID)
+        console.log(songData.userUpload.socketID)
+        socket.emit('notification', newHistory);
+        socket.to(songData.userUpload.socketID).emit('notification', newHistory);
     } catch (error) {
         return response_express.exception(res, "Another Error " + error)
     }
