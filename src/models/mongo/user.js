@@ -85,6 +85,7 @@ var userSchema = mongoose.Schema({
     socketID: {
         type: String,
         trim: true,
+        default: ''
     },
     refreshToken: {
         type: String,

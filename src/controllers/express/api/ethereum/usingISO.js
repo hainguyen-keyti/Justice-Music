@@ -2,7 +2,6 @@ const ethers = require('ethers');
 const config = require('../../../../config');
 const response_express = require(config.library_dir + '/response').response_express;
 const User = require(config.models_dir + '/mongo/user');
-// const ISO = require(config.models_dir + '/mongo/iso');
 const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => {

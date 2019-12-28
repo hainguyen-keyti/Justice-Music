@@ -87,7 +87,7 @@ const styles = theme => ({
   }
 });
 
-class Chat extends React.Component {
+class ChatContent extends React.Component {
 
 
   constructor(props) {
@@ -114,7 +114,7 @@ class Chat extends React.Component {
   };
 
   onClickLogOut = (e) => {
-    this.socket.disconnect()
+     window.$socket.disconnect()
     this.props.log_out();
     localStorage.clear();
     this.props.history.push('/login')
@@ -137,7 +137,7 @@ class Chat extends React.Component {
       this.handleClickSend(e);
     }
     else if(e.key === 'Backspace' && this.state.content === ""){
-      this.socket.emit('typing', {...data, isTyping: false})
+       window.$socket.emit('typing', {...data, isTyping: false})
     }
   }
 
@@ -151,7 +151,7 @@ class Chat extends React.Component {
       }
   
       if(this.props.userReducer.user.id !== lastMessage.senderID){
-        this.socket.emit('is seen', data)
+         window.$socket.emit('is seen', data)
       }
     }
   }
@@ -164,7 +164,7 @@ class Chat extends React.Component {
     }
     if(this.state.content.length === 0){
       this.onFocusMessage();
-      this.socket.emit('typing', {...data, isTyping: true})
+       window.$socket.emit('typing', {...data, isTyping: true})
     }
   }
 
@@ -184,11 +184,11 @@ class Chat extends React.Component {
       var user = this.props.chatReducer.listFriend.find(u=>u._id === this.props.chatReducer.receiverID)
 
         if(user){
-          this.socket.emit('chat message', data)
+           window.$socket.emit('chat message', data)
         }
         else{
-          this.socket.emit('first message', data)
-          this.socket.on('return friend', () => {
+           window.$socket.emit('first message', data)
+           window.$socket.on('return friend', () => {
             this.props.getNewFriend()
           })
         }
@@ -200,7 +200,7 @@ class Chat extends React.Component {
       var x = document.getElementById("inputMessage")
       x.scrollTop = x.scrollHeight;
 
-      this.socket.emit('typing', {...data, isTyping: false})
+       window.$socket.emit('typing', {...data, isTyping: false})
     }
   }
   componentWillMount = () => {
@@ -210,14 +210,14 @@ class Chat extends React.Component {
 
     this.props.getListFriend();
 
-    let token = this.props.userReducer.user.accessToken
-    this.socket = io(config.url, {'query':{'token':token}});
+    // let token = this.props.userReducer.user.accessToken
+    // this.socket = io(config.url + '/chat', {'query':{'token':token}});
 
-    this.socket.on('error', data => {
+     window.$socket.on('error', data => {
       alert('socket error' + data);
     })
 
-    this.socket.on('chat message', data => {
+    window.$socket.on('chat message', data => {
       let input = {
         senderID: data.senderID,
         receiverID: data.receiverID,
@@ -228,7 +228,7 @@ class Chat extends React.Component {
         this.props.push_message(input)
     })
 
-    this.socket.on('first message', data => {
+     window.$socket.on('first message', data => {
       let input = {
         senderID: data.senderID,
         receiverID: data.receiverID,
@@ -240,11 +240,11 @@ class Chat extends React.Component {
         this.props.push_message(input)
     }) 
 
-    this.socket.on('is seen', () => {
+     window.$socket.on('is seen', () => {
       this.props.getListMessage(this.props.chatReducer.receiverID)
     })
 
-    this.socket.on('typing', data => {
+     window.$socket.on('typing', data => {
 
       if(data.senderID === this.props.chatReducer.receiverID){
         if(data.isTyping === true){
@@ -379,9 +379,6 @@ class Chat extends React.Component {
   
 }
 
-Chat.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state) => ({
   chatReducer: state.chatReducer,
@@ -398,4 +395,4 @@ const mapDispatchToProps = (dispatch) => ({
   log_out: ()=>dispatch(log_out())
 
 })
-export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(Chat));
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(ChatContent));

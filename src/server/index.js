@@ -39,6 +39,7 @@ const start = () => {
 		})
 		
 
+        require(config.controllers_dir + '/socketio/notification')(io)
         require(config.controllers_dir + '/socketio/chat')(io)
           
 

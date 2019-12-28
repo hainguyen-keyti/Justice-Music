@@ -20,6 +20,7 @@ module.exports = async (req, res) => {
             }
             lib_common.ModifyMusicFile(tx)
             .then(result => {
+                console.log(result)
                 return response_express.success(res, result)  
             })
         })

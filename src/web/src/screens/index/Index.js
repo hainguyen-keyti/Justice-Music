@@ -11,14 +11,14 @@ export default class Index extends Component {
         return (
             <div class="view">
               <img src={logo} alt="Justice music" style={{ width: "70px", height: "70px"}} />
-              <div class="plane main" onClick={()=>this.props.history.push('/login')}>
+              <a class="plane main" href='https://jumu.tk/login'>
                 <div class="circle"></div>
                 <div class="circle"></div>
                 <div class="circle"></div>
                 <div class="circle"></div>
                 <div class="circle"></div>
                 <div class="circle"></div>
-              </div>
+              </a>
           </div>
         )
     }

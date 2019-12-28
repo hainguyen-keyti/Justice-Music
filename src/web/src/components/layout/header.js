@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import io from 'socket.io-client'
+import config from '../../config'
 import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal, Avatar } from 'antd';
 import logo from '../../images/logo.png'
 import {getFaucet} from '../../api/userAPI'
@@ -31,6 +33,58 @@ class Header extends Component {
     };
     componentDidMount = () => {
         this.props.getBalance(this.props.userReducer.user.addressEthereum)
+        let token = this.props.userReducer.user.accessToken
+    }
+    componentWillMount = () => {
+      const token = this.props.userReducer.user.accessToken
+      if(!window.$socket){
+        console.log("hihihihihihihihihihihihihihihihihihihihihihihihihih")
+        window.$socket = io(config.url + '/chat', {'query':{'token':token}});
+      }
+  
+      window.$socket.on('download notification', data => {
+        // alert('socket notification' + data);
+        // console.log("leuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+      })
+  
+      // this.socket.on('chat message', data => {
+      //   let input = {
+      //     senderID: data.senderID,
+      //     receiverID: data.receiverID,
+      //     content: data.content,
+      //     date_created: Date(Date.now()),
+      //   }
+      //   if(data.senderID === this.props.chatReducer.receiverID)
+      //     this.props.push_message(input)
+      // })
+  
+      // this.socket.on('first message', data => {
+      //   let input = {
+      //     senderID: data.senderID,
+      //     receiverID: data.receiverID,
+      //     content: data.content,
+      //     date_created: Date(Date.now()),
+      //   }
+      //   this.props.getListFriend()
+      //   if(data.senderID === this.props.chatReducer.receiverID)
+      //     this.props.push_message(input)
+      // }) 
+  
+      // this.socket.on('is seen', () => {
+      //   this.props.getListMessage(this.props.chatReducer.receiverID)
+      // })
+  
+      // this.socket.on('typing', data => {
+  
+      //   if(data.senderID === this.props.chatReducer.receiverID){
+      //     if(data.isTyping === true){
+      //       this.setState({typing: true})
+      //     }
+      //     if(data.isTyping === false){
+      //       this.setState({typing: false})
+      //     }
+      //   }
+      // })
     }
 
   render () {

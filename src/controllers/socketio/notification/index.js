@@ -1,28 +1,21 @@
 const config = require('../../../config');
-const Chat = require(config.models_dir + '/mongo/chat');
 const User = require(config.models_dir + '/mongo/user');
 const response_socketio = require(config.library_dir + '/response').response_socketio;
 
 module.exports = (io) => {
-    const nsChat = 'chat';
-    const chat = io.of('/' + nsChat);
+    const nsNotification = 'notification';
+    const notification = io.of('/' + nsNotification);
 
-    chat.use(require(config.library_dir + '/middleware').socketMiddleware);
+    notification.use(require(config.library_dir + '/middleware').socketMiddleware);
 
-    chat.on('connection', socket => {
-        global.socket = socket
+    notification.on('connection', socket => {
         let decoded_token = socket.handshake.decoded_token;
-        if(!decoded_token)
+        if(!decoded_token){
+            console.log("ket noi that bai")
             return;
-        console.log(decoded_token.email + " has been connected to socket server with socket ID: " + socket.id)
-        User.findOne({_id: decoded_token._id})
-        .then( sender => {
-            sender.socketID = socket.id;
-            sender.save();
-        })
-        .catch(err => response_socketio(socket, err))
-        
-        // socket.to(receiver.socketID).emit('chat message', input);
+        }
+        console.log(decoded_token.email + " connected using notification with: " + socket.id)
+        socket.to(receiver.socketID).emit('chat message', input);
 
                 /**
          * data:

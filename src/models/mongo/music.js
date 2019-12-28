@@ -4,6 +4,7 @@ var MusicSchema = mongoose.Schema({
     idSolidity: {
         type: String,
         trim: true,
+        unique: true,
     },
     hash: {
         type: String,
