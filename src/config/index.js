@@ -14,13 +14,13 @@ var main_config = {
             ownerSecretKey: '2C4104E79EA8936FA6C0D0E7B796B391DE814890066B8B8640E13A554DECE084',
             provider: ethers.getDefaultProvider('kovan'),
 
-            userBehaviorAddress: '0x43C5c196E2E859EE61F5Df1728aDe8a60596731D',
+            userBehaviorAddress: '0x2B9daf86494281C93EE3C895bD94Ec0F6446220A',
             userBehaviorABI: abi.userBehaviorABI,
 
             tokenAddress: '0x84C470e05128A2d1FfFF6132801182Aa4CeD9F89',
             tokenABI: abi.tokenABI,
 
-            fileStorageAddress: '0x995F242e9a280Da1C11f9FD83A5C59F4dbbC55C6',
+            fileStorageAddress: '0x8E586338D8a049f394BfFFa3e317d142197abA5B',
             fileStorageABI: abi.fileStorageABI,
 
             rankingAddress: '0xd5510C35DA1F17E921B58869C45631753055C0c5',

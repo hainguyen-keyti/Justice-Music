@@ -26,7 +26,7 @@ module.exports = (req, res) => {
         user.save();
         return Promise.all([
             lib_password.comparePassword(req.body.password, user.password_hash),
-            lib_common.createToken(tokenPayload, "3 days"),
+            lib_common.createToken(tokenPayload, "30 days"),
         ])
     })
     .then(result => {

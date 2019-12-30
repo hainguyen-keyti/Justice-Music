@@ -8,10 +8,12 @@ const lib_common = require(config.library_dir + '/common');
 
 module.exports = async (req, res) => {
     try {
-        let miss = lib_common.checkMissParams(res, req.body, ["_idFile"])
-        if (miss){
-            console.log("Miss param at download");
-            return
+        if(req.body._idFile !== 0){
+            let miss = lib_common.checkMissParams(res, req.body, ["_idFile"])
+            if (miss){
+                console.log("Miss param at download");
+                return
+            }
         }
         const userData = await User.findById(req.token_info._id)
         .lean()
