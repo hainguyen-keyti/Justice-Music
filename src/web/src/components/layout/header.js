@@ -4,7 +4,7 @@ import config from '../../config'
 import { AutoComplete, Button, Icon, Input, Badge, Tooltip, Dropdown, Menu, Typography, InputNumber, Modal, Avatar, Result } from 'antd';
 import logo from '../../images/logo.png'
 import {getFaucet, getNotification} from '../../api/userAPI'
-import {showNotificationTransaction, showNotificationLoading, formatThousands} from '../../utils/common'
+import {showNotificationTransaction, showNotificationLoading, formatThousands, estimatedTime} from '../../utils/common'
 import { connect} from 'react-redux'
 import { getBalance } from '../../actions/user' 
 
@@ -59,7 +59,6 @@ class Header extends Component {
     componentWillMount = () => {
       const token = this.props.userReducer.user.accessToken
       if(!window.$socket){
-        console.log("hihihihihihihihihihihihihihihihihihihihihihihihihih")
         window.$socket = io(config.url + '/chat', {'query':{'token':token}});
       }
 
@@ -73,45 +72,6 @@ class Header extends Component {
         // this.setState({notificationData: this.state.notificationData.push(data)})
         // alert('socket notification' + data);
       })
-  
-      // this.socket.on('chat message', data => {
-      //   let input = {
-      //     senderID: data.senderID,
-      //     receiverID: data.receiverID,
-      //     content: data.content,
-      //     date_created: Date(Date.now()),
-      //   }
-      //   if(data.senderID === this.props.chatReducer.receiverID)
-      //     this.props.push_message(input)
-      // })
-  
-      // this.socket.on('first message', data => {
-      //   let input = {
-      //     senderID: data.senderID,
-      //     receiverID: data.receiverID,
-      //     content: data.content,
-      //     date_created: Date(Date.now()),
-      //   }
-      //   this.props.getListFriend()
-      //   if(data.senderID === this.props.chatReducer.receiverID)
-      //     this.props.push_message(input)
-      // }) 
-  
-      // this.socket.on('is seen', () => {
-      //   this.props.getListMessage(this.props.chatReducer.receiverID)
-      // })
-  
-      // this.socket.on('typing', data => {
-  
-      //   if(data.senderID === this.props.chatReducer.receiverID){
-      //     if(data.isTyping === true){
-      //       this.setState({typing: true})
-      //     }
-      //     if(data.isTyping === false){
-      //       this.setState({typing: false})
-      //     }
-      //   }
-      // })
     }
 
   render () {
@@ -121,15 +81,42 @@ class Header extends Component {
       <Menu>
         {notificationData.map((record, index) => 
             this.props.userReducer.user.id === record.senderID.toString() ? 
-              <Menu.Item style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
-                <Icon type="bell" style={{ color: '#1da1f2', fontSize: 15}} />
-                <Paragraph style={{marginLeft: 10, margin: 5}} ellipsis={{ rows: 4}}>{record.contentSender}</Paragraph>
+              <Menu.Item style={{display: 'flex', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
+                <Avatar 
+                  shape='square'
+                  size={48} 
+                  src={window.$linkIPFS + record.songImage}
+                />
+                <div style={{height: 50, marginLeft: 10}}>
+                  <Paragraph style={{marginBottom: 7}} ellipsis>{record.contentSender}</Paragraph>
+                  {record.type === 1 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Đang chờ xác thực bản quyền tác phẩm trên hệ thống.</Paragraph>
+                  :
+                  record.type === 2 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn bị trừ vào ví <Text code>{formatThousands(record.money)}</Text> HAK.</Paragraph>
+                  :
+                  record.type === 3 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Thời gian cho phép đầu tư còn <Text code>{estimatedTime(record.money)}</Text></Paragraph>
+                  :
+                  record.type === 4 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn bị trừ vào ví <Text code>{formatThousands(record.money)}</Text> HAK.</Paragraph>
+                  :
+                  null
+                }
+                  </div>
              </Menu.Item>
             :
-            <Menu.Item style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
-              <Icon type="pay-circle" style={{ color: '#1da1f2', fontSize: 15}} />
-              <Paragraph style={{marginLeft: 10, margin: 5}} ellipsis={{ rows: 4}}>{record.contentReceiver}</Paragraph>
-          </Menu.Item>
+              <Menu.Item style={{display: 'flex', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
+                <Avatar 
+                  shape='circle'
+                  size={48} 
+                  src={window.$linkIPFS + record.senderAvatar}
+                />
+                <div style={{height: 50, marginLeft: 10}}>
+                  <Paragraph style={{marginBottom: 7}} ellipsis>{record.contentReceiver}</Paragraph>
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn được cộng thêm vào ví <Text code>{formatThousands(record.money)}</Text> HAK</Paragraph>
+                </div>
+              </Menu.Item>
           )}
       </Menu>
     )

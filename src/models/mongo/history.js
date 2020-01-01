@@ -8,7 +8,6 @@ var HistorySchema = mongoose.Schema({
     receiverID: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require: true,
     },
     songID : {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,11 +16,19 @@ var HistorySchema = mongoose.Schema({
     },
     contentSender: {
         type: String,
-        require: true,
+        default: '',
     },
     contentReceiver: {
         type: String,
-        require: true,
+        default: '',
+    },
+    senderAvatar: {
+        type: String,
+        default: '',
+    },
+    songImage: {
+        type: String,
+        default: '',
     },
     money: {
         type: Number,

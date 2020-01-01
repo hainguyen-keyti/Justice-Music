@@ -7,11 +7,9 @@ const response_socketio = require(config.library_dir + '/response').response_soc
 module.exports = (io) => {
     const nsChat = 'chat';
     const chat = io.of('/' + nsChat);
-
+    global.socket = chat
     chat.use(require(config.library_dir + '/middleware').socketMiddleware);
-
     chat.on('connection', socket => {
-        global.socket = socket
         let decoded_token = socket.handshake.decoded_token;
         if(!decoded_token)
             return;

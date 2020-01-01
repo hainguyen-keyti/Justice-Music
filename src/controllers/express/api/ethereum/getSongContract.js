@@ -9,7 +9,6 @@ const moment = require('moment');
 
 module.exports = async (req, res) => {
     try {
-        console.log(req.params.idContractMongo)
         let miss = lib_common.checkMissParams(res, req.params, ["idContractMongo"])
         if (miss){
             console.log("Miss param at execute contract");

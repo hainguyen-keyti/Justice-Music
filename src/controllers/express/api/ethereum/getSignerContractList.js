@@ -15,7 +15,6 @@ module.exports = async (req, res) => {
         if(!user){
             return response_express.exception(res, "User not exist!")
         }
-        console.log(user.addressEthereum)
         let wallet = new ethers.Wallet(user.privateKey, config.provider);
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
         const transaction = await contractWithSigner.getSignerContractList(user.addressEthereum)

@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
         let contractWithSigner = new ethers.Contract(config.userBehaviorAddress, config.userBehaviorABI, wallet)
         contractWithSigner.getISOId(req.query.id)
         .then(tx => {
-            console.log(tx)
             if(!tx){
                 return response_express.exception(res, "Transaction failed, please try again!")
             }

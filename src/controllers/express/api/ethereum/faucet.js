@@ -4,34 +4,26 @@ const response_express = require(config.library_dir + '/response').response_expr
 // const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => {
-    console.log(req.body)
     let privateKey = config.ownerSecretKey;
     let wallet = new ethers.Wallet(privateKey, config.provider);
     let contractWithSigner = new ethers.Contract(config.tokenAddress, config.tokenABI, wallet)
-    console.log(ethers.utils.parseEther('0.1'))
     contractWithSigner.transfer(req.body.address, req.body.amount)
     .then(async tx => {
-        console.log(tx.hash)
         if(!tx){
             return Promise.reject("Fail to execute transaction");
         }
         config.provider.waitForTransaction(tx.hash).then( async(receipt) => {
-
-        console.log(receipt);
-
         let transaction = {
             to: req.body.address,
             value: ethers.utils.parseEther('0.1')
         };
         const temp = await wallet.sendTransaction(transaction)
-        console.log(temp)
         if(temp){
             return response_express.success(res, temp.hash)
         }
         });
     })
     .catch(err => {
-        console.log(err)
         response_express.exception(res, err)
     });
 }

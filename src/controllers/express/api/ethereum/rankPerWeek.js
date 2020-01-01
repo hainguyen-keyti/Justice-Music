@@ -7,9 +7,16 @@ module.exports = async (req, res) => {
     let privateKey = config.ownerSecretKey;
     let wallet = new ethers.Wallet(privateKey, config.provider);
     let contractWithSigner = new ethers.Contract(config.rankingAddress, config.rankingABI, wallet)
-    contractWithSigner.RankPerWeek()
+    let overrides = {
+
+        // The maximum units of gas for the transaction to use
+        gasLimit: 23000,
+    
+
+    
+    };
+    contractWithSigner.RankPerWeek(overrides)
     .then(tx => {
-        console.log(tx)
         if(!tx)
             return Promise.reject("Fail to execute transaction");
         config.provider.waitForTransaction(tx.hash).then(() => {

@@ -20,10 +20,9 @@ module.exports = async (req, res) => {
             }
             lib_common.ModifyMusicFile(tx)
             .then(result => {
-                console.log(result)
                 return response_express.success(res, result)  
             })
         })
-        .catch(err => {response_express.exception(res, JSON.parse(err.responseText).error.message)});
+        .catch(err => {response_express.exception(res, JSON.parse(err.responseText).error.message || err)});
     })
 }

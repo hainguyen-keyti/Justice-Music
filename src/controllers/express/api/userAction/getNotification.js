@@ -8,8 +8,8 @@ module.exports = async (req, res) => {
     try {
         const promises = [
             History.find({ $or:[
-                {senderID: req.token_info._id, $or: [{type: 1}, {type: 2}]},
-                {receiverID: req.token_info._id, $or: [{type: 1}, {type: 2}]},
+                {senderID: req.token_info._id},
+                {receiverID: req.token_info._id},
             ]})
             .lean()
             .sort({ date: -1 })
@@ -19,8 +19,8 @@ module.exports = async (req, res) => {
                     $and: [
                         {
                             $or:[
-                                {senderID: req.token_info._id, $or: [{type: 1}, {type: 2}]},
-                                {receiverID: req.token_info._id, $or: [{type: 1}, {type: 2}]},
+                                {senderID: req.token_info._id},
+                                {receiverID: req.token_info._id},
                             ]
                         },
                         {
