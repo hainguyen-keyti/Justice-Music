@@ -17,8 +17,8 @@ module.exports = async (req, res) => {
 
         const contractInfo = await Contract.findById(req.body.idContractMongo)
         .select('songID _id content contractMoney ownerID ownerCompensationAmount signerID signerCompensationAmount timeAmount ownerApproved signerApproved')
-        .populate('ownerID', ['addressEthereum'])
-        .populate('signerID', ['addressEthereum'])
+        .populate('ownerID', ['addressEthereum socketID'])
+        .populate('signerID', ['addressEthereum socketID'])
         .populate('songID', ['idSolidity', 'hash'])
         if(!(req.token_info._id === contractInfo.ownerID._id.toString() || req.token_info._id === contractInfo.signerID._id.toString())){
             return Promise.reject("You can not execute this transaction!")
@@ -54,7 +54,20 @@ module.exports = async (req, res) => {
         }
         Object.assign(contractInfo, {contentHash, isExecuteContract: true, timeExpired: _timeExpired, whoExecuted: req.token_info._id})
         contractInfo.save()
-        return response_express.success(res, transaction.hash)
+        response_express.success(res, transaction.hash)
+        const historyData = {
+            senderID: req.token_info._id,
+            receiverID: req.token_info._id === contractInfo.ownerID._id.toString() ? contractInfo.signerID._id : contractInfo.ownerID._id,
+            songID: contractInfo.songID._id,
+            contentSender: `Tạo hợp đồng \"${contractInfo.nameContractForm}\" với \"${contractInfo.ownerID.nickName}\" thành công.`,
+            contentReceiver: `Hợp đồng \"${contractInfo.nameContractForm}\" đã được tạo bởi \"${contractInfo.signerID.nickName}\".`,
+            type: 7,
+            songImage: ownerID.image
+        }
+        const newHistory = await History.create(historyData)
+        socket.to(`${contractInfo.ownerID.socketID}`).emit('notification', newHistory);
+        socket.to(`${contractInfo.signerID.socketID}`).emit('notification', newHistory);
+
 
     } catch (error) {
         return response_express.exception(res, "Error at execute contract " + error);

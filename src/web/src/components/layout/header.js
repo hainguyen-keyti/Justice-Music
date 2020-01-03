@@ -80,7 +80,7 @@ class Header extends Component {
     let menuNotification = (
       <Menu>
         {notificationData.map((record, index) => 
-            this.props.userReducer.user.id === record.senderID.toString() ? 
+            this.props.userReducer.user.id === record.senderID ? 
               <Menu.Item style={{display: 'flex', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
                 <Avatar 
                   shape='square'
@@ -101,20 +101,37 @@ class Header extends Component {
                   record.type === 4 ?
                   <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn bị trừ vào ví <Text code>{formatThousands(record.money)}</Text> HAK.</Paragraph>
                   :
+                  record.type === 6 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng Approved nếu đã chấp nhận hợp đồng</Paragraph>
+                  :
                   null
                 }
                   </div>
              </Menu.Item>
             :
               <Menu.Item style={{display: 'flex', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
-                <Avatar 
-                  shape='circle'
-                  size={48} 
-                  src={window.$linkIPFS + record.senderAvatar}
-                />
+                {
+                  record.type === 5 || record.type === 6 ? 
+                  <Avatar 
+                    shape='square'
+                    size={48} 
+                    src={window.$linkIPFS + record.songImage}
+                  />
+                  :
+                  <Avatar 
+                    shape='circle'
+                    size={48} 
+                    src={window.$linkIPFS + record.senderAvatar}
+                  />
+                }
                 <div style={{height: 50, marginLeft: 10}}>
                   <Paragraph style={{marginBottom: 7}} ellipsis>{record.contentReceiver}</Paragraph>
-                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn được cộng thêm vào ví <Text code>{formatThousands(record.money)}</Text> HAK</Paragraph>
+                  {
+                    record.type === 6 ?
+                    <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng kiểm tra lại hợp đồng này</Paragraph>
+                    :
+                    <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn được cộng thêm vào ví <Text code>{formatThousands(record.money)}</Text> HAK</Paragraph>
+                  }
                 </div>
               </Menu.Item>
           )}

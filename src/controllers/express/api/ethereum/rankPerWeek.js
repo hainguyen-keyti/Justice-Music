@@ -10,7 +10,10 @@ module.exports = async (req, res) => {
     let overrides = {
 
         // The maximum units of gas for the transaction to use
-        gasLimit: 23000,
+        gasLimit: 9999999,
+
+    // The price (in wei) per unit of gas
+    gasPrice: ethers.utils.parseUnits('9.0', 'gwei'),
     
 
     

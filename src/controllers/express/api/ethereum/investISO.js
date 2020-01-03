@@ -49,7 +49,8 @@ module.exports =async (req, res) => {
             songImage: songData.image,
         }
         const newHistory = await History.create(historyData)
-        socket.to(songData.userUpload.socketID).to(userData.socketID).emit('notification', newHistory);
+        socket.to(`${userData.socketID}`).emit('notification', newHistory);
+        socket.to(`${songData.userUpload.socketID}`).emit('notification', newHistory);
     } catch (error) {
         return response_express.exception(res, "Another Error " + error)
     }

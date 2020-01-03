@@ -3,7 +3,6 @@ var HistorySchema = mongoose.Schema({
     senderID: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require: true,
     },
     receiverID: { 
         type: mongoose.Schema.Types.ObjectId,
