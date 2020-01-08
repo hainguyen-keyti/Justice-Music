@@ -1358,55 +1358,30 @@ exports.fileStorageABI = [
 				"type": "string"
 			},
 			{
-				"name": "_userApproved",
+				"name": "_contractOwner",
+				"type": "address"
+			},
+			{
+				"name": "_contractSigner",
 				"type": "address"
 			}
 		],
-		"name": "setApproved",
+		"name": "setUserContract",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "_idContractMongo",
-				"type": "string"
-			},
-			{
-				"name": "_userCancel",
-				"type": "address"
+				"name": "_temp",
+				"type": "uint256[]"
 			}
 		],
-		"name": "setCancelContract",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_Numb",
-				"type": "uint256"
-			}
-		],
-		"name": "setFileLength",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_IDFile",
-				"type": "uint256"
-			},
+		"name": "getFileFunc",
+		"outputs": [
 			{
 				"components": [
 					{
@@ -1454,90 +1429,12 @@ exports.fileStorageABI = [
 						"type": "bool"
 					}
 				],
-				"name": "_File",
-				"type": "tuple"
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
-		"name": "setFileList",
-		"outputs": [],
 		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_ID",
-				"type": "uint256"
-			},
-			{
-				"name": "_IsISO",
-				"type": "bool"
-			}
-		],
-		"name": "setFileList_IsISO",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_ID",
-				"type": "uint256"
-			},
-			{
-				"name": "_Numb",
-				"type": "uint256"
-			}
-		],
-		"name": "setFileList_totalDownloader",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_ID",
-				"type": "uint256"
-			},
-			{
-				"name": "_Numb",
-				"type": "int256"
-			}
-		],
-		"name": "setFileList_weekDownloader",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_ID",
-				"type": "uint256"
-			},
-			{
-				"name": "_Numb",
-				"type": "uint256"
-			},
-			{
-				"name": "_Value",
-				"type": "uint256"
-			}
-		],
-		"name": "setISOList",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1580,6 +1477,176 @@ exports.fileStorageABI = [
 				"type": "uint256"
 			},
 			{
+				"name": "_Numb",
+				"type": "uint256"
+			}
+		],
+		"name": "setFileList_totalDownloader",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_sender",
+				"type": "address"
+			}
+		],
+		"name": "getSignerContractList",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ownerUserBehaviorContract",
+				"type": "address"
+			},
+			{
+				"name": "_ownerRankingContract",
+				"type": "address"
+			}
+		],
+		"name": "setOnlyOwnerContract",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getISOListInfo",
+		"outputs": [
+			{
+				"components": [
+					{
+						"name": "offerPercent",
+						"type": "uint256"
+					},
+					{
+						"name": "offerAmount",
+						"type": "uint256"
+					},
+					{
+						"name": "amountRemaining",
+						"type": "uint256"
+					},
+					{
+						"name": "timeExpired",
+						"type": "uint256"
+					},
+					{
+						"name": "ownerPercent",
+						"type": "uint256"
+					},
+					{
+						"name": "numberOfDownload",
+						"type": "uint256"
+					},
+					{
+						"name": "week",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"name": "investor",
+								"type": "address"
+							},
+							{
+								"name": "percentage",
+								"type": "uint256"
+							},
+							{
+								"name": "amount",
+								"type": "uint256"
+							}
+						],
+						"name": "investListISO",
+						"type": "tuple[]"
+					}
+				],
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_ID",
+				"type": "uint256"
+			}
+		],
+		"name": "getFileList",
+		"outputs": [
+			{
 				"components": [
 					{
 						"name": "idFile",
@@ -1626,28 +1693,12 @@ exports.fileStorageABI = [
 						"type": "bool"
 					}
 				],
-				"name": "_file",
+				"name": "",
 				"type": "tuple"
 			}
 		],
-		"name": "setISOListFile",
-		"outputs": [],
 		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_IsUsingID",
-				"type": "uint256"
-			}
-		],
-		"name": "setIsUsingID",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1656,9 +1707,13 @@ exports.fileStorageABI = [
 			{
 				"name": "_ID",
 				"type": "uint256"
+			},
+			{
+				"name": "_IsISO",
+				"type": "bool"
 			}
 		],
-		"name": "setListIDISO",
+		"name": "setFileList_IsISO",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -1668,15 +1723,33 @@ exports.fileStorageABI = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_ownerUserBehaviorContract",
+				"name": "_Owner",
 				"type": "address"
 			},
 			{
-				"name": "_ownerRankingContract",
-				"type": "address"
+				"name": "_ID",
+				"type": "uint256"
 			}
 		],
-		"name": "setOnlyOwnerContract",
+		"name": "setUserList_investList",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_Recipient",
+				"type": "address"
+			},
+			{
+				"name": "_ID",
+				"type": "uint256"
+			}
+		],
+		"name": "setUserList_downloadList",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -1783,17 +1856,120 @@ exports.fileStorageABI = [
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "_Now",
-				"type": "uint256"
+				"name": "_addr",
+				"type": "address"
 			}
 		],
-		"name": "setTimeRanking",
-		"outputs": [],
+		"name": "getISOListAddress",
+		"outputs": [
+			{
+				"components": [
+					{
+						"name": "offerPercent",
+						"type": "uint256"
+					},
+					{
+						"name": "offerAmount",
+						"type": "uint256"
+					},
+					{
+						"name": "amountRemaining",
+						"type": "uint256"
+					},
+					{
+						"name": "timeExpired",
+						"type": "uint256"
+					},
+					{
+						"name": "ownerPercent",
+						"type": "uint256"
+					},
+					{
+						"name": "numberOfDownload",
+						"type": "uint256"
+					},
+					{
+						"name": "week",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"name": "idFile",
+								"type": "uint256"
+							},
+							{
+								"name": "idMongoose",
+								"type": "string"
+							},
+							{
+								"name": "fileHash",
+								"type": "string"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "totalDownloader",
+								"type": "uint256"
+							},
+							{
+								"name": "weekDownloader",
+								"type": "int256"
+							},
+							{
+								"name": "blockTime",
+								"type": "uint256"
+							},
+							{
+								"name": "valid",
+								"type": "bool"
+							},
+							{
+								"name": "kind",
+								"type": "uint8"
+							},
+							{
+								"name": "IsISO",
+								"type": "bool"
+							}
+						],
+						"name": "ISOFile",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"name": "investor",
+								"type": "address"
+							},
+							{
+								"name": "percentage",
+								"type": "uint256"
+							},
+							{
+								"name": "amount",
+								"type": "uint256"
+							}
+						],
+						"name": "investListISO",
+						"type": "tuple[]"
+					}
+				],
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1804,15 +1980,11 @@ exports.fileStorageABI = [
 				"type": "string"
 			},
 			{
-				"name": "_contractOwner",
-				"type": "address"
-			},
-			{
-				"name": "_contractSigner",
+				"name": "_userApproved",
 				"type": "address"
 			}
 		],
-		"name": "setUserContract",
+		"name": "setApproved",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -1822,33 +1994,11 @@ exports.fileStorageABI = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_Recipient",
-				"type": "address"
-			},
-			{
-				"name": "_ID",
+				"name": "_IsUsingID",
 				"type": "uint256"
 			}
 		],
-		"name": "setUserList_downloadList",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_Owner",
-				"type": "address"
-			},
-			{
-				"name": "_ID",
-				"type": "uint256"
-			}
-		],
-		"name": "setUserList_investList",
+		"name": "setIsUsingID",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -1876,177 +2026,24 @@ exports.fileStorageABI = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_Numb",
+				"name": "_Now",
 				"type": "uint256"
 			}
 		],
-		"name": "setVarIdFile",
+		"name": "setTimeRanking",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
 		"constant": true,
-		"inputs": [
+		"inputs": [],
+		"name": "getTimeRanking",
+		"outputs": [
 			{
-				"name": "_temp",
+				"name": "",
 				"type": "uint256[]"
-			}
-		],
-		"name": "getFileFunc",
-		"outputs": [
-			{
-				"components": [
-					{
-						"name": "idFile",
-						"type": "uint256"
-					},
-					{
-						"name": "idMongoose",
-						"type": "string"
-					},
-					{
-						"name": "fileHash",
-						"type": "string"
-					},
-					{
-						"name": "owner",
-						"type": "address"
-					},
-					{
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"name": "totalDownloader",
-						"type": "uint256"
-					},
-					{
-						"name": "weekDownloader",
-						"type": "int256"
-					},
-					{
-						"name": "blockTime",
-						"type": "uint256"
-					},
-					{
-						"name": "valid",
-						"type": "bool"
-					},
-					{
-						"name": "kind",
-						"type": "uint8"
-					},
-					{
-						"name": "IsISO",
-						"type": "bool"
-					}
-				],
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getFileLength",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_ID",
-				"type": "uint256"
-			}
-		],
-		"name": "getFileList",
-		"outputs": [
-			{
-				"components": [
-					{
-						"name": "idFile",
-						"type": "uint256"
-					},
-					{
-						"name": "idMongoose",
-						"type": "string"
-					},
-					{
-						"name": "fileHash",
-						"type": "string"
-					},
-					{
-						"name": "owner",
-						"type": "address"
-					},
-					{
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"name": "totalDownloader",
-						"type": "uint256"
-					},
-					{
-						"name": "weekDownloader",
-						"type": "int256"
-					},
-					{
-						"name": "blockTime",
-						"type": "uint256"
-					},
-					{
-						"name": "valid",
-						"type": "bool"
-					},
-					{
-						"name": "kind",
-						"type": "uint8"
-					},
-					{
-						"name": "IsISO",
-						"type": "bool"
-					}
-				],
-				"name": "",
-				"type": "tuple"
 			}
 		],
 		"payable": false,
@@ -2172,237 +2169,8 @@ exports.fileStorageABI = [
 	},
 	{
 		"constant": true,
-		"inputs": [
-			{
-				"name": "_addr",
-				"type": "address"
-			}
-		],
-		"name": "getISOListAddress",
-		"outputs": [
-			{
-				"components": [
-					{
-						"name": "offerPercent",
-						"type": "uint256"
-					},
-					{
-						"name": "offerAmount",
-						"type": "uint256"
-					},
-					{
-						"name": "amountRemaining",
-						"type": "uint256"
-					},
-					{
-						"name": "timeExpired",
-						"type": "uint256"
-					},
-					{
-						"name": "ownerPercent",
-						"type": "uint256"
-					},
-					{
-						"name": "numberOfDownload",
-						"type": "uint256"
-					},
-					{
-						"name": "week",
-						"type": "uint256"
-					},
-					{
-						"components": [
-							{
-								"name": "idFile",
-								"type": "uint256"
-							},
-							{
-								"name": "idMongoose",
-								"type": "string"
-							},
-							{
-								"name": "fileHash",
-								"type": "string"
-							},
-							{
-								"name": "owner",
-								"type": "address"
-							},
-							{
-								"name": "price",
-								"type": "uint256"
-							},
-							{
-								"name": "totalDownloader",
-								"type": "uint256"
-							},
-							{
-								"name": "weekDownloader",
-								"type": "int256"
-							},
-							{
-								"name": "blockTime",
-								"type": "uint256"
-							},
-							{
-								"name": "valid",
-								"type": "bool"
-							},
-							{
-								"name": "kind",
-								"type": "uint8"
-							},
-							{
-								"name": "IsISO",
-								"type": "bool"
-							}
-						],
-						"name": "ISOFile",
-						"type": "tuple"
-					},
-					{
-						"components": [
-							{
-								"name": "investor",
-								"type": "address"
-							},
-							{
-								"name": "percentage",
-								"type": "uint256"
-							},
-							{
-								"name": "amount",
-								"type": "uint256"
-							}
-						],
-						"name": "investListISO",
-						"type": "tuple[]"
-					}
-				],
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
 		"inputs": [],
-		"name": "getISOListInfo",
-		"outputs": [
-			{
-				"components": [
-					{
-						"name": "offerPercent",
-						"type": "uint256"
-					},
-					{
-						"name": "offerAmount",
-						"type": "uint256"
-					},
-					{
-						"name": "amountRemaining",
-						"type": "uint256"
-					},
-					{
-						"name": "timeExpired",
-						"type": "uint256"
-					},
-					{
-						"name": "ownerPercent",
-						"type": "uint256"
-					},
-					{
-						"name": "numberOfDownload",
-						"type": "uint256"
-					},
-					{
-						"name": "week",
-						"type": "uint256"
-					},
-					{
-						"components": [
-							{
-								"name": "idFile",
-								"type": "uint256"
-							},
-							{
-								"name": "idMongoose",
-								"type": "string"
-							},
-							{
-								"name": "fileHash",
-								"type": "string"
-							},
-							{
-								"name": "owner",
-								"type": "address"
-							},
-							{
-								"name": "price",
-								"type": "uint256"
-							},
-							{
-								"name": "totalDownloader",
-								"type": "uint256"
-							},
-							{
-								"name": "weekDownloader",
-								"type": "int256"
-							},
-							{
-								"name": "blockTime",
-								"type": "uint256"
-							},
-							{
-								"name": "valid",
-								"type": "bool"
-							},
-							{
-								"name": "kind",
-								"type": "uint8"
-							},
-							{
-								"name": "IsISO",
-								"type": "bool"
-							}
-						],
-						"name": "ISOFile",
-						"type": "tuple"
-					},
-					{
-						"components": [
-							{
-								"name": "investor",
-								"type": "address"
-							},
-							{
-								"name": "percentage",
-								"type": "uint256"
-							},
-							{
-								"name": "amount",
-								"type": "uint256"
-							}
-						],
-						"name": "investListISO",
-						"type": "tuple[]"
-					}
-				],
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getIsUsingID",
+		"name": "getFileLength",
 		"outputs": [
 			{
 				"name": "",
@@ -2417,19 +2185,109 @@ exports.fileStorageABI = [
 		"constant": true,
 		"inputs": [
 			{
-				"name": "_sender",
+				"name": "_ID",
 				"type": "address"
 			}
 		],
-		"name": "getOwnerContractList",
+		"name": "getUserList",
 		"outputs": [
 			{
+				"components": [
+					{
+						"name": "ownerAddress",
+						"type": "address"
+					},
+					{
+						"name": "uploadList",
+						"type": "uint256[]"
+					},
+					{
+						"name": "downloadList",
+						"type": "uint256[]"
+					},
+					{
+						"name": "investList",
+						"type": "uint256[]"
+					}
+				],
 				"name": "",
-				"type": "string[]"
+				"type": "tuple"
 			}
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_Numb",
+				"type": "uint256"
+			}
+		],
+		"name": "setVarIdFile",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_idContractMongo",
+				"type": "string"
+			},
+			{
+				"name": "_userCancel",
+				"type": "address"
+			}
+		],
+		"name": "setCancelContract",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ID",
+				"type": "uint256"
+			},
+			{
+				"name": "_Numb",
+				"type": "int256"
+			}
+		],
+		"name": "setFileList_weekDownloader",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ID",
+				"type": "uint256"
+			},
+			{
+				"name": "_Numb",
+				"type": "uint256"
+			},
+			{
+				"name": "_Value",
+				"type": "uint256"
+			}
+		],
+		"name": "setISOList",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -2466,22 +2324,67 @@ exports.fileStorageABI = [
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
-				"name": "_sender",
-				"type": "address"
-			}
-		],
-		"name": "getSignerContractList",
-		"outputs": [
+				"name": "_IDFile",
+				"type": "uint256"
+			},
 			{
-				"name": "",
-				"type": "string[]"
+				"components": [
+					{
+						"name": "idFile",
+						"type": "uint256"
+					},
+					{
+						"name": "idMongoose",
+						"type": "string"
+					},
+					{
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"name": "totalDownloader",
+						"type": "uint256"
+					},
+					{
+						"name": "weekDownloader",
+						"type": "int256"
+					},
+					{
+						"name": "blockTime",
+						"type": "uint256"
+					},
+					{
+						"name": "valid",
+						"type": "bool"
+					},
+					{
+						"name": "kind",
+						"type": "uint8"
+					},
+					{
+						"name": "IsISO",
+						"type": "bool"
+					}
+				],
+				"name": "_File",
+				"type": "tuple"
 			}
 		],
+		"name": "setFileList",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -2554,13 +2457,32 @@ exports.fileStorageABI = [
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ID",
+				"type": "uint256"
+			}
+		],
+		"name": "setListIDISO",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
-		"inputs": [],
-		"name": "getTimeRanking",
+		"inputs": [
+			{
+				"name": "_sender",
+				"type": "address"
+			}
+		],
+		"name": "getOwnerContractList",
 		"outputs": [
 			{
 				"name": "",
-				"type": "uint256[]"
+				"type": "string[]"
 			}
 		],
 		"payable": false,
@@ -2568,40 +2490,95 @@ exports.fileStorageABI = [
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
 				"name": "_ID",
-				"type": "address"
-			}
-		],
-		"name": "getUserList",
-		"outputs": [
+				"type": "uint256"
+			},
 			{
 				"components": [
 					{
-						"name": "ownerAddress",
+						"name": "idFile",
+						"type": "uint256"
+					},
+					{
+						"name": "idMongoose",
+						"type": "string"
+					},
+					{
+						"name": "fileHash",
+						"type": "string"
+					},
+					{
+						"name": "owner",
 						"type": "address"
 					},
 					{
-						"name": "uploadList",
-						"type": "uint256[]"
+						"name": "price",
+						"type": "uint256"
 					},
 					{
-						"name": "downloadList",
-						"type": "uint256[]"
+						"name": "totalDownloader",
+						"type": "uint256"
 					},
 					{
-						"name": "investList",
-						"type": "uint256[]"
+						"name": "weekDownloader",
+						"type": "int256"
+					},
+					{
+						"name": "blockTime",
+						"type": "uint256"
+					},
+					{
+						"name": "valid",
+						"type": "bool"
+					},
+					{
+						"name": "kind",
+						"type": "uint8"
+					},
+					{
+						"name": "IsISO",
+						"type": "bool"
 					}
 				],
-				"name": "",
+				"name": "_file",
 				"type": "tuple"
+			}
+		],
+		"name": "setISOListFile",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getIsUsingID",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_Numb",
+				"type": "uint256"
+			}
+		],
+		"name": "setFileLength",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -2617,6 +2594,29 @@ exports.fileStorageABI = [
 		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
 	}
 ]
 

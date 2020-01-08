@@ -10,27 +10,34 @@ module.exports = async (req, res) => {
         const promises = [
             Contract.find({ownerID: req.token_info._id})
             .lean()
-            .select('_id songID isCancel isConfirmContract isExecuteContract nameContractForm')
+            .select('songID signerID nameContractForm')
             .populate({
                 path: 'songID',
-                select: 'artist image hash name _id userUpload tags date, view',
-                populate: {
-                    path: 'userUpload',
-                    select: 'nickName avatar addressEthereum'
-                }
+                select: 'image hash name view',
+                // populate: {
+                //     path: 'userUpload',
+                //     select: 'nickName avatar addressEthereum'
+                // }
+            })
+            .populate({
+                path: 'signerID',
+                select: 'avatar nickName addressEthereum',
             }),
             Contract.find({signerID: req.token_info._id})
             .lean()
-            .select('_id songID isCancel isConfirmContract isExecuteContract nameContractForm')
+            .select('songID ownerID nameContractForm')
             .populate({
                 path: 'songID',
-                select: 'artist image hash name _id userUpload tags date, view',
-                populate: {
-                    path: 'userUpload',
-                    select: 'nickName avatar addressEthereum'
-                }
+                select: 'image hash name view',
+                // populate: {
+                //     path: 'userUpload',
+                //     select: 'nickName avatar addressEthereum'
+                // }
             })
-    
+            .populate({
+                path: 'ownerID',
+                select: 'avatar nickName addressEthereum',
+            }),
         ]
         const arrData = await Promise.all(promises)
 

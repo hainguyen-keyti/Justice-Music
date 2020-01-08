@@ -2,6 +2,7 @@ const config = require('../../../../config');
 const response_express = require(config.library_dir + '/response').response_express;
 const Contract = require(config.models_dir + '/mongo/contract');
 const User = require(config.models_dir + '/mongo/user');
+const History = require(config.models_dir + '/mongo/history');
 const lib_common = require(config.library_dir+'/common');
 const getHashIPFS = require(config.library_dir + '/ipfs').getHashIPFS
 const ethers = require('ethers');
@@ -16,10 +17,13 @@ module.exports = async (req, res) => {
         }
 
         const contractInfo = await Contract.findById(req.body.idContractMongo)
-        .select('songID _id content contractMoney ownerID ownerCompensationAmount signerID signerCompensationAmount timeAmount ownerApproved signerApproved')
-        .populate('ownerID', ['addressEthereum socketID'])
-        .populate('signerID', ['addressEthereum socketID'])
-        .populate('songID', ['idSolidity', 'hash'])
+        .select('songID _id nameContractForm content contractMoney ownerID ownerCompensationAmount signerID signerCompensationAmount timeAmount ownerApproved signerApproved')
+        .populate('ownerID', ['addressEthereum', 'socketID', 'nickName'])
+        .populate('signerID', ['addressEthereum', 'socketID', 'nickName'])
+        .populate('songID', ['idSolidity', 'hash', 'image'])
+        if(!contractInfo){
+            return Promise.reject("Can not find contract by this contract id!")
+        }
         if(!(req.token_info._id === contractInfo.ownerID._id.toString() || req.token_info._id === contractInfo.signerID._id.toString())){
             return Promise.reject("You can not execute this transaction!")
         }
@@ -59,10 +63,10 @@ module.exports = async (req, res) => {
             senderID: req.token_info._id,
             receiverID: req.token_info._id === contractInfo.ownerID._id.toString() ? contractInfo.signerID._id : contractInfo.ownerID._id,
             songID: contractInfo.songID._id,
-            contentSender: `Tạo hợp đồng \"${contractInfo.nameContractForm}\" với \"${contractInfo.ownerID.nickName}\" thành công.`,
-            contentReceiver: `Hợp đồng \"${contractInfo.nameContractForm}\" đã được tạo bởi \"${contractInfo.signerID.nickName}\".`,
+            contentSender: `Tạo hợp đồng \"${contractInfo.nameContractForm}\" trên Blockchain thành công.`,
+            contentReceiver: `Hợp đồng \"${contractInfo.nameContractForm}\" đã được tạo trên Blockchain.`,
             type: 7,
-            songImage: ownerID.image
+            songImage: contractInfo.songID.image
         }
         const newHistory = await History.create(historyData)
         socket.to(`${contractInfo.ownerID.socketID}`).emit('notification', newHistory);
@@ -70,6 +74,7 @@ module.exports = async (req, res) => {
 
 
     } catch (error) {
+        console.log(error)
         return response_express.exception(res, "Error at execute contract " + error);
     }
 } 

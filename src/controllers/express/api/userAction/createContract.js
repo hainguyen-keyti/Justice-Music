@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
                     receiverID: req.token_info._id === contractInfo.ownerID._id.toString() ? contractInfo.signerID._id : contractInfo.ownerID._id,
                     songID: contractInfo.songID._id,
                     contentSender: `Cập nhật hợp đồng \"${contractInfo.nameContractForm}\" thành công.`,
-                    contentReceiver: `Hợp đồng \"${contractInfo.nameContractForm} đã được cập nhật\"`,
+                    contentReceiver: `Hợp đồng \"${contractInfo.nameContractForm}\" đã được cập nhật`,
                     type: 6,
                     songImage: contractInfo.songID.image
                 }

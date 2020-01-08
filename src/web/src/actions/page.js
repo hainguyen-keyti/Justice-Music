@@ -44,8 +44,6 @@ export function getUserUpload(address){
         dispatch(set_loading_upload(true))
         getUserUploadAPI(address)
         .then((data) => {
-            console.log("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
-            console.log(data)
             dispatch(set_user_upload_data(data))
         })
         .then(()=>{

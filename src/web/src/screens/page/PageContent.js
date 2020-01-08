@@ -92,14 +92,14 @@ class PageContent extends Component {
                   <TabPane tab="Bài hát đã đăng" key="1">
                     <DataTable tableUpload={true} pageName={nickName}/>
                   </TabPane>
-                  <TabPane tab="ISO" key="2">
+                  {/* <TabPane tab="ISO" key="2">
                       <ISOAddress/>
-                  </TabPane>
+                  </TabPane> */}
                   <TabPane tab="Bài hát đã mua" key="3">
                     <DataTable pageName={nickName}/>
                   </TabPane>
                   <TabPane tab="Sự kiện" key="4">
-                    Content of tab 1
+                    Chưa có sự kiện nào được diễn ra
                   </TabPane>
                 </Tabs>
               </Col>

@@ -234,13 +234,4 @@ contract UserBehavior is FileStruct, Ownable{
     //         provable_query(now+180,"WolframAlpha", "random number between 0 and 100");
     //     }
     // }
-
-
-    function withdraw() public onlyOwner{
-        msg.sender.transfer(getBalaceOfContract);
-        emit Log_withdraw(msg.sender, getBalaceOfContract);
-    }
-    function selfDestruct() payable public {
-        selfdestruct(0x56FB956B0787eb7098161231dD97b296adD4F02A);
-    }
 }

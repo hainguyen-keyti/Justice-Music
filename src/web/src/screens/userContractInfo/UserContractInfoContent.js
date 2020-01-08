@@ -48,7 +48,7 @@ class UserContractInfoContent extends React.Component {
               <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 20]}>
                 {this.state.dataContract.ownerData.map(record =>
                 <Col key={record._id} span={6}>
-                    <MusicCard songInfo={record.songID} contract={record._id}/>
+                    <MusicCard songInfo={record.songID} contract={record}/>
                 </Col>)}
               </Row>
 
@@ -59,7 +59,7 @@ class UserContractInfoContent extends React.Component {
               <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 20]}>
                 {this.state.dataContract.signerData.map(record =>
                 <Col key={record._id} span={6}>
-                  <MusicCard songInfo={record.songID}/>
+                  <MusicCard songInfo={record.songID} contract={record}/>
                 </Col>)}
               </Row>
 

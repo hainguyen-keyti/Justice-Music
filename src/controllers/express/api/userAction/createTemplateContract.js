@@ -4,8 +4,8 @@ const TemplateContract = require(config.models_dir + '/mongo/templateContract');
 const lib_common = require(config.library_dir+'/common');
 
 module.exports = async (req, res) => {
-
     try {
+        console.log(req.body)
         let miss = lib_common.checkMissParams(res, req.body, ["content"])
         if (miss){
             console.log("Miss param at create contract");

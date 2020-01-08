@@ -3,6 +3,7 @@ const response_express = require(config.library_dir + '/response').response_expr
 const Contract = require(config.models_dir + '/mongo/contract');
 const User = require(config.models_dir + '/mongo/user');
 const lib_common = require(config.library_dir+'/common');
+const History = require(config.models_dir + '/mongo/history');
 const getHashIPFS = require(config.library_dir + '/ipfs').getHashIPFS
 const ethers = require('ethers');
 const moment = require('moment');
@@ -15,11 +16,15 @@ module.exports = async (req, res) => {
             return;
         }
         const contractInfo = await Contract.findById(req.body.idContractMongo)
-        .select('whoExecuted ownerID signerID')
+        .select('whoExecuted ownerID signerID songID nameContractForm')
+        .populate('ownerID', ['socketID'])
+        .populate('signerID', ['socketID'])
+        .populate('songID', ['image'])
+        console.log(contractInfo)
         if(req.token_info._id === contractInfo.whoExecuted ||
                 !(
-                    req.token_info._id === contractInfo.ownerID.toString() ||
-                    req.token_info._id === contractInfo.signerID.toString()
+                    req.token_info._id === contractInfo.ownerID._id.toString() ||
+                    req.token_info._id === contractInfo.signerID._id.toString()
                 )
             ){
             return Promise.reject("You can not execute this transaction!")
@@ -38,7 +43,19 @@ module.exports = async (req, res) => {
         }
         Object.assign(contractInfo, {isConfirmContract: true})
         contractInfo.save()
-        return response_express.success(res, transaction.hash)
+        response_express.success(res, transaction.hash)
+        const historyData = {
+            senderID: req.token_info._id,
+            receiverID: req.token_info._id === contractInfo.ownerID._id.toString() ? contractInfo.signerID._id : contractInfo.ownerID._id,
+            songID: contractInfo.songID._id,
+            contentSender: `Confirm \"${contractInfo.nameContractForm}\" trên Blockchain thành công.`,
+            contentReceiver: `\"${contractInfo.nameContractForm}\" đã được Confirm trên Blockchain.`,
+            type: 8,
+            songImage: contractInfo.songID.image
+        }
+        const newHistory = await History.create(historyData)
+        socket.to(`${contractInfo.ownerID.socketID}`).emit('notification', newHistory);
+        socket.to(`${contractInfo.signerID.socketID}`).emit('notification', newHistory);
 
     } catch (error) {
         return response_express.exception(res, "Error at execute contract " + error);

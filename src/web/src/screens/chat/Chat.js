@@ -270,31 +270,8 @@ class ChatContent extends React.Component {
     }
 
     return (
-      <Grid container spacing={0}>
-        <Grid item xs={12} sm={3}>
-          <div className={classes.divTop} style={{borderRight: '1px solid #e0e0e0', justifyContent: 'center',}}>
-            <Button >
-              Chat realtime
-            </Button>
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={9}>
-          <div className={classes.divTop} style={{justifyContent: 'space-between',}}>
-          <div>
-            <IconButton style={{padding: 5}}>
-              <AccountCircle/>
-            </IconButton>
-            {this.props.userReducer.user.email}
-          </div>
-            <Typography variant="h6">
-              {this.props.chatReducer.titleName}
-            </Typography>
-            <Button onClick={this.onClickLogOut}>
-              Log out
-            </Button>
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={3}>
+      <Grid container style={{marginBottom: 100}}>
+        <Grid item xs={12} sm={4}>
           <div className={classes.divBottom} style={{borderRight: '1px solid #e0e0e0'}}>
             <div className={classes.searchDiv}>
               <InputBase
@@ -329,7 +306,18 @@ class ChatContent extends React.Component {
             </div>
           </div>
         </Grid>
-        <Grid item xs={12} sm={9}>
+        <Grid item xs={12} sm={8}>
+        <div className={classes.divTop} style={{justifyContent: 'space-between',}}>
+          <div>
+            <IconButton style={{padding: 5}}>
+              <AccountCircle/>
+            </IconButton>
+            {this.props.userReducer.user.email}
+          </div>
+            <Typography variant="h6">
+              {this.props.chatReducer.titleName}
+            </Typography>
+          </div>
           <div className={classes.divBottom}>
             <Card className={classes.cardMessage}>
               <div id="inputMessage" style={{overflow: 'auto',}}>

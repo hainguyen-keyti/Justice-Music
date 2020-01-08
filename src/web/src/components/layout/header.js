@@ -90,7 +90,7 @@ class Header extends Component {
                 <div style={{height: 50, marginLeft: 10}}>
                   <Paragraph style={{marginBottom: 7}} ellipsis>{record.contentSender}</Paragraph>
                   {record.type === 1 ?
-                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Đang chờ xác thực bản quyền tác phẩm trên hệ thống.</Paragraph>
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Đang chờ <Text code>xác thực bản quyền tác phẩm</Text> trên hệ thống.</Paragraph>
                   :
                   record.type === 2 ?
                   <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn bị trừ vào ví <Text code>{formatThousands(record.money)}</Text> HAK.</Paragraph>
@@ -102,7 +102,19 @@ class Header extends Component {
                   <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn bị trừ vào ví <Text code>{formatThousands(record.money)}</Text> HAK.</Paragraph>
                   :
                   record.type === 6 ?
-                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng Approved nếu đã chấp nhận hợp đồng</Paragraph>
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng <Text code>Approved</Text> nếu đã chấp nhận hợp đồng</Paragraph>
+                  :
+                  record.type === 7 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng <Text code>Chờ</Text> đối tác chấp nhận hợp đồng</Paragraph>
+                  :
+                  record.type === 8 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng <Text code>Kiểm tra</Text> lại số dư</Paragraph>
+                  :
+                  record.type === 9 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn phải chịu <Text code> tiền bồi thường</Text> vì hành động này</Paragraph>
+                  :
+                  record.type === 10 ?
+                  <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bây giờ bạn là <Text code>Chủ sở hữu</Text> tác phẩm này trên hệ thống</Paragraph>
                   :
                   null
                 }
@@ -111,7 +123,7 @@ class Header extends Component {
             :
               <Menu.Item style={{display: 'flex', alignItems: 'center', backgroundColor: record.isSeen ? '#f5f5f5' : ''}} onClick={()=> this.handleClickSeen(record._id, index)}>
                 {
-                  record.type === 5 || record.type === 6 ? 
+                  record.type === 5 || record.type === 6 || record.type === 7 || record.type === 8 || record.type === 9 ? 
                   <Avatar 
                     shape='square'
                     size={48} 
@@ -128,7 +140,16 @@ class Header extends Component {
                   <Paragraph style={{marginBottom: 7}} ellipsis>{record.contentReceiver}</Paragraph>
                   {
                     record.type === 6 ?
-                    <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng kiểm tra lại hợp đồng này</Paragraph>
+                    <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng <Text code>Kiểm tra</Text> lại hợp đồng này</Paragraph>
+                    :
+                    record.type === 7 ?
+                    <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng <Text code>Confirm</Text> hợp đồng trên Blockchain </Paragraph>
+                    :
+                    record.type === 8 ?
+                    <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Vui lòng <Text code>Kiểm tra</Text> lại số dư</Paragraph>
+                    :
+                    record.type === 9 ?
+                    <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn nhận được <Text code>tiền bồi thường</Text></Paragraph>
                     :
                     <Paragraph type="secondary" style={{marginBottom: 0}} ellipsis>Bạn được cộng thêm vào ví <Text code>{formatThousands(record.money)}</Text> HAK</Paragraph>
                   }
@@ -177,13 +198,14 @@ class Header extends Component {
                 </Tooltip>
             </div>
             <div>
-                <Button ghost style={{color: '#424242', marginLeft: 5}} >SONGS</Button>
-                <Button ghost style={{color: '#424242', marginLeft: 5}} >ARTISTS</Button>
+                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >SONGS</Button>
+                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >ARTISTS</Button>
+                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >RANKING</Button>
+                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >EVENTS</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/iso')} >ISO</Button>
-                <Button ghost style={{color: '#424242', marginLeft: 5}} >RANKING</Button>
-                <Button ghost style={{color: '#424242', marginLeft: 5}} >EVENTS</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/contract')} >CONTRACTS</Button>
                 <AutoComplete
+                    disabled
                     style={{ width: 200 }}
                     dataSource={dataSource}
                     placeholder="Tìm bài hát hoặc ca sĩ ..."

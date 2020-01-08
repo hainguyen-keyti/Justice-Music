@@ -45,7 +45,7 @@ class ContractForm extends React.Component {
     }
     else{
       const data = {
-        tempContractID: this.props.idTempContract,
+        tempContractID: this.props.idMongo,
         content: this.state.text,
       }
     console.log(data)
@@ -79,7 +79,7 @@ class ContractForm extends React.Component {
       title={
         <div style={{display: 'flex', justifyContent: 'space-between', marginRight: 20}}>
             <Text code > Last updated: {moment(this.props.date).format('LLLL')}</Text>
-            {
+            {/* {
               this.props.mainContract ? 
               <Button 
                 onClick={this.handleOk}
@@ -87,7 +87,7 @@ class ContractForm extends React.Component {
               </Button>
               :
               null
-            }
+            } */}
         </div>
     } 
       extra={

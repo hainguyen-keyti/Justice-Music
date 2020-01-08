@@ -4,7 +4,8 @@ const response_express = require(config.library_dir + '/response').response_expr
 const User = require(config.models_dir + '/mongo/user');
 const History = require(config.models_dir + '/mongo/history');
 const Music = require(config.models_dir + '/mongo/music');
-// const Notification = require(config.models_dir + '/mongo/notification');
+// const checkFingerprint = require(config.library_dir + '/copyright').checkFingerprint
+// const setFingerprint = require(config.library_dir + '/copyright').setFingerprint
 
 module.exports = async (req, res) => {
     try {
@@ -43,11 +44,40 @@ module.exports = async (req, res) => {
             }
             const newHistory = await History.create(historyData)
             socket.to(user.socketID).emit('notification', newHistory);
+            // console.log(req.body.server)
+            // checkFingerprint(req.body.server.hash).then(async result => {
+            //     if(result){
+            //         return result
+            //     }
+            //     console.log(result)
+            //     const songName = req.body.server.name.replace(' ', '-')
+            //     console.log(songName)
+            //     await setFingerprint(req.body.server.hash, songName)
+            //     .then(isOK => {
+            //         console.log(isOK)
+            //         Music.updateOne({ _id: music._id }, { $set: { isVerifyCopyright: isOK } }).exec()
+            //     })
+            //     return result
+            // })
+            // .then(async result => {
+            //     const historyDataTemp = {
+            //         senderID: req.token_info._id,
+            //         songID: music._id,
+            //         contentSender: result ? `Tác phẩm \"${req.body.server.name}\" đã bị dính bản quyền.` : `Tác phẩm \"${req.body.server.name}\" không bị dính bản quyền.`,
+            //         type: 10,
+            //         songImage: req.body.server.image
+            //     }
+            //     console.log(historyDataTemp)
+            //     const newHistoryTemp = await History.create(historyDataTemp)
+            //     socket.to(user.socketID).emit('notification', newHistoryTemp);
+            // })
         })
         .catch( (error) => {
+            music.deleteOne()
             return response_express.exception(res, "Field to execute transaction: " + error)
         })
     } catch (error) {
+        console.log(error)
         return response_express.exception(res, "Error at database")
     }
 }
