@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Login from './screens/login'
 import Register from './screens/login/Register'
+import upload from './screens/login/upload'
 import Chat from './screens/chat'
 import Home from './screens/home'
 import Index from './screens/index/Index'
@@ -24,6 +25,7 @@ const Root = () => (
                 <Route exact path="/" component={Index} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
+                <Route path="/upload" component={upload} />
                 <PrivateRoute path="/home" component={Home} />
                 <PrivateRoute path="/message" component={Chat} />
                 <PrivateRoute path="/iso" component={ISO} />

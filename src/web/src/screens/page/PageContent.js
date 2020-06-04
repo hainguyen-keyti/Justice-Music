@@ -44,7 +44,7 @@ class PageContent extends Component {
                 <div style={{
                     width: '100%',
                     height: '300px',
-                    backgroundImage: `url('https://ipfs.fotra.tk/ipfs/${coverPhoto}')`,
+                    backgroundImage: `url('${window.$linkIPFS}${coverPhoto}')`,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center center'

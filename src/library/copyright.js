@@ -6,7 +6,7 @@ const form = new FormData();
 
 exports.checkFingerprint = (hash) =>{
     return new Promise( async (resolve, rejects) => {
-      request.get(`https://ipfs.fotra.tk/ipfs/${hash}`, async function (err, res, fileBuffer) {
+      request.get(window.$linkIPFS + hash, async function (err, res, fileBuffer) {
         form.append('audio', fileBuffer, {filename: 'NameSongTemp.mp3', contentType: 'audio/mp3'});
         const formHeaders = form.getHeaders();
         axios.post('http://34.67.236.243:5000/recognize', form, {
@@ -37,7 +37,7 @@ exports.checkFingerprint = (hash) =>{
 exports.setFingerprint = (hash, songName) =>{
   return new Promise( async (resolve, rejects) => {
     console.log(hash)
-    request.get(`https://ipfs.fotra.tk/ipfs/${hash}`, async function (err, res, fileBuffer) {
+    request.get(window.$linkIPFS + hash, async function (err, res, fileBuffer) {
       console.log(songName)
       form.append('audio', fileBuffer, {filename: 'hahahaha.mp3', contentType: 'audio/mp3'});
       form.append('info', songName);
@@ -71,7 +71,7 @@ exports.setFingerprint = (hash, songName) =>{
 
 // async function haha() {
   
-// request.get('https://ipfs.fotra.tk/ipfs/QmUzvaqtvvnCmkTmTNRYQJsnFfi3PFFnQr6jABbgfeMSXy', async function (err, res, fileBuffer) {
+// request.get(window.$linkIPFS + '/QmUzvaqtvvnCmkTmTNRYQJsnFfi3PFFnQr6jABbgfeMSXy', async function (err, res, fileBuffer) {
 //     //process exif here
 
 //     form.append('audio', fileBuffer, {filename: 'hahahaha.mp3', contentType: 'audio/mp3'});

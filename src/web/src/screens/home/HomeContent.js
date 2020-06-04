@@ -29,16 +29,16 @@ class HomeContent extends Component {
       <Row gutter={[8, 0]}>
         <Carousel autoplay>
           <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/QmQ6qMBCo3yT6QQ6mbGG4VgiauzDn9tJosCBFPTDFJ2AFd"/>
+            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmQ6qMBCo3yT6QQ6mbGG4VgiauzDn9tJosCBFPTDFJ2AFd"}/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"/>
+            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"}/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/Qmc1qzzq83TfQQcLNtAbEGThQiBqP4EFgmtuotndbVZ8T1"/>
+            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "Qmc1qzzq83TfQQcLNtAbEGThQiBqP4EFgmtuotndbVZ8T1"}/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src="https://ipfs.fotra.tk/ipfs/QmUgWzqE6tJPrA1aKT7hQydgMARCe9akiX6yCDMmAHm9B1"/>
+            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmUgWzqE6tJPrA1aKT7hQydgMARCe9akiX6yCDMmAHm9B1"}/>
           </div>
         </Carousel>
               

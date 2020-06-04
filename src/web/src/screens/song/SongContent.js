@@ -98,7 +98,7 @@ class SongContent extends React.Component {
                     />
                 </Row>
                 <Row style={{padding: 5, margin: 5}}>
-                  <Avatar shape='square' size={220} src={'https://ipfs.fotra.tk/ipfs/' + songInfo.image} alt="Music photo"/>
+                  <Avatar shape='square' size={220} src={window.$linkIPFS + songInfo.image} alt="Music photo"/>
                   <Tooltip title={songInfo.name} placement="leftTop">
                     <Paragraph strong style={{fontSize: '20px', margin: '15px'}} ellipsis={{ rows: 2}}>
                       {songInfo.name}
