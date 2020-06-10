@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   justice-music:
-    image: jumu7:latest
+    image: keytikontumkt/jumu:latest
     restart: always
     ports:
     - 6969:6969
