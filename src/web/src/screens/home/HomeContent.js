@@ -29,16 +29,13 @@ class HomeContent extends Component {
       <Row gutter={[8, 0]}>
         <Carousel autoplay>
           <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmQ6qMBCo3yT6QQ6mbGG4VgiauzDn9tJosCBFPTDFJ2AFd"}/>
+            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmQC6LX7it5PcFbv9JMR39wBLufwZdeoJwLi3Qq2Lt5Uij"}/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmUFZGKFic3GVeWmkeGu1p2BpAYMPj5ZTamvwv29uRBg4C"}/>
+            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmVvSiFcsDo29Pd1G5H8JYLfqvd1nfjXd4MXVKdqpX2v1f"}/>
           </div>
           <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "Qmc1qzzq83TfQQcLNtAbEGThQiBqP4EFgmtuotndbVZ8T1"}/>
-          </div>
-          <div>
-            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmUgWzqE6tJPrA1aKT7hQydgMARCe9akiX6yCDMmAHm9B1"}/>
+            <img style={{width: '100%', height: '400px', objectFit: 'cover'}} alt="Music test" src={window.$linkIPFS + "QmaotCLfgxo9V7h4hgojykq1Mw4nFpKzU1NHwjAbqvdYTN"}/>
           </div>
         </Carousel>
               

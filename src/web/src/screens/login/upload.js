@@ -9,11 +9,12 @@ const { Dragger } = Upload;
 const props = {
     name: 'file',
     multiple: true,
-    action: "http://localhost:6969/api/users/upload",
+    
+    action: config.api_url + "/users/upload",
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
-        console.log({name: info.file.originFileObj.name, link: ("http://ipfs.jumu.tk/" + info.file.response.result)});
+        console.log({name: info.file.originFileObj.name, link: (config.ipfs_url + info.file.response.result)});
       }
       if (status === 'done') {
         message.success(`${info.file.name} file uploaded successfully.`);

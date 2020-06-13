@@ -1,7 +1,9 @@
 const ethers = require('ethers');
 const config = {
-    api_url: "http://35.222.7.203:6969/api",
-    url:"http://35.222.7.203:6969",
+    api_url: "https://jumu.tk/api",
+    url: "https://jumu.tk/api",
+
+    ipfs_url: "https://ipfs.jumu.tk/",
 
     // api_url: "http://localhost:6969/api",
     // url:"http://localhost:6969",
@@ -336,5 +338,5 @@ const config = {
         }
     ],
 }
-window.$linkIPFS = 'http://ipfs.jumu.tk/'
+window.$linkIPFS = 'https://ipfs.jumu.tk/'
 module.exports = config
