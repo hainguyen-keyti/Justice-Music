@@ -198,10 +198,9 @@ class Header extends Component {
                 </Tooltip>
             </div>
             <div>
-                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >SONGS</Button>
-                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >ARTISTS</Button>
-                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >RANKING</Button>
-                <Button disabled ghost style={{color: '#424242', marginLeft: 5}} >EVENTS</Button>
+                <Button disabled type="text" style={{color: '#424242', marginLeft: 5}} >RANKING</Button>
+                <Button disabled type="text" style={{color: '#424242', marginLeft: 5}} >EVENTS</Button>
+                <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/upload')} >UPLOAD</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/iso')} >ISO</Button>
                 <Button ghost style={{color: '#424242', marginLeft: 5}} onClick={()=> this.props.history.push('/contract')} >CONTRACTS</Button>
                 <AutoComplete
