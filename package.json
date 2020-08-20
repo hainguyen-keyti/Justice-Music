@@ -22,7 +22,7 @@
   "homepage": "https://github.com/hainguyen-keyti/chat-realtime#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "ethers": "^4.0.38",
