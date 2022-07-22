@@ -28,7 +28,7 @@
     "ethers": "^4.0.38",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.5",
-    "file-type": "^12.4.2",
+    "file-type": "^16.5.4",
     "filereader": "^0.10.3",
     "form-data": "^3.0.0",
     "got": "^10.2.1",
